@@ -1,28 +1,30 @@
 package br.com.simba;
 
-import java.sql.ResultSet;
-
 import br.com.simba.model.dao.*;
+import br.com.simba.model.entities.Student;
+import br.com.simba.model.valueobject.Address;
+import br.com.simba.model.valueobject.Email;
+import br.com.simba.model.valueobject.Phone;
+import br.com.simba.model.valueobject.Username;
 
 public class Main {
     public static void main(String[] args) {
-        SupabaseConnection db = new SupabaseConnection();
+        /*StudentDAO studentDAO = new StudentDAO();
 
-        // Insert
-        db.executeInsert("INSERT INTO User (username, name, address, email, phone, password) VALUES ('maiko_sousa', 'maiko', 'Rua das Flores, 123, Centro, São Paulo, SP, 01001-000', 'maiko@email.com', '11987654321', '1234', '1234567');");
+        Username username = new Username("maiko_sousa");
+        String name = "maiko";
+        Address address = new Address("Rua das Flores", 123, "Centro", "São Paulo", "SP", "01001-000");
+        Email email = new Email(name + "@gmail.com");
+        Phone phone = new Phone("11987654321");
+        String password = "1234";
+        String registrationNumber = "123456789";
 
-        // Select
-        try {
-            ResultSet rs = db.executeSelect("SELECT * FROM User");
-            while (rs != null && rs.next()) {
-                System.out.println(rs.getString("username"));
-            }
-            if (rs != null) rs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Student student = new Student(username, name, address, email, phone, password, registrationNumber);
+        //studentDAO.insert(student);
+        studentDAO.delete(username);
+        
+        
+        //studentDAO.update("4321", student);*/
 
-        // Close connection
-        db.closeConnection();
     }
 }

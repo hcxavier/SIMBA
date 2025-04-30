@@ -22,6 +22,15 @@ public class User {
         this.records = new ArrayList<>();
     }
 
+    public User(Username username, String name, Object address, Object email, Object phone, String password) {
+        this.username = username;
+        this.name = name;
+        this.address = (Address) address;
+        this.email = (Email) email;
+        this.phone = (Phone) phone;
+        this.password = password;
+    }
+
     public Username getUsername() {
         return username;
     }

@@ -8,6 +8,11 @@ public class Student extends User{
         super(username, name, address, email, phone, password);
         this.registrationNumber = registrationNumber;
     }
+    public Student(Username username, String name, String address, String email, String phone, String password,
+            String registrationNumber) {
+                super(username, name, address, email, phone, password);
+                this.registrationNumber = registrationNumber;
+    }
     public String getRegistrationNumber() {
         return registrationNumber;
     }

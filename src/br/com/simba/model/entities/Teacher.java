@@ -8,6 +8,12 @@ public class Teacher extends User {
         super(username, name, address, email, phone, password);
         this.siape = siape;
     }
+
+    public Teacher(Username username, String name, Address address, Email email, Phone phone, String password, String siape) {
+        super(username, name, address, email, phone, password);
+        this.siape = new Siape(siape);
+    }
+
     public Siape getSiape() {
         return siape;
     }

@@ -2,8 +2,6 @@ package br.com.simba.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SupabaseConnection {
@@ -39,44 +37,6 @@ public class SupabaseConnection {
                 System.out.println("Error closing connection");
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void executeUpdate(String sql) {
-        try (PreparedStatement stmt = openConnection().prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error executing update");
-            e.printStackTrace();
-        }
-    }
-
-    public void executeDelete(String sql) {
-        try (PreparedStatement stmt = openConnection().prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error executing delete");
-            e.printStackTrace();
-        }
-    }
-
-    public void executeInsert(String sql) {
-        try (PreparedStatement stmt = openConnection().prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error executing insert");
-            e.printStackTrace();
-        }
-    }
-
-    public ResultSet executeSelect(String sql) {
-        try {
-            PreparedStatement stmt = openConnection().prepareStatement(sql);
-            return stmt.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("Error executing select");
-            e.printStackTrace();
-            return null;
         }
     }
 }
