@@ -12,10 +12,11 @@ public class SupabaseConnection {
     private static Connection connection = null;
 
     public Connection openConnection() {
-        if (connection != null) return connection;
+        if (connection != null)
+            return connection;
 
         try {
-            Class.forName("org.postgresql.Driver"); 
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Error connecting to the database");

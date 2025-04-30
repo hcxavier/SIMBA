@@ -5,14 +5,14 @@ import java.util.List;
 public class Barrier {
     private int id;
     private String description;
-    private String tipoBarreira;
+    private String barrierType;
     private String difficultyResolving;
     private List<Comment> comments;
 
-    public Barrier(int id, String description, String tipoBarreira, String difficultyResolving, List<Comment> comments) {
+    public Barrier(int id, String description, String barrierType, String difficultyResolving, List<Comment> comments) {
         this.id = id;
         this.description = description;
-        this.tipoBarreira = tipoBarreira;
+        this.barrierType = barrierType;
         this.difficultyResolving = difficultyResolving;
         this.comments = comments;
     }
@@ -28,11 +28,11 @@ public class Barrier {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getTipoBarreira() {
-        return tipoBarreira;
+    public String getBarrierType() {
+        return barrierType;
     }
-    public void setTipoBarreira(String tipoBarreira) {
-        this.tipoBarreira = tipoBarreira;
+    public void setBarrierType(String barrierType) {
+        this.barrierType = barrierType;
     }
     public String getDifficultyResolving() {
         return difficultyResolving;

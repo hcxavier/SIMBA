@@ -7,13 +7,23 @@ public class Picture {
     private String imagePath;
     private LocalDate uploadDate;
     private String description;
+    private int recordId;
 
-    public Picture(int id, String imagePath, LocalDate uploadDate, String description) {
+    public Picture(int id, String imagePath, LocalDate uploadDate, String description, int recordId) {
         this.id = id;
         this.imagePath = imagePath;
         this.uploadDate = uploadDate;
         this.description = description;
+        this.recordId = recordId;
     }
+
+    public void setRecordId(int recordId) {
+        this.recordId = recordId;
+    }
+    public int getRecordId() {
+        return recordId;
+    }
+
     public int getId() {
         return id;
     }

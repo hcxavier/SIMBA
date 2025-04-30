@@ -3,21 +3,29 @@ package br.com.simba.model.entities;
 import br.com.simba.model.valueobject.*;
 
 public class School {
-    private String id;
+    private int id;
     private String name;
     private Address address;
     private Phone phone;
+     
 
-    public School(String id, String name, Address address, Phone phone) {
-        this.id = id;
+    public School(String name, Address address, Phone phone) {
         this.name = name;
         this.address = address;
         this.phone = phone;
     }
-    public String getId() {
+
+    public School(int id, String name, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = new Address(address); 
+        this.phone = new Phone(phone); 
+    }
+    
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getName() {

@@ -31,6 +31,29 @@ public class Address {
         this.cep = cep;
     }
 
+    public Address(String address){
+        String[] addressParts = address.split(", ");
+        if(addressParts.length != 6){
+            throw new InvalidAddressException("Invalid Address!");
+        }
+
+        String street = addressParts[0];
+        int number = Integer.parseInt(addressParts[1]);
+        String neighborhood = addressParts[2];
+        String city = addressParts[3];
+        String stateAbbr = addressParts[4];
+        String cep = addressParts[5];
+        
+        verifyAddress(street, number, neighborhood, city, stateAbbr, cep);
+
+        this.street = addressParts[0];
+        this.number = Integer.parseInt(addressParts[1]);
+        this.neighborhood = addressParts[2];
+        this.city = addressParts[3];
+        this.stateAbbr = addressParts[4];
+        this.cep = addressParts[5];
+    }
+    
     private void verifyAddress(String street, int number, String neighborhood, String city, String stateAbbr, String cep) throws InvalidAddressException {
         verifyStreet(street);
         verifyNumber(number);

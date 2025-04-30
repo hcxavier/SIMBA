@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import br.com.simba.model.entities.User;
 import br.com.simba.model.valueobject.Username;
 
-public class UserDAO{
+public class UserDAO {
     protected Connection conn;
 
     public UserDAO() {
@@ -21,7 +21,7 @@ public class UserDAO{
             return;
         }
         String sql = "INSERT INTO \"User\" (username, name, address, email, phone, password) VALUES (?, ?, ?, ?, ?, ?);";
-    
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername().toString());
             stmt.setString(2, user.getName());
@@ -29,7 +29,7 @@ public class UserDAO{
             stmt.setString(4, user.getEmail().toString());
             stmt.setString(5, user.getPhone().toString());
             stmt.setString(6, user.getPassword());
-    
+
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("User inserted successfully!");
@@ -88,13 +88,12 @@ public class UserDAO{
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(
-                        (Username) rs.getObject("username"),
-                        rs.getString("name"),
-                        rs.getObject("address"),
-                        rs.getObject("email"),
-                        rs.getObject("phone"),
-                        rs.getString("password")
-                    );
+                            (Username) rs.getObject("username"),
+                            rs.getString("name"),
+                            rs.getObject("address"),
+                            rs.getObject("email"),
+                            rs.getObject("phone"),
+                            rs.getString("password"));
                 }
             }
         } catch (SQLException e) {
@@ -103,5 +102,5 @@ public class UserDAO{
         }
         return null;
     }
-    
+
 }

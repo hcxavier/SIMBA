@@ -41,7 +41,7 @@ public class StudentDAO {
         }
     }
 
-    public void delete(Username username){
+    public void delete(Username username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -71,7 +71,7 @@ public class StudentDAO {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 String name = rs.getString("name");
                 String address = rs.getString("address");
                 String email = rs.getString("email");

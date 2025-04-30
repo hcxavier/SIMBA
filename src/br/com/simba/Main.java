@@ -1,15 +1,12 @@
 package br.com.simba;
 
 import br.com.simba.model.dao.*;
-import br.com.simba.model.entities.Student;
-import br.com.simba.model.valueobject.Address;
-import br.com.simba.model.valueobject.Email;
-import br.com.simba.model.valueobject.Phone;
-import br.com.simba.model.valueobject.Username;
+import br.com.simba.model.entities.*;
+import br.com.simba.model.valueobject.*;
 
 public class Main {
     public static void main(String[] args) {
-        /*StudentDAO studentDAO = new StudentDAO();
+        StudentDAO studentDAO = new StudentDAO();
 
         Username username = new Username("maiko_sousa");
         String name = "maiko";
@@ -20,11 +17,18 @@ public class Main {
         String registrationNumber = "123456789";
 
         Student student = new Student(username, name, address, email, phone, password, registrationNumber);
-        //studentDAO.insert(student);
-        studentDAO.delete(username);
+        studentDAO.insert(student);
+        
+
+        SchoolDAO schoolDAO = new SchoolDAO();
+        String schoolName = "Escola Primária";
+        Address schoolAddress = new Address("Rua das Flores", 123, "Centro", "São Paulo", "SP", "01001-000");
+        Phone schoolPhone = new Phone("11987876543");
+        School school = new School(schoolName, schoolAddress, schoolPhone);
+        schoolDAO.insert(school);
         
         
-        //studentDAO.update("4321", student);*/
+        //studentDAO.update("4321", student);
 
     }
 }

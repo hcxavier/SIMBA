@@ -10,15 +10,25 @@ public class Record {
     private BarrierCriticality criticality;
     private Picture picture;
     private Barrier barrier;
+    private School school;
     
-    public Record(int id, Address address, BarrierStatus status, BarrierCriticality criticality, Picture picture, Barrier barrier) {
+    public Record(int id, Address address, BarrierStatus status, BarrierCriticality criticality, Picture picture, Barrier barrier, School school) {
         this.id = id;
         this.address = address;
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
         this.barrier = barrier;
+        this.school = school;
     }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+    public School getSchool() {
+        return school;
+    }
+
     public int getId() {
         return id;
     }

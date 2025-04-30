@@ -17,7 +17,7 @@ public class TeacherDAO {
         userDAO = new UserDAO();
     }
 
-    public void insert(Teacher teacher){
+    public void insert(Teacher teacher) {
         userDAO.insert(teacher);
 
         if (conn == null) {
@@ -48,7 +48,7 @@ public class TeacherDAO {
         }
 
         String updateUserSql = "UPDATE \"User\" SET password = ? WHERE username = ?";
-        
+
         try (PreparedStatement stmt = conn.prepareStatement(updateUserSql)) {
             stmt.setString(1, teacher.getPassword());
             stmt.setString(2, teacher.getUsername().toString());
@@ -80,7 +80,7 @@ public class TeacherDAO {
         } catch (SQLException e) {
             System.out.println("Error updating user");
             e.printStackTrace();
-        } 
+        }
     }
 
     public Teacher select(String username) {
