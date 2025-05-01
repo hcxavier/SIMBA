@@ -15,7 +15,7 @@ public class UserDAO {
         conn = supabaseConnection.openConnection();
     }
 
-    public void insert(User user) {
+    public void createNewUser(User user) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -44,7 +44,7 @@ public class UserDAO {
         }
     }
 
-    public void update(User user) {
+    public void updateUser(User user) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -71,7 +71,7 @@ public class UserDAO {
         }
     }
 
-    public void delete(Username username) {
+    public void deleteByUsername(Username username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -86,16 +86,17 @@ public class UserDAO {
         }
     }
 
-    public User select(Username username) {
+    public User findByUsername(Username username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return null;
         }
         String sql = "SELECT * FROM \"User\" WHERE username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username.toString);
+            stmt.setString(1, username.toString());
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    int id = rs.getInt("id");
                     String name = rs.getString("name");
                     String street = rs.getString("street");
                     int number = rs.getInt("number");
@@ -107,7 +108,7 @@ public class UserDAO {
                     String phone = rs.getString("phone");
                     String password = rs.getString("password");
 
-                    return new User(new Username(username.toString()), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password);
+                    return new User(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password));
                 }
             }
         } catch (SQLException e) {
@@ -115,6 +116,29 @@ public class UserDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Record> getRecordsByUsername(Username username) {
+        if (conn == null) {
+            System.out.println("Error: Connection is null");
+            return null;
+        }
+        String sql = "SELECT * FROM \"Record\" WHERE username = ?;";
+        List<Record> records = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username.toString());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String recordData = rs.getString("record_data");
+                    records.add(new Record(id, recordData));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error selecting records");
+            e.printStackTrace();
+        }
+        return records;
     }
 
 }
