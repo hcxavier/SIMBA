@@ -20,21 +20,23 @@ public class UserDAO {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "INSERT INTO \"User\" (username, name, address, email, phone, password) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO \"User\" (username, name, street, number, neighborhood, city, state_abbr, cep, email, phone, password) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername().toString());
-            stmt.setString(2, user.getName());
-            stmt.setString(3, user.getAddress().toString());
-            stmt.setString(4, user.getEmail().toString());
-            stmt.setString(5, user.getPhone().toString());
-            stmt.setString(6, user.getPassword());
-
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("User inserted successfully!");
-            } else {
-                throw new RuntimeException("Unexpected error: No rows affected");
+            stmt.setString(2, user.getName().toString());
+            stmt.setString(3, user.getAddress().getStreet());
+            stmt.setInt(4, user.getAddress().getNumber());
+            stmt.setString(5, user.getAddress().getNeighborhood());
+            stmt.setString(6, user.getAddress().getCity());
+            stmt.setString(7, user.getAddress().getStateAbbr());
+            stmt.setString(8, user.getAddress().getCep());
+            stmt.setString(9, user.getEmail().toString());
+            stmt.setString(10, user.getPhone().toString());
+            stmt.setString(11, user.getPassword().toString());
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Inserting user failed, no rows affected.");
             }
         } catch (SQLException e) {
             System.out.println("Error inserting user");
@@ -47,15 +49,22 @@ public class UserDAO {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "UPDATE \"User\" SET name = ?, address = ?, email = ?, phone = ?, password = ? WHERE username = ?;";
+        String sql = "UPDATE \"User\" SET name = ?, street = ?, number = ?, neighborhood = ?, city = ?, state_abbr = ?, cep = ?, email = ?, phone = ? WHERE username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getName().toString());
-            stmt.setString(2, user.getAddress().toString());
-            stmt.setString(3, user.getEmail().toString());
-            stmt.setString(4, user.getPhone().toString());
-            stmt.setString(5, user.getPassword().toString());
-            stmt.setString(6, user.getUsername().toString());
-            stmt.executeUpdate();
+            stmt.setString(2, user.getAddress().getStreet());
+            stmt.setInt(3, user.getAddress().getNumber());
+            stmt.setString(4, user.getAddress().getNeighborhood());
+            stmt.setString(5, user.getAddress().getCity());
+            stmt.setString(6, user.getAddress().getStateAbbr());
+            stmt.setString(7, user.getAddress().getCep());
+            stmt.setString(8, user.getEmail().toString());
+            stmt.setString(9, user.getPhone().toString());
+            stmt.setString(10, user.getUsername().toString());
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating user failed, no rows affected.");
+            }
         } catch (SQLException e) {
             System.out.println("Error updating user");
             e.printStackTrace();
@@ -84,16 +93,21 @@ public class UserDAO {
         }
         String sql = "SELECT * FROM \"User\" WHERE username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setObject(1, username);
+            stmt.setString(1, username.toString);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                            (Username) rs.getObject("username"),
-                            rs.getString("name"),
-                            rs.getObject("address"),
-                            rs.getObject("email"),
-                            rs.getObject("phone"),
-                            rs.getString("password"));
+                    String name = rs.getString("name");
+                    String street = rs.getString("street");
+                    int number = rs.getInt("number");
+                    String neighborhood = rs.getString("neighborhood");
+                    String city = rs.getString("city");
+                    String stateAbbr = rs.getString("state_abbr");
+                    String cep = rs.getString("cep");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    String password = rs.getString("password");
+
+                    return new User(new Username(username.toString()), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password);
                 }
             }
         } catch (SQLException e) {

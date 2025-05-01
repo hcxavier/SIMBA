@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private int id;
     private Username username;
     private String name;
     private Address address;
@@ -12,10 +13,10 @@ public class User {
     private String password;
     private List<Record> records = new ArrayList<>();
 
-    public User(Username username, String name, Address address, Email email, Phone phone, String password) {
+    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Email email, Phone phone, String password) {
         this.username = username;
         this.name = name;
-        this.address = address;
+        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
         this.email = email;
         this.phone = phone;
         this.password = password;
@@ -29,6 +30,10 @@ public class User {
         this.email = (Email) email;
         this.phone = (Phone) phone;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Username getUsername() {

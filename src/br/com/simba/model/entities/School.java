@@ -9,24 +9,20 @@ public class School {
     private Phone phone;
      
 
-    public School(String name, Address address, Phone phone) {
+    public School(String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Phone phone) {
         this.name = name;
-        this.address = address;
+        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
         this.phone = phone;
     }
 
-    public School(int id, String name, String address, String phone) {
-        this.id = id;
+    public School(String name,  String street, int number , String neighborhood, String city, String stateAbbr, String cep, String phone) {
         this.name = name;
-        this.address = new Address(address); 
+        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep); 
         this.phone = new Phone(phone); 
     }
     
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public String getName() {
         return name;

@@ -9,8 +9,7 @@ public class Picture {
     private String description;
     private int recordId;
 
-    public Picture(int id, String imagePath, LocalDate uploadDate, String description, int recordId) {
-        this.id = id;
+    public Picture(String imagePath, LocalDate uploadDate, String description, int recordId) {
         this.imagePath = imagePath;
         this.uploadDate = uploadDate;
         this.description = description;
@@ -26,9 +25,6 @@ public class Picture {
 
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public String getImagePath() {
         return imagePath;

@@ -1,25 +1,48 @@
 package br.com.simba.model.entities;
 
-import br.com.simba.model.valueobject.Address;
+import br.com.simba.model.valueobject.*;
+
+import java.time.LocalDate;
+
 import br.com.simba.model.enums.*;
 
 public class Record {
     private int id;
-    private Address address;
     private BarrierStatus status;
     private BarrierCriticality criticality;
+    private String resolutionDifficult;
+    private String resolutionSuggestion;
+    private String location;
     private Picture picture;
-    private Barrier barrier;
     private School school;
+    private BarrierType barrierType;
+    private LocalDate barrierIdentification;
     
-    public Record(int id, Address address, BarrierStatus status, BarrierCriticality criticality, Picture picture, Barrier barrier, School school) {
-        this.id = id;
-        this.address = address;
+    public Record(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String resolutionDifficult, 
+            String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
-        this.barrier = barrier;
         this.school = school;
+        this.location = location;
+        this.resolutionDifficult = resolutionDifficult;
+        this.resolutionSuggestion = resolutionSuggestion;
+        this.barrierType = barrierType;
+        this.barrierIdentification = barrierIdentification;
+    }
+
+    public LocalDate getBarrierIdentification() {
+        return dateBarrierIdentified;
+    }
+    public void setBarrierIdentification(LocalDate barrierIdentification) {
+        this.barrierIdentification = barrierIdentification;
+    }
+
+    public BarrierType getBarrierType() {
+        return barrierType;
+    }
+    public void setBarrierType(BarrierType barrierType) {
+        this.barrierType = barrierType;
     }
 
     public void setSchool(School school) {
@@ -31,9 +54,6 @@ public class Record {
 
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public Address getAddress() {
         return address;
@@ -59,17 +79,34 @@ public class Record {
     public void setPicture(Picture picture) {
         this.picture = picture;
     }
-    public Barrier getBarrier() {
-        return barrier;
+    public String getResolutionDifficult() {
+        return resolutionDifficult;
     }
-    public void setBarrier(Barrier barrier) {
-        this.barrier = barrier;
+    public void setResolutionDifficult(String resolutionDifficult) {
+        this.resolutionDifficult = resolutionDifficult;
     }
-    public void updateRecord(Address address, BarrierStatus status, BarrierCriticality criticality, Picture picture, Barrier barrier) {
-        this.address = address;
+    public String getResolutionSuggestion() {
+        return resolutionSuggestion;
+    }
+    public void setResolutionSuggestion(String resolutionSuggestion) {
+        this.resolutionSuggestion = resolutionSuggestion;
+    }
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
+    public void updateRecord(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String resolutionDifficult, String resolutionSuggestion, BarrierType barrierType) {
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
-        this.barrier = barrier;
+        this.school = school;
+        this.location = location;
+        this.resolutionDifficult = resolutionDifficult;
+        this.resolutionSuggestion = resolutionSuggestion;
+        this.barrierType = barrierType;
     }
 }

@@ -9,22 +9,18 @@ public class Report {
     private LocalDate date;
     private Record record;
     private String observation;
-    private BarrierCriticality status;
+    private String conclusion;
 
-    public Report(int id, String title, LocalDate date, Record record, String observation, BarrierCriticality status) {
+    public Report(int id, String title, LocalDate date, Record record, String observation) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.record = record;
         this.observation = observation;
-        this.status = status;
     }
 
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public String getTitle() {
         return title;
@@ -50,21 +46,14 @@ public class Report {
     public void setObservation(String observation) {
         this.observation = observation;
     }
-    public BarrierCriticality getStatus() {
-        return status;
-    }
-    public void setStatus(BarrierCriticality status) {
-        this.status = status;
-    }
 
     //ToDo
     
-    public void updateReport(String title, LocalDate date, Record record, String observation, BarrierCriticality status) {
+    public void updateReport(String title, LocalDate date, Record record, String observation) {
         this.title = title;
         this.date = date;
         this.record = record;
         this.observation = observation;
-        this.status = status;
     }
 
     public String toString() {
@@ -74,7 +63,6 @@ public class Report {
                 ", date=" + date +
                 ", record=" + record +
                 ", observation='" + observation + '\'' +
-                ", status=" + status +
                 '}';
     }
 

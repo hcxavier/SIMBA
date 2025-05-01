@@ -72,14 +72,20 @@ public class StudentDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
-                String address = rs.getString("address");
+                String street = rs.getString("street");
+                int number = rs.getInt("number");
+                String neighborhood = rs.getString("neighborhood");
+                String city = rs.getString("city");
+                String stateAbbr = rs.getString("state_abbr");
+                String cep = rs.getString("cep");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 String password = rs.getString("password");
                 String registrationNumber = rs.getString("registration_number");
 
-                return new Student(new Username(username), name, address, email, phone, password, registrationNumber);
+                return new Student(new Username(username), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password, registrationNumber);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting student");

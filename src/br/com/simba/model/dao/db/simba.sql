@@ -1,54 +1,48 @@
--- Create database
-CREATE DATABASE simba
-    WITH 
-    OWNER = postgres
-    ENCODING = 'UTF8' 
-
--- Create ENUM types
-CREATE TYPE criticality_level AS ENUM ('LOW', 'MODERATE', 'HIGH');
-CREATE TYPE status_type AS ENUM ('UNDER_ANALYSIS', 'CORRECTING', 'RESOLVED');
-
--- User table (base entity)
 CREATE TABLE "User" (
-    username VARCHAR(100) NOT NULL PRIMARY KEY unique,
+    id SERIAL PRIMARY KEY NOT NULL,
+    username VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
-    address TEXT,
+    street VARCHAR(100) NOT NULL,
+    number INTEGER NOT NULL,
+    neighborhood VARCHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state_abbr VARCHAR(2) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
     email VARCHAR(100),
     phone VARCHAR(20),
-    password VARCHAR(255)
+    password VARCHAR(256)
 );
 
 -- Specialized tables (Student and Teacher)
 CREATE TABLE Student (
-    username VARCHAR(100) NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY NOT NULL,
+    username VARCHAR(100) NOT NULL,
     registration_number VARCHAR(16) NOT NULL,
-    FOREIGN KEY (username) REFERENCES "User"(username) ON DELETE CASCADE
+    FOREIGN KEY (id) REFERENCES "User"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Teacher (
+    id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(100) NOT NULL PRIMARY KEY,
     siape VARCHAR(7) NOT NULL,
-    manager_username VARCHAR(100),
-    FOREIGN KEY (manager_username) REFERENCES Teacher(username),
-    FOREIGN KEY (username) REFERENCES "User" (username) ON DELETE CASCADE
+    manager_id VARCHAR(100),
+    FOREIGN KEY (manager_id) REFERENCES Teacher(id),
+    FOREIGN KEY (id) REFERENCES "User" (id) ON DELETE CASCADE
 );
 
 -- School table
 CREATE TABLE School (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    address TEXT,
+    street VARCHAR(100) NOT NULL,
+    number INTEGER NOT NULL,
+    neighborhood VARCHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state_abbr VARCHAR(2) NOT NULL,
+    cep VARCHAR(9) NOT NULL,
     phone VARCHAR(20),
     principal_username VARCHAR(100),
     FOREIGN KEY (principal_username) REFERENCES Teacher(username)
-);
-
--- Barrier table
-CREATE TABLE Barrier (
-    id SERIAL PRIMARY KEY,
-    barrier_type TEXT,
-    description TEXT,
-    resolution_difficulty VARCHAR(100)
 );
 
 -- Record table
@@ -57,14 +51,17 @@ CREATE TABLE Record (
     location VARCHAR(100),
     criticality criticality_level NOT NULL,
     status status_type NOT NULL,
-    barrier_id INTEGER NOT NULL,
+    barrier_type enum NOT NULL -- TODO,
+    description text,
+    resolution_difficulty text,
+    resolution_suggestion text,
+    barrier_identification DATE,
     school_id INTEGER NOT NULL,
-    FOREIGN KEY (barrier_id) REFERENCES Barrier(id),
     FOREIGN KEY (school_id) REFERENCES School(id)
 );
 
 -- Image table
-CREATE TABLE Image (
+CREATE TABLE Picture (
     id SERIAL PRIMARY KEY,
     path VARCHAR(200) NOT NULL,
     upload_date DATE NOT NULL,
@@ -90,6 +87,6 @@ CREATE TABLE Report (
 CREATE TABLE Comment (
     id SERIAL PRIMARY KEY,
     text TEXT NOT NULL,
-    barrier_id INTEGER NOT NULL,
-    FOREIGN KEY (barrier_id) REFERENCES Barrier(id)
+    record_id INTEGER NOT NULL,
+    FOREIGN KEY (record_id) REFERENCES Record(id)
 );

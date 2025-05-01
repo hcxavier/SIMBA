@@ -91,15 +91,19 @@ public class TeacherDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Username n = (Username) rs.getObject("username");
                 String name = rs.getString("name");
-                Address address = (Address) rs.getObject("address");
-                Email email = (Email) rs.getObject("email");
-                Phone phone = (Phone) rs.getObject("phone");
+                String street = rs.getString("street");
+                int number = rs.getInt("number");
+                String neighborhood = rs.getString("neighborhood");
+                String city = rs.getString("city");
+                String stateAbbr = rs.getString("state_abbr");
+                String cep = rs.getString("cep");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
                 String password = rs.getString("password");
                 String siape = rs.getString("siape");
 
-                return new Teacher(n, name, address, email, phone, password, siape);
+                return new Teacher(new Username(username), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password, new Siape(siape));
             }
         } catch (SQLException e) {
             System.out.println("Error selecting teacher");

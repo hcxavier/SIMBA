@@ -4,14 +4,9 @@ import br.com.simba.model.valueobject.*;
 public class Teacher extends User {
     private Siape siape;
 
-    public Teacher(Username username, String name, Address address, Email email, Phone phone, String password, Siape siape) {
-        super(username, name, address, email, phone, password);
+    public Teacher(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Email email, Phone phone, String password, Siape siape) {
+        super(username, name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password);
         this.siape = siape;
-    }
-
-    public Teacher(Username username, String name, Address address, Email email, Phone phone, String password, String siape) {
-        super(username, name, address, email, phone, password);
-        this.siape = new Siape(siape);
     }
 
     public Siape getSiape() {
