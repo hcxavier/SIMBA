@@ -17,7 +17,7 @@ public class TeacherDAO {
         userDAO = new UserDAO();
     }
 
-    public void insert(Teacher teacher) {
+    public void createNewTeacher(Teacher teacher) {
         userDAO.insert(teacher);
 
         if (conn == null) {
@@ -62,7 +62,7 @@ public class TeacherDAO {
         }
     }
 
-    public void update(Teacher teacher) {
+    public void updateTeacher(Teacher teacher) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -83,7 +83,7 @@ public class TeacherDAO {
         }
     }
 
-    public Teacher select(String username) {
+    public Teacher findByUsername(String username) {
         String sql = "SELECT * FROM \"User\" join Teacher on \"User\".username = Teacher.username WHERE \"User\".username = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -91,6 +91,7 @@ public class TeacherDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String street = rs.getString("street");
                 int number = rs.getInt("number");
@@ -103,7 +104,7 @@ public class TeacherDAO {
                 String password = rs.getString("password");
                 String siape = rs.getString("siape");
 
-                return new Teacher(new Username(username), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password, new Siape(siape));
+                return new Teacher(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password), new Siape(siape));
             }
         } catch (SQLException e) {
             System.out.println("Error selecting teacher");

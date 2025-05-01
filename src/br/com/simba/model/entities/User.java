@@ -10,10 +10,10 @@ public class User {
     private Address address;
     private Email email;
     private Phone phone;
-    private String password;
+    private Password password;
     private List<Record> records = new ArrayList<>();
 
-    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Email email, Phone phone, String password) {
+    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Email email, Phone phone, Password password) {
         this.username = username;
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
@@ -66,7 +66,7 @@ public class User {
     public void setPhone(Phone phone) {
         this.phone = phone;
     }
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
     public void setPassword(String password) {

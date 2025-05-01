@@ -70,8 +70,19 @@ public class ReportDAO {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
+            if (rs.next()) {
+                report = new Report();
+                report.setId(rs.getInt("id"));
+                report.setTitle(rs.getString("title"));
+                report.setReportDate(rs.getDate("report_date"));
+                report.setObservation(rs.getString("observation"));
+                report.setConclusion(rs.getString("conclusion"));
+                report.setRecord(new RecordDAO().select(rs.getInt("record_id")));
+            }
         } catch (SQLException e) {
             System.out.println("Error getting report by ID: " + e.getMessage());
         }
+
+        return report;
     }
 }

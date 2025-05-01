@@ -86,7 +86,7 @@ public class SchoolDAO {
                 String cep = rs.getString("cep");
                 String phone = rs.getString("phone");
 
-                return new School(id, name, street, number, neighborhood, city, stateAbbr, cep, phone);
+                return new School(id, name, street, number, neighborhood, city, stateAbbr, cep, new Phone(phone));
             }
         } catch (SQLException e) {
             System.out.println("Error selecting school: " + e.getMessage());

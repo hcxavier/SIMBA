@@ -17,7 +17,7 @@ public class StudentDAO {
         userDAO = new UserDAO();
     }
 
-    public void insert(Student student) {
+    public void insertNewStudent(Student student) {
         userDAO.insert(student);
 
         if (conn == null) {
@@ -41,7 +41,7 @@ public class StudentDAO {
         }
     }
 
-    public void delete(Username username) {
+    public void deleteStudent(Username username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
@@ -49,7 +49,7 @@ public class StudentDAO {
         userDAO.delete(username);
     }
 
-    public void update(String password, Student student) {
+    public void updatePassword(String password, Student student) {
         String updateUserSql = "UPDATE \"User\" SET password = ? WHERE username = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(updateUserSql);) {
@@ -64,7 +64,7 @@ public class StudentDAO {
         }
     }
 
-    public Student select(String username) {
+    public Student findByUsername(String username) {
         String sql = "SELECT * FROM \"User\" join Student on \"User\".username = Student.username WHERE \"User\".username = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -85,7 +85,7 @@ public class StudentDAO {
                 String password = rs.getString("password");
                 String registrationNumber = rs.getString("registration_number");
 
-                return new Student(new Username(username), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password, registrationNumber);
+                return new Student(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password), registrationNumber);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting student");
