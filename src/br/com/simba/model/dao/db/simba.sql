@@ -1,92 +1,83 @@
-CREATE TABLE "User" (
-    id SERIAL PRIMARY KEY NOT NULL,
-    username VARCHAR(100) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    street VARCHAR(100) NOT NULL,
-    number INTEGER NOT NULL,
-    neighborhood VARCHAR(100) NOT NULL,
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(80) NOT NULL,
+    street VARCHAR(100)NOT NULL,
+    address_number VARCHAR(10) NOT NULL,
+    neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(100) NOT NULL,
-    state_abbr VARCHAR(2) NOT NULL,
-    cep VARCHAR(9) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    password VARCHAR(256)
+    state_abbr CHAR(2) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    email VARCHAR(80) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    username VARCHAR(30) NOT NULL UNIQUE,
+    hashed_password VARCHAR(60) NOT NULL
 );
 
--- Specialized tables (Student and Teacher)
-CREATE TABLE Student (
-    id SERIAL PRIMARY KEY NOT NULL,
-    username VARCHAR(100) NOT NULL,
-    registration_number VARCHAR(16) NOT NULL,
-    FOREIGN KEY (id) REFERENCES "User"(id) ON DELETE CASCADE
+CREATE TABLE teachers (
+    siape VARCHAR(20) PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    CONSTRAINT unique_teacher_user UNIQUE(user_id)
 );
 
-CREATE TABLE Teacher (
-    id SERIAL PRIMARY KEY NOT NULL,
-    username VARCHAR(100) NOT NULL PRIMARY KEY,
-    siape VARCHAR(7) NOT NULL,
-    manager_id VARCHAR(100),
-    FOREIGN KEY (manager_id) REFERENCES Teacher(id),
-    FOREIGN KEY (id) REFERENCES "User" (id) ON DELETE CASCADE
+CREATE TABLE students (
+    enrollment_id VARCHAR(20) PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    CONSTRAINT unique_student_user UNIQUE(user_id)
 );
 
--- School table
-CREATE TABLE School (
+CREATE TABLE managers (
+    siape VARCHAR(20) PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    CONSTRAINT unique_manager_user UNIQUE(user_id)
+);
+
+CREATE TABLE schools (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    school_name VARCHAR(100) NOT NULL,
     street VARCHAR(100) NOT NULL,
-    number INTEGER NOT NULL,
-    neighborhood VARCHAR(100) NOT NULL,
+    address_number VARCHAR(10) NOT NULL,
+    neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(100) NOT NULL,
-    state_abbr VARCHAR(2) NOT NULL,
-    cep VARCHAR(9) NOT NULL,
-    phone VARCHAR(20),
-    principal_username VARCHAR(100),
-    FOREIGN KEY (principal_username) REFERENCES Teacher(username)
+    state_abbr CHAR(2) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    phone VARCHAR(20) NOT NULL
 );
 
--- Record table
-CREATE TABLE Record (
+CREATE TABLE records (
     id SERIAL PRIMARY KEY,
-    location VARCHAR(100),
-    criticality criticality_level NOT NULL,
-    status status_type NOT NULL,
-    barrier_type enum NOT NULL -- TODO,
-    description text,
-    resolution_difficulty text,
-    resolution_suggestion text,
-    barrier_identification DATE,
-    school_id INTEGER NOT NULL,
-    FOREIGN KEY (school_id) REFERENCES School(id)
+    barrier_specification VARCHAR(255),
+    resolution_suggestion VARCHAR(255),
+    location VARCHAR(120),
+    barrier_status VARCHAR(14),
+    barrier_criticality VARCHAR(8),
+    barrier_type VARCHAR(15),
+    barrier_identification_date DATE,
+    school_id INTEGER REFERENCES schools(id),
+    user_id INTEGER REFERENCES users(id)
 );
 
--- Image table
-CREATE TABLE Picture (
+CREATE TABLE pictures(
     id SERIAL PRIMARY KEY,
-    path VARCHAR(200) NOT NULL,
+    picture_path VARCHAR(255) NOT NULL,
     upload_date DATE NOT NULL,
-    description TEXT,
-    record_id INTEGER NOT NULL,
-    FOREIGN KEY (record_id) REFERENCES Record(id)
+    description VARCHAR(100) NOT NULL,
+    record_id INTEGER REFERENCES records(id) ON DELETE CASCADE
 );
 
--- Report table
-CREATE TABLE Report (
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    text VARCHAR(500) NOT NULL,
+    record_id INTEGER REFERENCES records(id) ON DELETE CASCADE
+);
+
+CREATE TABLE reports (
     id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     report_date DATE NOT NULL,
     observation VARCHAR(100),
     conclusion VARCHAR(100),
-    record_id INTEGER NOT NULL,
-    manager_username VARCHAR(100) NOT NULL,
-    FOREIGN KEY (record_id) REFERENCES Record(id),
-    FOREIGN KEY (manager_username) REFERENCES "User"(username)
+    record_id INTEGER NOT NULL REFERENCES records(id),
+    manager_id VARCHAR(20) NOT NULL REFERENCES managers(siape)
 );
 
--- Comment table
-CREATE TABLE Comment (
-    id SERIAL PRIMARY KEY,
-    text TEXT NOT NULL,
-    record_id INTEGER NOT NULL,
-    FOREIGN KEY (record_id) REFERENCES Record(id)
-);
+
