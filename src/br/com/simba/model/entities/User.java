@@ -13,23 +13,14 @@ public class User {
     private Password password;
     private List<Record> records = new ArrayList<>();
 
-    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Email email, Phone phone, Password password) {
-        this.username = username;
+    public User(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, String email, String phone, String password) {
+        this.username = new Username(username);
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+        this.email = new Email(email);
+        this.phone = new Phone(phone);
+        this.password = new Password(password);
         this.records = new ArrayList<>();
-    }
-
-    public User(Username username, String name, Object address, Object email, Object phone, String password) {
-        this.username = username;
-        this.name = name;
-        this.address = (Address) address;
-        this.email = (Email) email;
-        this.phone = (Phone) phone;
-        this.password = password;
     }
 
     public int getId() {
@@ -45,6 +36,7 @@ public class User {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -66,11 +58,11 @@ public class User {
     public void setPhone(Phone phone) {
         this.phone = phone;
     }
-    public Password getPassword() {
-        return password;
+    public String getPassword() {
+        return password.getHash();
     }
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new Password(password);
     }
     public void addRecord(Record record) {
         this.records.add(record);
@@ -92,22 +84,23 @@ public class User {
         if (!validatePassword(password)) {
             throw new IllegalArgumentException("Invalid password");
         }
-        this.password = password;
+        this.password = new Password(password);
     }
 
     private Boolean validatePassword(String password) {
 
         return true;
     }
-    public void updateProfile(String name, Address address, Email email, Phone phone, String password) {
+    public void updateProfile(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, String email, String phone, String password) {
+        this.username = new Username(username);
         this.name = name;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
+        this.email = new Email(email);
+        this.phone = new Phone(phone);
+        this.password = new Password(password);
+        this.records = new ArrayList<>();
     }
     public List<Record> listRecords(){
-        
         return records;
     }
 }

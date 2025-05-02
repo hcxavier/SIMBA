@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.simba.model.entities.User;
 import br.com.simba.model.valueobject.Username;
 
@@ -91,7 +94,7 @@ public class UserDAO {
             System.out.println("Error: Connection is null");
             return null;
         }
-        String sql = "SELECT * FROM \"User\" WHERE username = ?;";
+        String sql = "SELECT * FROM \"User\" WHERE username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username.toString());
             try (ResultSet rs = stmt.executeQuery()) {
@@ -108,7 +111,7 @@ public class UserDAO {
                     String phone = rs.getString("phone");
                     String password = rs.getString("password");
 
-                    return new User(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password));
+                    return new User(username.toString(), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, phone);
                 }
             }
         } catch (SQLException e) {
