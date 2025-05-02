@@ -1,0 +1,108 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: ui-sans-serif, system-ui, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol, Noto Color Emoji;
+    width: 100%;
+    background-color: #212121;
+    color: #212121;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Centralização por container */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #F0F4F8;
+    width: 98%;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #212121;
+    height: 100px;
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 97%;
+}
+
+img {
+
+}
+
+ul {
+    display: flex;
+    margin-left: 20px;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    width: 180px;
+    height: 50px;
+}
+
+/* Seções específicas */
+.ApresentacaoPai {
+    margin: 50px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+}
+
+.ApresentacaoFilho {
+    justify-items: flex-start;
+}
+
+.CadOuLogin {
+    margin-top: 90px;
+    display: flex;
+    width: 80%;
+}
+
+.CadOuLogin div {
+    justify-items: flex-start;
+}
+
+footer {
+    border: solid 1px;
+}
+
+.hover:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 0 5px 2px #7D579980;
+}
+
+.simba-logo-footer{
+    width: 175px;
+}
+
+.simba-logo-header {
+    width: 150px;
+}
+
+
+
