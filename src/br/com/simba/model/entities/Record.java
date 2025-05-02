@@ -10,7 +10,7 @@ public class Record {
     private int id;
     private BarrierStatus status;
     private BarrierCriticality criticality;
-    private String resolutionDifficult;
+    private String barrierSpecification;
     private String resolutionSuggestion;
     private String location;
     private Picture picture;
@@ -18,22 +18,23 @@ public class Record {
     private BarrierType barrierType;
     private LocalDate barrierIdentification;
     
-    public Record(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String resolutionDifficult, 
-            String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
+    public Record(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location,
+                  String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
         this.school = school;
         this.location = location;
-        this.resolutionDifficult = resolutionDifficult;
+        this.barrierSpecification = barrierSpecification;
         this.resolutionSuggestion = resolutionSuggestion;
         this.barrierType = barrierType;
         this.barrierIdentification = barrierIdentification;
     }
 
     public LocalDate getBarrierIdentification() {
-        return dateBarrierIdentified;
+        return barrierIdentification;
     }
+
     public void setBarrierIdentification(LocalDate barrierIdentification) {
         this.barrierIdentification = barrierIdentification;
     }
@@ -55,12 +56,6 @@ public class Record {
     public int getId() {
         return id;
     }
-    public Address getAddress() {
-        return address;
-    }
-    public void setAddress(Address address) {
-        this.address = address;
-    }
     public BarrierStatus getStatus() {
         return status;
     }
@@ -79,12 +74,6 @@ public class Record {
     public void setPicture(Picture picture) {
         this.picture = picture;
     }
-    public String getResolutionDifficult() {
-        return resolutionDifficult;
-    }
-    public void setResolutionDifficult(String resolutionDifficult) {
-        this.resolutionDifficult = resolutionDifficult;
-    }
     public String getResolutionSuggestion() {
         return resolutionSuggestion;
     }
@@ -99,13 +88,13 @@ public class Record {
     }
 
 
-    public void updateRecord(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String resolutionDifficult, String resolutionSuggestion, BarrierType barrierType) {
+    public void updateRecord(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String barrierSpecification, String resolutionSuggestion, BarrierType barrierType) {
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
         this.school = school;
         this.location = location;
-        this.resolutionDifficult = resolutionDifficult;
+        this.barrierSpecification = barrierSpecification;
         this.resolutionSuggestion = resolutionSuggestion;
         this.barrierType = barrierType;
     }
