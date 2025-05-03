@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.simba.model.entities.Student;
+import br.com.simba.model.valueobject.Email;
+import br.com.simba.model.valueobject.Password;
 import br.com.simba.model.valueobject.Username;
 
 public class StudentDAO {
@@ -29,7 +31,7 @@ public class StudentDAO {
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, student.getId());
-            stmt.setInt(2, student.getEnrollmentId());
+            stmt.setString(2, student.getEnrollmentId());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting teacher failed, no rows affected.");
@@ -81,9 +83,9 @@ public class StudentDAO {
                 String stateAbbr = rs.getString("state_abbr");
                 String email = rs.getString("email");
                 String password = rs.getString("hashed_password");
-                int enrollment_id = rs.getInt("enrollment_id");
+                String enrollment_id = rs.getString("enrollment_id");
 
-                return new Student(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, enrollment_id);
+                return new Student(id, new Username(username), name, street, number, neighborhood, city, stateAbbr,new Email(email), new Password(password), enrollment_id);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting student");

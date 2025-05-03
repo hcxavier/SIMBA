@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.simba.model.entities.Teacher;
+import br.com.simba.model.entities.User;
 import br.com.simba.model.valueobject.*;
 
 public class TeacherDAO {
@@ -102,7 +103,7 @@ public class TeacherDAO {
                 String password = rs.getString("hashed_password");
                 String siape = rs.getString("siape");
 
-                return new Teacher(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, siape);
+                return new Teacher(id, new Username(username), name, street, number, neighborhood, city, stateAbbr, new Email(email), new Password(password), new Siape(siape));
             }
         } catch (SQLException e) {
             System.out.println("Error selecting teacher");
