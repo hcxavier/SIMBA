@@ -12,13 +12,13 @@ public class User {
     private Password password;
     private List<Record> records = new ArrayList<>();
 
-    public User(int id, String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email, String password) {
+    public User(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
         this.id = id;
-        this.username = new Username(username);
+        this.username = username;
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);
-        this.email = new Email(email);
-        this.password = new Password(password);
+        this.email = email;
+        this.password = password;
         this.records = new ArrayList<>();
     }
 
