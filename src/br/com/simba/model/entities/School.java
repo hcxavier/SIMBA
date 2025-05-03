@@ -8,7 +8,7 @@ public class School {
     private Address address;
     private Phone phone;
      
-    
+
     public School(String name, String street, int number , String neighborhood, String city, String stateAbbr, Phone phone) {
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);

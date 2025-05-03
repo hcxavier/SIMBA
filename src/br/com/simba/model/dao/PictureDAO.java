@@ -9,7 +9,7 @@ import br.com.simba.model.entities.Picture;
 public class PictureDAO {
     private Connection conn;
 
-    public PictureDAO() {
+    /*public PictureDAO() {
         SupabaseConnection supabaseConnection = new SupabaseConnection();
         conn = supabaseConnection.openConnection();
     }
@@ -78,5 +78,5 @@ public class PictureDAO {
             System.out.println("Error selecting picture: " + e.getMessage());
         }
         return picture;
-    }
+    }*/
 }

@@ -14,20 +14,29 @@ public class RecordDAO {
         conn = supabaseConnection.openConnection();
     }
 
-    public void insert(Record record) {
-        String sql = "INSERT INTO Record (location, criticality, status, barrier_type, description, resolution_difficulty, resolution_suggestion, barrier_identification, school_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public int insert(Record record) {
+        String sql = "INSERT INTO records (barrier_specification, resolution_suggestion, location, barrier_status, barrier_criticality, barrier_type, barrier_identification_date, school_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, record.getLocation());
-            pstmt.setString(2, record.getCriticality().toString());
-            pstmt.setString(3, record.getStatus().toString());
-            pstmt.setInt(4, record.getBarrierType().getId());
-            pstmt.setString(5, record.getDescription());
-            pstmt.setString(6, record.getResolutionDifficult());
-            pstmt.setString(7, record.getResolutionSuggestion());
-            pstmt.setDate(8, java.sql.Date.valueOf(record.getBarrierIdentification()));
-            pstmt.setInt(9, record.getSchool().getId());
-            int affectedRows = pstmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, record.getBarrierSpecification());
+            stmt.setString(2, record.getResolutionSuggestion());
+            stmt.setString(3, record.getLocation());
+            stmt.setString(4, record.getStatus().toString());
+            stmt.setString(5, record.getCriticality().toString());
+            stmt.setString(6, record.getBarrierType().toString());
+
+
+            stmt.setDate(7, java.sql.Date.valueOf(record.getBarrierIdentification()));
+            stmt.setInt(8, record.getSchool().getId());
+            stmt.setInt(9, record.getUserId());
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int generatedId = rs.getInt("id");
+                record.setId(generatedId); // <<<<< This is crucial
+                return generatedId;
+            }
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting record failed, no rows affected.");
             }
@@ -35,16 +44,17 @@ public class RecordDAO {
         }catch (SQLException e) {
             System.out.println("Error inserting record: " + e.getMessage());
         }
+        return 0;
     }
 
-    public void update(Record record) {
+    /*public void update(Record record) {
         String sql = "UPDATE Record SET location = ?, criticality = ?, status = ?, barrier_type = ?, description = ?, resolution_difficulty = ?, resolution_suggestion = ? WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, record.getLocation());
             pstmt.setString(2, record.getCriticality().toString());
             pstmt.setString(3, record.getStatus().toString());
-            pstmt.setInt(4, record.getBarrierType().getId());
+            pstmt.setInt(4, record.getBarrierType();
             pstmt.setString(5, record.getDescription());
             pstmt.setString(6, record.getResolutionDifficult());
             pstmt.setString(7, record.getResolutionSuggestion());
@@ -73,14 +83,13 @@ public class RecordDAO {
     }
 
     public Record select(int id) {
-        String sql = "SELECT * FROM Record WHERE id = ?";
-        Record record = null;
+        String sql = "SELECT * FROM records WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                record = new Record();
+
                 record.setId(rs.getInt("id"));
                 record.setLocation(rs.getString("location"));
                 record.setCriticality(rs.getString("criticality"));
@@ -94,5 +103,5 @@ public class RecordDAO {
             System.out.println("Error getting record by ID: " + e.getMessage());
         }
         return record;
-    }
+    }*/
 }

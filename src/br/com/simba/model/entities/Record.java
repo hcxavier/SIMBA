@@ -17,6 +17,7 @@ public class Record {
     private School school;
     private BarrierType barrierType;
     private LocalDate barrierIdentification;
+    private int userId;
     
     public Record(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location,
                   String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
@@ -31,15 +32,25 @@ public class Record {
         this.barrierIdentification = barrierIdentification;
     }
 
-    public Record(String status, BarrierCriticality criticality, String location,
-                  String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
-        //this.status = status;
+    public Record(BarrierStatus status, BarrierCriticality criticality, String location,
+                  String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification, int userId, School school) {
+        this.status = status;
         this.criticality = criticality;
         this.location = location;
         this.barrierSpecification = barrierSpecification;
         this.resolutionSuggestion = resolutionSuggestion;
         this.barrierType = barrierType;
         this.barrierIdentification = barrierIdentification;
+        this.userId = userId;
+        this.school = school;
+    }
+
+    public int getUserId(){
+        return userId;
+    }
+
+    public String getBarrierSpecification(){
+        return barrierSpecification;
     }
 
     public LocalDate getBarrierIdentification() {
@@ -67,6 +78,10 @@ public class Record {
     public int getId() {
         return id;
     }
+    public void setId(int id){
+        this.id = id;
+    }
+
     public BarrierStatus getStatus() {
         return status;
     }

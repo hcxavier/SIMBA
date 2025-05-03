@@ -1,8 +1,6 @@
 package br.com.simba.model.entities;
 import java.time.LocalDate;
 
-import br.com.simba.model.enums.BarrierCriticality;
-
 public class Report {
     private int id;
     private String title;
@@ -11,15 +9,16 @@ public class Report {
     private String observation;
     private String conclusion;
     private int recordId;
+    private int managerId;
 
-    public Report(int id, String title, String date, Record record, String observation, String conclusion, int recordId) {
-        this.id = id;
+    public Report(String title, LocalDate date, Record record, String observation, String conclusion, int recordId, int managerId) {
         this.title = title;
-        this.date = LocalDate.parse(date);
+        this.date = date;
         this.record = record;
         this.observation = observation;
         this.conclusion = conclusion;
         this.recordId = recordId;
+        this.managerId = managerId;
     }
 
     public Report(String title, String date, String observation, String conclusion) {
@@ -27,6 +26,10 @@ public class Report {
         this.date = LocalDate.parse(date);
         this.observation = observation;
         this.conclusion = conclusion;
+    }
+
+    public int getManagerId(){
+        return managerId;
     }
 
     public int getId() {
@@ -63,7 +66,7 @@ public class Report {
         return conclusion;
     }
     public void setRecordId(int id){
-        this.recordId = recordId;
+        this.recordId = id;
     }
     public int getRecordId(){
         return recordId;
