@@ -9,17 +9,24 @@ public class User {
     private String name;
     private Address address;
     private Email email;
-    private Phone phone;
     private Password password;
     private List<Record> records = new ArrayList<>();
 
-    public User(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, String email, String phone, String password) {
+    public User(int id, String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email, String password) {
+        this.id = id;
         this.username = new Username(username);
         this.name = name;
-        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.email = new Email(email);
-        this.phone = new Phone(phone);
         this.password = new Password(password);
+        this.records = new ArrayList<>();
+    }
+
+    public User(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email) {
+        this.username = new Username(username);
+        this.name = name;
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
+        this.email = new Email(email);
         this.records = new ArrayList<>();
     }
 
@@ -51,12 +58,6 @@ public class User {
     }
     public void setEmail(Email email) {
         this.email = email;
-    }
-    public Phone getPhone() {
-        return phone;
-    }
-    public void setPhone(Phone phone) {
-        this.phone = phone;
     }
     public String getPassword() {
         return password.getHash();
@@ -91,12 +92,11 @@ public class User {
 
         return true;
     }
-    public void updateProfile(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, String email, String phone, String password) {
+    public void updateProfile(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email, String phone, String password) {
         this.username = new Username(username);
         this.name = name;
-        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.email = new Email(email);
-        this.phone = new Phone(phone);
         this.password = new Password(password);
         this.records = new ArrayList<>();
     }

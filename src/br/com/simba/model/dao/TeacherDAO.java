@@ -18,17 +18,17 @@ public class TeacherDAO {
     }
 
     public void createNewTeacher(Teacher teacher) {
-        userDAO.insert(teacher);
+        userDAO.createNewUser(teacher);
 
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
         }
 
-        String sql = "INSERT INTO Teacher (username, siape) VALUES (?, ?);";
+        String sql = "INSERT INTO teachers (user_id, siape) VALUES (?, ?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, teacher.getUsername().toString());
+            stmt.setInt(1, teacher.getId());
             stmt.setString(2, teacher.getSiape().toString());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -47,7 +47,7 @@ public class TeacherDAO {
             return;
         }
 
-        String updateUserSql = "UPDATE \"User\" SET password = ? WHERE username = ?";
+        String updateUserSql = "UPDATE users SET hashed_password = ? WHERE username = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(updateUserSql)) {
             stmt.setString(1, teacher.getPassword());
@@ -67,11 +67,11 @@ public class TeacherDAO {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "UPDATE Teacher SET siape = ? WHERE username = ?;";
+        String sql = "UPDATE teachers SET siape = ? WHERE user_id = ?;";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacher.getSiape().toString());
-            stmt.setString(2, teacher.getUsername().toString());
+            stmt.setInt(2, teacher.getId());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating teacher failed, no rows affected.");
@@ -83,28 +83,26 @@ public class TeacherDAO {
         }
     }
 
-    public Teacher findByUsername(String username) {
-        String sql = "SELECT * FROM \"User\" join Teacher on \"User\".username = Teacher.username WHERE \"User\".username = ?";
+    public Teacher findById(int id) {
+        String sql = "SELECT * FROM users join teachers on users.id = teachers.user_id WHERE users.id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
+                String username = rs.getString("username");
+                String name = rs.getString("full_name");
                 String street = rs.getString("street");
-                int number = rs.getInt("number");
+                int number = rs.getInt("address_number");
                 String neighborhood = rs.getString("neighborhood");
                 String city = rs.getString("city");
                 String stateAbbr = rs.getString("state_abbr");
-                String cep = rs.getString("cep");
                 String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                String password = rs.getString("password");
+                String password = rs.getString("hashed_password");
                 String siape = rs.getString("siape");
 
-                return new Teacher(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password), new Siape(siape));
+                return new Teacher(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, siape);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting teacher");

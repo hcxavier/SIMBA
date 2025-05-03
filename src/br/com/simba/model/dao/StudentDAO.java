@@ -18,18 +18,18 @@ public class StudentDAO {
     }
 
     public void insertNewStudent(Student student) {
-        userDAO.insert(student);
+        userDAO.createNewUser(student);
 
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
         }
 
-        String sql = "INSERT INTO Student (username, registration_number) VALUES (?, ?);";
+        String sql = "INSERT INTO students (user_id, enrollment_id) VALUES (?, ?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, student.getUsername().toString());
-            stmt.setString(2, student.getRegistrationNumber());
+            stmt.setInt(1, student.getId());
+            stmt.setInt(2, student.getEnrollmentId());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting teacher failed, no rows affected.");
@@ -41,20 +41,20 @@ public class StudentDAO {
         }
     }
 
-    public void deleteStudent(Username username) {
+    public void deleteStudent(String username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
         }
-        userDAO.delete(username);
+        userDAO.deleteByUsername(username);
     }
 
     public void updatePassword(String password, Student student) {
-        String updateUserSql = "UPDATE \"User\" SET password = ? WHERE username = ?";
+        String updateUserSql = "UPDATE users SET hashed_password = ? WHERE id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(updateUserSql);) {
             stmt.setString(1, password);
-            stmt.setString(2, student.getUsername().toString());
+            stmt.setInt(2, student.getId());
             stmt.executeUpdate();
 
             System.out.println("Student updated successfully!");
@@ -64,28 +64,26 @@ public class StudentDAO {
         }
     }
 
-    public Student findByUsername(String username) {
-        String sql = "SELECT * FROM \"User\" join Student on \"User\".username = Student.username WHERE \"User\".username = ?";
+    public Student findById(int id) {
+        String sql = "SELECT * FROM users join students on users.id = students.user_id WHERE students.user_id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String name = rs.getString("full_name");
                 String street = rs.getString("street");
-                int number = rs.getInt("number");
+                int number = rs.getInt("address_number");
                 String neighborhood = rs.getString("neighborhood");
                 String city = rs.getString("city");
                 String stateAbbr = rs.getString("state_abbr");
-                String cep = rs.getString("cep");
                 String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                String password = rs.getString("password");
-                String registrationNumber = rs.getString("registration_number");
+                String password = rs.getString("hashed_password");
+                int enrollment_id = rs.getInt("enrollment_id");
 
-                return new Student(id, username, name, street, number, neighborhood, city, stateAbbr, cep, new Email(email), new Phone(phone), new Password(password), registrationNumber);
+                return new Student(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, enrollment_id);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting student");

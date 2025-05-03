@@ -9,15 +9,15 @@ public class School {
     private Phone phone;
      
 
-    public School(String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, Phone phone) {
+    public School(String name, String street, int number , String neighborhood, String city, String stateAbbr, Phone phone) {
         this.name = name;
-        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep);
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.phone = phone;
     }
 
-    public School(String name,  String street, int number , String neighborhood, String city, String stateAbbr, String cep, String phone) {
+    public School(String name,  String street, int number , String neighborhood, String city, String stateAbbr, String phone) {
         this.name = name;
-        this.address = new Address(street, number, neighborhood, city, stateAbbr, cep); 
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.phone = new Phone(phone); 
     }
     

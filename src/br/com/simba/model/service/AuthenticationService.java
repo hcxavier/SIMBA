@@ -18,7 +18,7 @@ public class AuthenticationService {
 
         if (foundTeacher != null && BCrypt.checkpw(password, foundTeacher.getPassword())) return true;
 
-        Student foundStudent = studentDAO.findByUsername(usernameEntry);
+        Student foundStudent = studentDAO.findById(usernameEntry);
 
         if (foundStudent != null && BCrypt.checkpw(password, foundStudent.getPassword())) return true;
 

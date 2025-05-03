@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.simba.model.entities.School;
+import br.com.simba.model.valueobject.*;
 
 public class SchoolDAO {
     private Connection conn;
@@ -14,18 +15,17 @@ public class SchoolDAO {
         conn = supabaseConnection.openConnection();
     }
 
-    public void insert(School school) {
-        String sql = "INSERT INTO school (name, street, number, neighborhood, city, state_abbr, cep, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, school.getName().toString());
-            pstmt.setString(2, school.getAddress().getStreet());
-            pstmt.setInt(3, school.getAddress().getNumber());
-            pstmt.setString(4, school.getAddress().getNeighborhood());
-            pstmt.setString(5, school.getAddress().getCity());
-            pstmt.setString(6, school.getAddress().getStateAbbr());
-            pstmt.setString(7, school.getAddress().getCep());
-            pstmt.setString(8, school.getPhone().toString());
-            int affectedRows = pstmt.executeUpdate();
+    public void createNewSchool(School school) {
+        String sql = "INSERT INTO schools (school_name, street, address_number, neighborhood, city, state_abbr, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, school.getName());
+            stmt.setString(2, school.getAddress().getStreet());
+            stmt.setInt(3, school.getAddress().getNumber());
+            stmt.setString(4, school.getAddress().getNeighborhood());
+            stmt.setString(5, school.getAddress().getCity());
+            stmt.setString(6, school.getAddress().getStateAbbr());
+            stmt.setString(7, school.getPhone().toString());
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting school failed, no rows affected.");
             }
@@ -35,19 +35,18 @@ public class SchoolDAO {
     }
 
     public void update(School school) {
-        String sql = "UPDATE school SET name = ?, street = ?, number = ?, neighborhood = ?, city = ?, state_abbr = ?, cep = ?, phone = ? WHERE id = ?";
+        String sql = "UPDATE school SET name = ?, street = ?, number = ?, neighborhood = ?, city = ?, state_abbr = ?, phone = ? WHERE id = ?";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, school.getName().toString());
-            pstmt.setString(2, school.getAddress().getStreet());
-            pstmt.setInt(3, school.getAddress().getNumber());
-            pstmt.setString(4, school.getAddress().getNeighborhood());
-            pstmt.setString(5, school.getAddress().getCity());
-            pstmt.setString(6, school.getAddress().getStateAbbr());
-            pstmt.setString(7, school.getAddress().getCep());
-            pstmt.setString(8, school.getPhone().toString());
-            pstmt.setInt(9, school.getId());
-            int affectedRows = pstmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, school.getName());
+            stmt.setString(2, school.getAddress().getStreet());
+            stmt.setInt(3, school.getAddress().getNumber());
+            stmt.setString(4, school.getAddress().getNeighborhood());
+            stmt.setString(5, school.getAddress().getCity());
+            stmt.setString(6, school.getAddress().getStateAbbr());
+            stmt.setString(7, school.getPhone().toString());
+            stmt.setInt(8, school.getId());
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating school failed, no rows affected.");
             }
@@ -59,9 +58,9 @@ public class SchoolDAO {
 
     public void delete(int id) {
         String sql = "DELETE FROM school WHERE id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            int affectedRows = pstmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Deleting school failed, no rows affected.");
             }
@@ -71,22 +70,21 @@ public class SchoolDAO {
     }
 
     public School select(String name) {
-        String sql = "SELECT * FROM school WHERE name = ?";
+        String sql = "SELECT * FROM schools WHERE school_name = ?";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            ResultSet rs = pstmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String street = rs.getString("street");
-                int number = rs.getInt("number");
+                int number = rs.getInt("address_number");
                 String neighborhood = rs.getString("neighborhood");
                 String city = rs.getString("city");
                 String stateAbbr = rs.getString("state_abbr");
-                String cep = rs.getString("cep");
                 String phone = rs.getString("phone");
 
-                return new School(id, name, street, number, neighborhood, city, stateAbbr, cep, new Phone(phone));
+                return new School(name, street, number, neighborhood, city, stateAbbr, new Phone(phone));
             }
         } catch (SQLException e) {
             System.out.println("Error selecting school: " + e.getMessage());

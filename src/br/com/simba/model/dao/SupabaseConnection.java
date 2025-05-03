@@ -8,7 +8,7 @@ public class SupabaseConnection {
     private final String url = "jdbc:postgresql://db.xlspqfcjyhhzztqypocf.supabase.co:5432/postgres?sslmode=require";
 
     private final String user = "postgres";
-    private final String password = "";
+    private final String password = "cCeLFPTkIiLBgIT3";
     private static Connection connection = null;
 
     public Connection openConnection() {

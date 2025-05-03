@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.simba.model.entities.User;
+import br.com.simba.model.entities.*;
 import br.com.simba.model.valueobject.Username;
 
 public class UserDAO {
@@ -23,20 +23,19 @@ public class UserDAO {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "INSERT INTO \"User\" (username, name, street, number, neighborhood, city, state_abbr, cep, email, phone, password) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password) VALUES (?,?,?,?,?,?,?,?,?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getUsername().toString());
-            stmt.setString(2, user.getName().toString());
-            stmt.setString(3, user.getAddress().getStreet());
-            stmt.setInt(4, user.getAddress().getNumber());
-            stmt.setString(5, user.getAddress().getNeighborhood());
-            stmt.setString(6, user.getAddress().getCity());
-            stmt.setString(7, user.getAddress().getStateAbbr());
-            stmt.setString(8, user.getAddress().getCep());
-            stmt.setString(9, user.getEmail().toString());
-            stmt.setString(10, user.getPhone().toString());
-            stmt.setString(11, user.getPassword().toString());
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getAddress().getStreet());
+            stmt.setInt(3, user.getAddress().getNumber());
+            stmt.setString(4, user.getAddress().getNeighborhood());
+            stmt.setString(5, user.getAddress().getCity());
+            stmt.setString(6, user.getAddress().getStateAbbr());
+            stmt.setString(7, user.getEmail().toString());
+            stmt.setString(8, user.getUsername().toString());
+            stmt.setString(9, user.getPassword());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting user failed, no rows affected.");
@@ -52,18 +51,16 @@ public class UserDAO {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "UPDATE \"User\" SET name = ?, street = ?, number = ?, neighborhood = ?, city = ?, state_abbr = ?, cep = ?, email = ?, phone = ? WHERE username = ?;";
+        String sql = "UPDATE users SET full_name = ?, street = ?, address_number = ?, neighborhood = ?, city = ?, state_abbr = ?, email = ? WHERE username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getName().toString());
+            stmt.setString(1, user.getName());
             stmt.setString(2, user.getAddress().getStreet());
             stmt.setInt(3, user.getAddress().getNumber());
             stmt.setString(4, user.getAddress().getNeighborhood());
             stmt.setString(5, user.getAddress().getCity());
             stmt.setString(6, user.getAddress().getStateAbbr());
-            stmt.setString(7, user.getAddress().getCep());
-            stmt.setString(8, user.getEmail().toString());
-            stmt.setString(9, user.getPhone().toString());
-            stmt.setString(10, user.getUsername().toString());
+            stmt.setString(7, user.getEmail().toString());
+            stmt.setString(8, user.getUsername().toString());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating user failed, no rows affected.");
@@ -74,14 +71,14 @@ public class UserDAO {
         }
     }
 
-    public void deleteByUsername(Username username) {
+    public void deleteByUsername(String username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return;
         }
-        String sql = "DELETE FROM \"User\" WHERE username = ?;";
+        String sql = "DELETE FROM users WHERE username = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username.toString());
+            stmt.setString(1, username);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error deleting user");
@@ -89,29 +86,28 @@ public class UserDAO {
         }
     }
 
-    public User findByUsername(Username username) {
+    public User findByUsername(String username) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return null;
         }
-        String sql = "SELECT * FROM \"User\" WHERE username = ?";
+        String sql = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username.toString());
+            stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     int id = rs.getInt("id");
-                    String name = rs.getString("name");
+                    String name = rs.getString("full_name");
                     String street = rs.getString("street");
-                    int number = rs.getInt("number");
+                    int number = rs.getInt("address_number");
                     String neighborhood = rs.getString("neighborhood");
                     String city = rs.getString("city");
                     String stateAbbr = rs.getString("state_abbr");
-                    String cep = rs.getString("cep");
                     String email = rs.getString("email");
-                    String phone = rs.getString("phone");
-                    String password = rs.getString("password");
+                    String password = rs.getString("hashed_password");
+                    System.out.println("Senha recuperada do banco: " + password);
 
-                    return new User(username.toString(), name, street, number, neighborhood, city, stateAbbr, cep, email, phone, phone);
+                    return new User(username, name, street, number, neighborhood, city, stateAbbr, email);
                 }
             }
         } catch (SQLException e) {
@@ -121,20 +117,26 @@ public class UserDAO {
         return null;
     }
 
-    public List<Record> getRecordsByUsername(Username username) {
+    public List<br.com.simba.model.entities.Record> getRecordsByUserId(int id) {
         if (conn == null) {
             System.out.println("Error: Connection is null");
             return null;
         }
-        String sql = "SELECT * FROM \"Record\" WHERE username = ?;";
-        List<Record> records = new ArrayList<>();
+        String sql = "SELECT * FROM records WHERE user_id = ?;";
+        List<br.com.simba.model.entities.Record> records = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username.toString());
+            stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String recordData = rs.getString("record_data");
-                    records.add(new Record(id, recordData));
+                if (rs.next()) {
+                    String barrier_specification = rs.getString("barrier_specification");
+                    String resolution_suggestion = rs.getString("resolution_suggestion");
+                    String location = rs.getString("location");
+                    String barrier_status = rs.getString("barrier_status");
+                    String barrier_criticality = rs.getString("barrier_criticality");
+                    String barrier_type = rs.getString("barrier_type");
+                    String barrier_identification_date = rs.getString("barrier_identification_date");
+
+                    //records.add(new br.com.simba.model.entities.Record(barrier_status, barrier_criticality, location, barrier_specification, resolution_suggestion, barrier_type, barrier_identification_date);
                 }
             }
         } catch (SQLException e) {

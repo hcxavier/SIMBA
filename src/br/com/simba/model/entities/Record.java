@@ -31,6 +31,17 @@ public class Record {
         this.barrierIdentification = barrierIdentification;
     }
 
+    public Record(String status, BarrierCriticality criticality, String location,
+                  String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
+        //this.status = status;
+        this.criticality = criticality;
+        this.location = location;
+        this.barrierSpecification = barrierSpecification;
+        this.resolutionSuggestion = resolutionSuggestion;
+        this.barrierType = barrierType;
+        this.barrierIdentification = barrierIdentification;
+    }
+
     public LocalDate getBarrierIdentification() {
         return barrierIdentification;
     }

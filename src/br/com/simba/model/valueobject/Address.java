@@ -19,7 +19,7 @@ public class Address {
     private static final Pattern STATE_PATTERN = Pattern.compile("^[\\p{L}\\s]*$");
     private static final Pattern CEP_PATTERN = Pattern.compile("^[\\d]{5}-[\\d]{3}$");
 
-    public Address(String street, int number, String neighborhood, String city, String stateAbbr, String cep) {
+    public Address(String street, int number, String neighborhood, String city, String stateAbbr) {
         verifyAddress(street, number, neighborhood, city, stateAbbr);
 
         this.street = street;
@@ -79,7 +79,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s - %s, %s", street, number, neighborhood, city, stateAbbr, cep);
+        return String.format("%s, %s, %s, %s - %s, %s", street, number, neighborhood, city, stateAbbr);
     }
 
     @Override
@@ -92,12 +92,12 @@ public class Address {
 
         return other.street.equals(this.street) && other.number == this.number
                 && other.city.equals(this.city) && other.stateAbbr.equals(this.stateAbbr)
-                && other.cep.equals(this.cep) && other.neighborhood.equals(this.neighborhood);
+                && other.neighborhood.equals(this.neighborhood);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street, number, neighborhood, city, stateAbbr, cep);
+        return Objects.hash(street, number, neighborhood, city, stateAbbr);
     }
 
     public String getStreet(){
@@ -114,10 +114,6 @@ public class Address {
 
     public String getStateAbbr(){
         return stateAbbr;
-    }
-
-    public String getCep(){
-        return cep;
     }
 
     public int getNumber(){

@@ -37,10 +37,10 @@ public class Comment {
 
     public void deleteComment() {
         this.text = null;
-        this.barrier = null;
+
     }
 
-    public void listCommentsPerBarrier(Barrier barrier) {
+    public void listCommentsPerBarrier() {
         
     }
 }
