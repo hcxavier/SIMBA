@@ -79,7 +79,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s - %s, %s", street, number, neighborhood, city, stateAbbr);
+        return String.format("%s, %s, %s, %s - %s", street, number, neighborhood, city, stateAbbr);
     }
 
     @Override
