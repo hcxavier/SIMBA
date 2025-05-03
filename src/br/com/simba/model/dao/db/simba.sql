@@ -6,9 +6,7 @@ CREATE TABLE users (
     neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state_abbr CHAR(2) NOT NULL,
-    cep VARCHAR(10) NOT NULL,
     email VARCHAR(80) NOT NULL UNIQUE,
-    phone VARCHAR(20) NOT NULL,
     username VARCHAR(30) NOT NULL UNIQUE,
     hashed_password VARCHAR(60) NOT NULL
 );
@@ -39,7 +37,6 @@ CREATE TABLE schools (
     neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state_abbr CHAR(2) NOT NULL,
-    cep VARCHAR(10) NOT NULL,
     phone VARCHAR(20) NOT NULL
 );
 
