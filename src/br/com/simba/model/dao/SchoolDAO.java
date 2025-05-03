@@ -15,8 +15,8 @@ public class SchoolDAO {
         conn = supabaseConnection.openConnection();
     }
 
-    public void createNewSchool(School school) {
-        String sql = "INSERT INTO schools (school_name, street, address_number, neighborhood, city, state_abbr, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public int createNewSchool(School school) {
+        String sql = "INSERT INTO schools (school_name, street, address_number, neighborhood, city, state_abbr, phone) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, school.getName());
             stmt.setString(2, school.getAddress().getStreet());
@@ -25,17 +25,18 @@ public class SchoolDAO {
             stmt.setString(5, school.getAddress().getCity());
             stmt.setString(6, school.getAddress().getStateAbbr());
             stmt.setString(7, school.getPhone().toString());
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Inserting school failed, no rows affected.");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
             }
         } catch (SQLException e) {
             System.out.println("Error inserting school: " + e.getMessage());
         }
+        return 0;
     }
 
-    public void update(School school) {
-        String sql = "UPDATE school SET name = ?, street = ?, number = ?, neighborhood = ?, city = ?, state_abbr = ?, phone = ? WHERE id = ?";
+    public int update(School school) {
+        String sql = "UPDATE schools SET school_name = ?, street = ?, address_number = ?, neighborhood = ?, city = ?, state_abbr = ?, phone = ? WHERE id = ? Returning id";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, school.getName());
@@ -46,18 +47,20 @@ public class SchoolDAO {
             stmt.setString(6, school.getAddress().getStateAbbr());
             stmt.setString(7, school.getPhone().toString());
             stmt.setInt(8, school.getId());
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Updating school failed, no rows affected.");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
             }
+
+
         } catch (SQLException e) {
             System.out.println("Error updating school: " + e.getMessage());
         }
-        
+        return 0;
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM school WHERE id = ?";
+        String sql = "DELETE FROM schools WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             int affectedRows = stmt.executeUpdate();

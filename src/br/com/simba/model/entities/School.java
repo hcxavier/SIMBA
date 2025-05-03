@@ -8,10 +8,23 @@ public class School {
     private Address address;
     private Phone phone;
      
-
+    
     public School(String name, String street, int number , String neighborhood, String city, String stateAbbr, Phone phone) {
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);
+        this.phone = phone;
+    }
+
+    public School(String name, Address address, Phone phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public School(int id, String name, Address address, Phone phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
         this.phone = phone;
     }
 
@@ -23,6 +36,9 @@ public class School {
     
     public int getId() {
         return id;
+    }
+    public void setId(int id){
+        this.id = id;
     }
     public String getName() {
         return name;
