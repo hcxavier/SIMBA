@@ -15,15 +15,15 @@ public class ReportDAO {
     }
 
     public void insert(Report report) {
-        String sql = "INSERT INTO report (title, report_date, observation, conclusion, record_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reposts (title, report_date, observation, conclusion, record_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, report.getTitle());
-            pstmt.setDate(2, report.getReportDate());
-            pstmt.setString(3, report.getObservation());
-            pstmt.setString(4, report.getConclusion());
-            pstmt.setInt(5, report.getRecordId().getId());
-            int affectedRows = pstmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, report.getTitle());
+            stmt.setDate(2, java.sql.Date.valueOf(report.getDate()));
+            stmt.setString(3, report.getObservation());
+            stmt.setString(4, report.getConclusion());
+            stmt.setInt(5, report.getRecordId());
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting report failed, no rows affected.");
             }
@@ -34,13 +34,13 @@ public class ReportDAO {
 
     public void update(Report report) {
         String sql = "update report set title = ?, report_date = ?, observation = ?, conclusion = ? where id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, report.getTitle());
-            pstmt.setDate(2, report.getReportDate());
-            pstmt.setString(3, report.getObservation());
-            pstmt.setString(4, report.getConclusion());
-            pstmt.setInt(5, report.getId());
-            int affectedRows = pstmt.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, report.getTitle());
+            stmt.setDate(2, java.sql.Date.valueOf(report.getDate()));
+            stmt.setString(3, report.getObservation());
+            stmt.setString(4, report.getConclusion());
+            stmt.setInt(5, report.getId());
+            int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating report failed, no rows affected.");
             }
@@ -51,7 +51,7 @@ public class ReportDAO {
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM report WHERE id = ?";
+        String sql = "DELETE FROM reports WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int affectedRows = pstmt.executeUpdate();
@@ -64,25 +64,23 @@ public class ReportDAO {
     }
 
     public Report select(int id) {
-        String sql = "SELECT * FROM report WHERE id = ?";
-        Report report = null;
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+        String sql = "SELECT * FROM reports WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                report = new Report();
-                report.setId(rs.getInt("id"));
-                report.setTitle(rs.getString("title"));
-                report.setReportDate(rs.getDate("report_date"));
-                report.setObservation(rs.getString("observation"));
-                report.setConclusion(rs.getString("conclusion"));
-                report.setRecord(new RecordDAO().select(rs.getInt("record_id")));
+                String title = rs.getString("title");
+                String reportDate = rs.getString("report_date");
+                String observation = rs.getString("observation");
+                String conclusion = rs.getString("conclusion");
+
+                return new Report(title, reportDate, observation, conclusion);
             }
         } catch (SQLException e) {
             System.out.println("Error getting report by ID: " + e.getMessage());
         }
 
-        return report;
+        return null;
     }
 }

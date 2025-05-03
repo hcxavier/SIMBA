@@ -98,7 +98,6 @@ public class Record {
         this.location = location;
     }
 
-
     public void updateRecord(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location, String barrierSpecification, String resolutionSuggestion, BarrierType barrierType) {
         this.status = status;
         this.criticality = criticality;
