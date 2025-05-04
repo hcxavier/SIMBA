@@ -25,7 +25,7 @@ public class ReportDAO {
             stmt.setString(3, report.getObservation());
             stmt.setString(4, report.getConclusion());
             stmt.setInt(5, report.getRecordId());
-            stmt.setInt(6, report.getManagerId());
+            stmt.setString(6, report.getManagerId());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
@@ -80,7 +80,7 @@ public class ReportDAO {
                 String observation = rs.getString("observation");
                 String conclusion = rs.getString("conclusion");
                 int recordId = rs.getInt("record_id");
-                int managerId = rs.getInt("manager_id");
+                String managerId = rs.getString("manager_id");
 
                 return new Report(title, date, null, observation, conclusion, recordId, managerId);
             }

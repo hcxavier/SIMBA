@@ -9,9 +9,9 @@ public class Report {
     private String observation;
     private String conclusion;
     private int recordId;
-    private int managerId;
+    private String managerId;
 
-    public Report(String title, LocalDate date, Record record, String observation, String conclusion, int recordId, int managerId) {
+    public Report(String title, LocalDate date, Record record, String observation, String conclusion, int recordId, String managerId) {
         this.title = title;
         this.date = date;
         this.record = record;
@@ -28,7 +28,7 @@ public class Report {
         this.conclusion = conclusion;
     }
 
-    public int getManagerId(){
+    public String getManagerId(){
         return managerId;
     }
 
