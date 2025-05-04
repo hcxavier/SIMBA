@@ -4,21 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 import br.com.simba.model.entities.Picture;
 
 public class PictureDAO {
     private Connection conn;
 
-    /*public PictureDAO() {
+    public PictureDAO() {
         SupabaseConnection supabaseConnection = new SupabaseConnection();
         conn = supabaseConnection.openConnection();
     }
 
     public void insert(Picture picture) {
-        String sql = "INSERT INTO picture (path, upload_date, description, record_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO pictures (picture_path, upload_date, description, record_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, picture.getPath());
-            pstmt.setInt(2, picture.getUploadDate());
+            pstmt.setString(1, picture.getImagePath());
+            pstmt.setDate(2, java.sql.Date.valueOf(picture.getUploadDate()));
             pstmt.setString(3, picture.getDescription());
             pstmt.setInt(4, picture.getRecordId());
             int affectedRows = pstmt.executeUpdate();
@@ -31,10 +33,10 @@ public class PictureDAO {
     }
 
     public void update(Picture picture) {
-        String sql = "UPDATE picture SET path = ?, upload_date = ?, description = ?, record_id = ? WHERE id = ?";
+        String sql = "UPDATE pictures SET picture_path = ?, upload_date = ?, description = ?, record_id = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, picture.getPath());
-            pstmt.setInt(2, picture.getUploadDate());
+            pstmt.setString(1, picture.getImagePath());
+            pstmt.setDate(2, java.sql.Date.valueOf(picture.getUploadDate()));
             pstmt.setString(3, picture.getDescription());
             pstmt.setInt(4, picture.getRecordId());
             pstmt.setInt(5, picture.getId());
@@ -48,7 +50,7 @@ public class PictureDAO {
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM picture WHERE id = ?";
+        String sql = "DELETE FROM pictures WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int affectedRows = pstmt.executeUpdate();
@@ -61,22 +63,23 @@ public class PictureDAO {
     }
 
     public Picture select(int id) {
-        String sql = "SELECT * FROM picture WHERE id = ?";
-        Picture picture = null;
+        String sql = "SELECT * FROM pictures WHERE id = ?";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                picture = new Picture();
-                picture.setId(rs.getInt("id"));
-                picture.setPath(rs.getString("path"));
-                picture.setUploadDate(rs.getInt("upload_date"));
-                picture.setDescription(rs.getString("description"));
-                picture.setRecordId(rs.getInt("record_id"));
+
+                String path = rs.getString("picture_path");
+                LocalDate date = rs.getDate("upload_date").toLocalDate();
+                String description = rs.getString("description");
+                int recordId = rs.getInt("record_id");
+
+                return new Picture(path, date, description, recordId);
             }
         } catch (SQLException e) {
             System.out.println("Error selecting picture: " + e.getMessage());
         }
-        return picture;
-    }*/
+        return null;
+    }
 }
