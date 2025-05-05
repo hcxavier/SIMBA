@@ -47,18 +47,17 @@ public class RecordDAO {
         return 0;
     }
 
-    /*public void update(Record record) {
-        String sql = "UPDATE Record SET location = ?, criticality = ?, status = ?, barrier_type = ?, description = ?, resolution_difficulty = ?, resolution_suggestion = ? WHERE id = ?";
+    public void update(Record record) {
+        String sql = "UPDATE records SET location = ?, barrier_criticality = ?, barrier_status = ?, barrier_type = ?, resolution_suggestion = ?, barrier_specification = ? WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, record.getLocation());
             pstmt.setString(2, record.getCriticality().toString());
             pstmt.setString(3, record.getStatus().toString());
-            pstmt.setInt(4, record.getBarrierType();
-            pstmt.setString(5, record.getDescription());
-            pstmt.setString(6, record.getResolutionDifficult());
-            pstmt.setString(7, record.getResolutionSuggestion());
-            pstmt.setInt(8, record.getId());
+            pstmt.setString(4, record.getBarrierType().toString());
+            pstmt.setString(5, record.getResolutionSuggestion());
+            pstmt.setString(6, record.getBarrierSpecification())
+            pstmt.setInt(7, record.getId());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating record failed, no rows affected.");
@@ -69,7 +68,7 @@ public class RecordDAO {
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM Record WHERE id = ?";
+        String sql = "DELETE FROM records WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -103,5 +102,5 @@ public class RecordDAO {
             System.out.println("Error getting record by ID: " + e.getMessage());
         }
         return record;
-    }*/
+    }
 }
