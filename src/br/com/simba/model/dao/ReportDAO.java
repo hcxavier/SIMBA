@@ -38,9 +38,9 @@ public class ReportDAO {
 
     public void update(Report report) {
         String sql = "update reports set title = ?, report_date = ?, observation = ?, conclusion = ? where id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStateme/home/maiko/DevJava/SIMBA/srcnt(sql)) {
             stmt.setString(1, report.getTitle());
-            stmt.setString(2, report.getDate().toString());
+            stmt.setDate(2, java.sql.Date.valueOf(report.getDate());
             stmt.setString(3, report.getObservation());
             stmt.setString(4, report.getConclusion());
             stmt.setInt(5, report.getId());
