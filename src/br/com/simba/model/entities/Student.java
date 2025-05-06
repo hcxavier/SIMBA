@@ -1,15 +1,22 @@
 package br.com.simba.model.entities;
+import br.com.simba.model.dao.StudentDAO;
 import br.com.simba.model.valueobject.*;
 
 public class Student extends User{
-    private String registrationNumber;
+    private String enrollmentId;
 
-    public Student(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String cep, String email, String phone, String password, String registrationNumber) {
-        super(username, name, street, number, neighborhood, city, stateAbbr, cep, email, phone, password);
-        this.registrationNumber = registrationNumber;
+    public Student(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, String enrollmentId) {
+        super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password);
+        this.enrollmentId = enrollmentId;
     }
-    public String getRegistrationNumber() {
-        return registrationNumber;
+
+    public void addToDatabase(){
+        StudentDAO studentDAO = new StudentDAO();
+        studentDAO.insertNewStudent(this);
+    }
+
+    public String getEnrollmentId() {
+        return enrollmentId;
     }
 }
 
