@@ -64,8 +64,8 @@
             <li>
                 <a href="/index" class="text-white hover:text-custom-purple-light transition duration-300">Home</a>
             </li>
-            <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">NBR 9050/2020</a></li>
-            <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">FAQ</a></li>
+            <li><a href="/pages/nbr-9050" class="text-white hover:text-custom-purple-light transition duration-300">NBR 9050/2020</a></li>
+            <li><a href="/pages/faq" class="text-white hover:text-custom-purple-light transition duration-300">FAQ</a></li>
             <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">Sobre</a></li>
             <li>
                 <a href="/register" class="bg-custom-purple hover:bg-custom-purple-light text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">COMEÇAR AGORA</a>
