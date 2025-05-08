@@ -1,12 +1,12 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>SISTEMA DE MAPEAMENTO DE BARREIRAS ARQUITETÔNICAS</title>
+    <title>NBR 9050/2020</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -16,9 +16,11 @@
                         'custom-blue': '#3F88C5',
                         'custom-blue-hover': '#86b4da',
                         'custom-purple': '#7D5799',
-                        'custom-purple-light': '#b687d8',
-                        'custom-purple-hover': '#b687d8',
+                        'custom-purple-light': '#ca89fb',
+                        'custom-purple-guideline': '#6a4c93',
                         'dark-gray': '#212121',
+                        'light-gray-bg': '#f0f4f8',
+                        'border-gray-subtle': '#bababa',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -28,7 +30,7 @@
         }
     </script>
 </head>
-<body class="font-sans">
+<body class="font-sans text-gray-800">
 
 <header class="bg-black shadow-md fixed top-0 left-0 right-0 z-50">
     <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -46,170 +48,354 @@
             <li>
                 <a href="/index" class="text-white hover:text-custom-purple-light transition duration-300">Home</a>
             </li>
-            <li><a href="/pages/nbr-9050" class="text-white hover:text-custom-purple-light transition duration-300">NBR 9050/2020</a></li>
+            <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">NBR 9050/2020</a></li>
             <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">FAQ</a></li>
             <li><a href="#" class="text-white hover:text-custom-purple-light transition duration-300">Sobre</a></li>
             <li>
-                <a href="/register" class="bg-custom-purple hover:bg-custom-purple-hover text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">COMEÇAR AGORA</a>
+                <a href="/register" class="bg-custom-purple hover:bg-custom-purple-light text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">COMEÇAR AGORA</a>
             </li>
         </ul>
     </nav>
 </header>
 
-<main class="pt-20"> <section class="container mx-auto px-6 py-16 flex flex-col md:flex-row items-center">
-    <div class="md:w-1/2 lg:w-3/5 text-center md:text-left">
-        <p class="text-gray-600">Denuncie barreiras arquitetônicas em instituições</p>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mt-2">
-            DO <span class="text-custom-purple">OBSTÁCULO</span><br>
-            À <span class="text-custom-blue">ACESSIBILIDADE</span>
-        </h1>
-        <p class="mt-6 text-gray-700 text-base md:text-lg leading-relaxed">
-            Transforme a acessibilidade da sua escola com tecnologia inteligente.<br class="hidden sm:block"><br class="hidden sm:block">
-            Nosso sistema foi criado para identificar, registrar e guiar a solução de<br class="hidden sm:block"><br class="hidden sm:block">
-            barreiras arquitetônicas de forma prática e eficiente.
-        </p>
+<main class="pt-16 md:pt-20">
 
-        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-6 mt-12 md:mt-10">
-            <div class="flex flex-col items-center md:items-start">
-                <p class="text-xs text-custom-blue mb-1">Não tem conta ainda?</p>
-                <a href="/register" class="w-full sm:w-auto bg-custom-purple hover:bg-custom-purple-hover text-white font-semibold py-3 px-8 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105">
-                    CADASTRE-SE GRÁTIS
-                </a>
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+        <section class="lg:w-1/2">
+            <div class="border border-custom-blue p-6 md:p-8 rounded-lg shadow-lg shadow-custom-blue/30 h-full transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                <h2 class="text-custom-purple text-2xl font-semibold mb-5">O que é a NBR 9050?</h2>
+                <h3 class="text-base leading-relaxed mb-3">A NBR 9050 é uma norma técnica estabelecida pela ABNT (Associação Brasileira de Normas Técnicas) que define critérios e parâmetros técnicos para acessibilidade em projetos, construções, instalações e adaptações de edificações, mobiliário, espaços e equipamentos urbanos.
+                </h3>
+                <h3 class="text-base leading-relaxed mb-3">Criada inicialmente em 1985 e atualizada periodicamente, a norma passou por revisões em 1994, 2004, 2015 e mais recentemente em 2020, com uma versão corrigida em 2021. Cada revisão reflete a evolução da compreensão social sobre as necessidades das pessoas com deficiência e a crescente adoção dos princípios do desenho Universal.
+                </h3>
+                <h3 class="text-base leading-relaxed">Seu objetivo principal é garantir que o ambiente construído seja acessível para todas as pessoas, incluindo aquelas com deficiência ou mobilidade reduzida, proporcionando condições de alcance, percepção e entendimento para utilização com segurança, e autonomia de espaços, mobiliários, equipamentos urbanos, edificações, transportes, informação e comunicação.
+                </h3>
             </div>
-            <div class="flex flex-col items-center md:items-start">
-                <p class="text-xs text-custom-blue mb-1">Já possui uma conta?</p>
-                <a href="/login" class="w-full sm:w-auto bg-custom-blue hover:bg-custom-blue-hover text-white font-semibold py-3 px-8 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105">
-                    FAÇA LOGIN
-                </a>
+        </section>
+
+        <section class="lg:w-1/2">
+            <div class="text-dark-gray p-6 md:p-8 h-full">
+                <h2 class="text-2xl font-semibold mb-6">Abrangências e Aplicações:</h2>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-custom-blue w-14 h-14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm161.5-86.1c-12.2-5.2-26.3 .4-31.5 12.6s.4 26.3 12.6 31.5l11.9 5.1c17.3 7.4 35.2 12.9 53.6 16.3l0 50.1c0 4.3-.7 8.6-2.1 12.6l-28.7 86.1c-4.2 12.6 2.6 26.2 15.2 30.4s26.2-2.6 30.4-15.2l24.4-73.2c1.3-3.8 4.8-6.4 8.8-6.4s7.6 2.6 8.8 6.4l24.4 73.2c4.2 12.6 17.8 19.4 30.4 15.2s19.4-17.8 15.2-30.4l-28.7-86.1c-1.4-4.1-2.1-8.3-2.1-12.6l0-50.1c18.4-3.5 36.3-8.9 53.6-16.3l11.9-5.1c12.2-5.2 17.8-19.3 12.6-31.5s-19.3-17.8-31.5-12.6L338.7 175c-26.1 11.2-54.2 17-82.7 17s-56.5-5.8-82.7-17l-11.9-5.1zM256 160a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+
+                        <div>
+                            <h3 class="text-xl font-medium">Tecnologias assistivas</h3>
+                            <p class="text-sm text-gray-600">Sinalização, comunicação acessível e recursos que facilitam o uso por pessoas com diferentes tipos de deficiência.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-custom-purple w-14 h-14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M248 48l0 208 48 0 0-197.3c23.9 13.8 40 39.7 40 69.3l0 128 48 0 0-128C384 57.3 326.7 0 256 0L192 0C121.3 0 64 57.3 64 128l0 128 48 0 0-128c0-29.6 16.1-55.5 40-69.3L152 256l48 0 0-208 48 0zM48 288c-12.1 0-23.2 6.8-28.6 17.7l-16 32c-5 9.9-4.4 21.7 1.4 31.1S20.9 384 32 384l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96 256 0 0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c11.1 0 21.4-5.7 27.2-15.2s6.4-21.2 1.4-31.1l-16-32C423.2 294.8 412.1 288 400 288L48 288z"/></svg>
+                        <div>
+                            <h3 class="text-xl font-medium">Mobiliário e equipamentos</h3>
+                            <p class="text-sm text-gray-600">Bancos, telefones públicos, caixas eletrônicos, bebedouros e outros equipamentos urbanos.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-custom-blue w-14 h-14" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 32l-74.8 0c-27.1 0-51.3 17.1-60.3 42.6L3.1 407.2C1.1 413 0 419.2 0 425.4C0 455.5 24.5 480 54.6 480L256 480l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32l0 64 201.4 0c30.2 0 54.6-24.5 54.6-54.6c0-6.2-1.1-12.4-3.1-18.2L455.1 74.6C446 49.1 421.9 32 394.8 32L320 32l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64zm64 192l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32z"/></svg>
+
+                        <div>
+                            <h3 class="text-xl font-medium">Espaços urbanos</h3>
+                            <p class="text-sm text-gray-600">Vias públicas, calçadas, praças, parques, pontos de ônibus e qualquer espaço de circulação pública.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-custom-purple h-14 w-14" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+                        <div>
+                            <h3 class="text-xl font-medium">Acessibilidade nos acessos</h3>
+                            <p class="text-sm text-gray-600">Rampas, portas e entradas com largura adequada para cadeirantes e pessoas com mobilidade reduzida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="text-center py-10 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold mb-2">Objetivos e Beneficiários da Norma</h2>
+            <p class="text-base text-gray-600 max-w-3xl mx-auto">A NBR 9050 busca promover a inclusão social e garantir o direito fundamental à acessibilidade para todos os cidadãos brasileiros.</p>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            <div class="lg:w-1/2 space-y-5">
+                <h2 class="text-2xl font-semibold mb-5">Objetivos fundamentais</h2>
+                <div class="flex items-start gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <svg class="fill-custom-blue w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p class="text-sm">Garantir acessibilidade universal - Assegurar que todas as pessoas, independentemente de sua condição física, sensorial ou cognitiva, possam utilizar os espaços urbanos e edificações de forma segura, confortável e autônoma.</p>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <svg class="fill-custom-blue w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p class="text-sm">Padronizar critérios de acessibilidade - Uniformizar soluções técnicas para que edificações e espaços urbanos em todo o Brasil sigam padrões mínimos de acessibilidade, garantindo o direito de ir e vir de todos os cidadãos.</p>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <svg class="fill-custom-blue w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p class="text-sm">Estabelecer referencial técnico e legal - Servir como instrumento técnico e legal que orienta profissionais, empresas e órgãos públicos na eliminação de barreiras arquitetônicas, urbanísticas e de comunicação.</p>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <svg class="fill-custom-blue w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p class="text-sm">Promover a equidade e inclusão social - Contribuir para que todos os cidadãos possam exercer seus direitos fundamentais, como o direito à cidade, à mobilidade, à educação, ao trabalho e ao lazer.</p>
+                </div>
+                <div class="flex items-start gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <svg class="fill-custom-blue w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p class="text-sm">Eliminar barreiras arquitetônicas - Orientar a remoção de obstáculos físicos que impedem ou dificultam a circulação e o uso dos espaços públicos e privados por pessoas com deficiência ou mobilidade reduzida.</p>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="flex flex-col p-4 border border-custom-purple-light rounded-lg shadow-lg shadow-custom-purple-light/30 min-h-[180px] justify-center transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <div class="flex items-center mb-2 gap-3">
+                            <svg class="fill-custom-blue w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M240 80l102.7 0c-7.9-19.5-20.4-36.5-36.2-49.9L240 80zm37.7-68.2C261.3 4.2 243.2 0 224 0c-53.7 0-99.7 33.1-118.7 80l81.4 0 91-68.2zM224 256c70.7 0 128-57.3 128-128c0-5.4-.3-10.8-1-16L97 112c-.7 5.2-1 10.6-1 16c0 70.7 57.3 128 128 128zM124 312.4c-9.7 3.1-19.1 7-28 11.7L96 512l147.7 0L181.5 408.2 124 312.4zm33-7.2L204.3 384l67.7 0c44.2 0 80 35.8 80 80c0 18-6 34.6-16 48l82.3 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0c-7.2 0-14.3 .4-21.3 1.3zM0 482.3C0 498.7 13.3 512 29.7 512L64 512l0-166.6C24.9 378.1 0 427.3 0 482.3zM320 464c0-26.5-21.5-48-48-48l-48.5 0 57.1 95.2C303 507.2 320 487.6 320 464z"/></svg>
+                            <h3 class="text-lg font-medium">Pessoas com necessidades temporárias</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Indivíduos com lesões temporárias, com dificuldades de mobilidade devido a acidente ou recuperação de cirurgia.</p>
+                    </div>
+                    <div class="flex flex-col p-4 border border-custom-purple-light rounded-lg shadow-lg shadow-custom-purple-light/30 min-h-[180px] justify-center transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <div class="flex items-center mb-2 gap-2">
+                            <svg class="fill-custom-purple w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M502.6 54.6l-40 40c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l40-40c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3zm-320 320l-128 128c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l128-128c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3zM240 128c-57.6 0-105.1 43.6-111.3 99.5c-1.9 17.6-17.8 30.2-35.3 28.3s-30.2-17.8-28.3-35.3C74.8 132.5 149.4 64 240 64c97.2 0 176 78.8 176 176c0 46-17.7 87.9-46.6 119.3c-12 13-17.4 24.8-17.4 34.7l0 6.1c0 61.9-50.1 112-112 112c-17.7 0-32-14.3-32-32s14.3-32 32-32c26.5 0 48-21.5 48-48l0-6.1c0-32.9 17.4-59.6 34.4-78c18.4-20 29.6-46.6 29.6-75.9c0-61.9-50.1-112-112-112zm0 80c-17.7 0-32 14.3-32 32c0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 13.3-10.7 24-24 24s-24-10.7-24-24c0-17.7-14.3-32-32-32z"/></svg>
+                            <h3 class="text-lg font-medium">Pessoas com deficiência auditiva</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Surdos e pessoas com baixa audição que dependem de sinais visuais, alertas luminosos e tecnologias de comunicação assistiva.</p>
+                    </div>
+                    <div class="flex flex-col p-4 border border-custom-purple-light rounded-lg shadow-lg shadow-custom-purple-light/30 min-h-[180px] justify-center transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <div class="flex items-center mb-2 gap-2">
+                            <svg class="fill-custom-blue w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M192 96a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM120.5 247.2c12.4-4.7 18.7-18.5 14-30.9s-18.5-18.7-30.9-14C43.1 225.1 0 283.5 0 352c0 88.4 71.6 160 160 160c61.2 0 114.3-34.3 141.2-84.7c6.2-11.7 1.8-26.2-9.9-32.5s-26.2-1.8-32.5 9.9C240 440 202.8 464 160 464C98.1 464 48 413.9 48 352c0-47.9 30.1-88.8 72.5-104.8zM259.8 176l-1.9-9.7c-4.5-22.3-24-38.3-46.8-38.3c-30.1 0-52.7 27.5-46.8 57l23.1 115.5c6 29.9 32.2 51.4 62.8 51.4l5.1 0c.4 0 .8 0 1.3 0l94.1 0c6.7 0 12.6 4.1 15 10.4L402 459.2c6 16.1 23.8 24.6 40.1 19.1l48-16c16.8-5.6 25.8-23.7 20.2-40.5s-23.7-25.8-40.5-20.2l-18.7 6.2-25.5-68c-11.7-31.2-41.6-51.9-74.9-51.9l-68.5 0-9.6-48 63.4 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-76.2 0z"/></svg>
+                            <h3 class="text-lg font-medium">Pessoas com deficiência física</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Cadeirantes, pessoas com mobilidade reduzida, amputados e indivíduos que usam prótese ou outros dispositivos de auxílio à mobilidade.</p>
+                    </div>
+                    <div class="flex flex-col p-4 border border-custom-purple-light rounded-lg shadow-lg shadow-custom-purple-light/30 min-h-[180px] justify-center transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <div class="flex items-center mb-2 gap-2">
+                            <svg class="fill-custom-purple w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
+                            <h3 class="text-lg font-medium">Outros grupos</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Idosos, gestantes, pessoas com obesidade, crianças, pessoas com restrições temporárias e todos que necessitam de ambientes mais acessíveis e seguros.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="text-center py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-xl font-semibold">Versão Atualizada 2020/2021</h2>
+            <p class="text-base text-gray-700 mt-1">A versão mais recente da NBR 9050 foi publicada em 3 de agosto de 2020, com uma correção em janeiro de 2021.</p>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-12">
+        <div class="shadow-md border border-border-gray-subtle rounded-lg p-6 md:p-8">
+            <h3 class="text-xl font-semibold text-center mb-4">Principais atualizações e melhorias</h3>
+            <p class="text-center text-gray-700 mb-8 max-w-3xl mx-auto">A transição da NBR 9050 de 2015 para a versão de 2020 envolveu mudanças significativas que aprimoraram a acessibilidade e a inclusão em diversos ambientes. As modificações abrangem aspectos como sinalização, corrimãos, circulação, portas e diversas outras áreas, reforçando o comprometimento da norma com a inclusão e a adaptabilidade às necessidades contemporâneas da população.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="rounded-lg shadow-lg shadow-custom-blue/30 border border-custom-blue p-5 flex flex-col items-center text-center min-h-[280px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                    <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M.2 468.9C2.7 493.1 23.1 512 48 512l96 0 320 0c26.5 0 48-21.5 48-48l0-96c0-26.5-21.5-48-48-48l-48 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-80-64 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-80-64 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-64-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-64-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-48c0-26.5-21.5-48-48-48L48 0C21.5 0 0 21.5 0 48L0 368l0 96c0 1.7 .1 3.3 .2 4.9z"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Parâmetros dimensionais</h3>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <p>Revisão de critérios dimensionais, incluindo:</p>
+                        <ul class="list-disc list-inside text-left pl-4">
+                            <li>Espaços para manobra de cadeiras de rodas</li>
+                            <li>Dimensões mínimas para circulação</li>
+                            <li>Proteções contra quedas</li>
+                            <li>Barras de apoio e guarda-corpos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rounded-lg shadow-lg shadow-custom-blue/30 border border-custom-blue p-5 flex flex-col items-center text-center min-h-[280px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                    <svg class="fill-custom-blue w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M128 127.7C128 74.9 170.9 32 223.7 32c48.3 0 89 36 95 83.9l1 8.2c2.2 17.5-10.2 33.5-27.8 35.7s-33.5-10.2-35.7-27.8l-1-8.2c-2-15.9-15.5-27.8-31.5-27.8c-17.5 0-31.7 14.2-31.7 31.7l0 96.3 192 0 0-96.3C384 74.9 426.9 32 479.7 32c48.3 0 89 36 95 83.9l1 8.2c2.2 17.5-10.2 33.5-27.8 35.7s-33.5-10.2-35.7-27.8l-1-8.2c-2-15.9-15.5-27.8-31.5-27.8c-17.5 0-31.7 14.2-31.7 31.7L448 361c-1.6 1-3.3 2-4.8 3.1c-18 12.4-40.1 20.3-59.2 20.3c0 0 0 0 0 0l0-96.5-192 0 0 96.5c-19 0-41.2-7.9-59.1-20.3c-1.6-1.1-3.2-2.2-4.9-3.1l0-233.3zM306.5 389.9C329 405.4 356.5 416 384 416c26.9 0 55.4-10.8 77.4-26.1c0 0 0 0 0 0c11.9-8.5 28.1-7.8 39.2 1.7c14.4 11.9 32.5 21 50.6 25.2c17.2 4 27.9 21.2 23.9 38.4s-21.2 27.9-38.4 23.9c-24.5-5.7-44.9-16.5-58.2-25C449.5 469.7 417 480 384 480c-31.9 0-60.6-9.9-80.4-18.9c-5.8-2.7-11.1-5.3-15.6-7.7c-4.5 2.4-9.7 5.1-15.6 7.7c-19.8 9-48.5 18.9-80.4 18.9c-33 0-65.5-10.3-94.5-25.8c-13.4 8.4-33.7 19.3-58.2 25c-17.2 4-34.4-6.7-38.4-23.9s6.7-34.4 23.9-38.4c18.1-4.2 36.2-13.3 50.6-25.2c11.1-9.4 27.3-10.1 39.2-1.7c0 0 0 0 0 0C136.7 405.2 165.1 416 192 416c27.5 0 55-10.6 77.5-26.1c11.1-7.9 25.9-7.9 37 0z"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Áreas Específicas</h3>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <p>Revisão de seções como:</p>
+                        <ul class="list-disc list-inside text-left pl-4">
+                            <li>Piscinas: novos critérios e modificações</li>
+                            <li>Plataformas elevatórias e esteiras</li>
+                            <li>Especificações para portas</li>
+                            <li>Corrimãos modificados</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rounded-lg shadow-lg shadow-custom-blue/30 border border-custom-blue p-5 flex flex-col items-center text-center min-h-[280px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                    <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm161.5-86.1c-12.2-5.2-26.3 .4-31.5 12.6s.4 26.3 12.6 31.5l11.9 5.1c17.3 7.4 35.2 12.9 53.6 16.3l0 50.1c0 4.3-.7 8.6-2.1 12.6l-28.7 86.1c-4.2 12.6 2.6 26.2 15.2 30.4s26.2-2.6 30.4-15.2l24.4-73.2c1.3-3.8 4.8-6.4 8.8-6.4s7.6 2.6 8.8 6.4l24.4 73.2c4.2 12.6 17.8 19.4 30.4 15.2s19.4-17.8 15.2-30.4l-28.7-86.1c-1.4-4.1-2.1-8.3-2.1-12.6l0-50.1c18.4-3.5 36.3-8.9 53.6-16.3l11.9-5.1c12.2-5.2 17.8-19.3 12.6-31.5s-19.3-17.8-31.5-12.6L338.7 175c-26.1 11.2-54.2 17-82.7 17s-56.5-5.8-82.7-17l-11.9-5.1zM256 160a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Tecnologias Assistivas</h3>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <p>Inclusão de novos recursos de acessibilidade:</p>
+                        <ul class="list-disc list-inside text-left pl-4">
+                            <li>Comunicação acessível</li>
+                            <li>Sinalização visual e auditiva</li>
+                            <li>Sinalização tátil e sonora</li>
+                            <li>Tecnologias de assistência à mobilidade</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="shadow-md border border-border-gray-subtle rounded-lg p-6 md:p-8 flex flex-col items-center">
+            <h3 class="text-xl font-semibold text-center mb-8">Principais Diretrizes Técnicas da Norma</h3>
+            <div class="w-full lg:w-11/12 xl:w-10/12">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 32c0-9.9-4.5-19.2-12.3-25.2S289.8-1.4 280.2 1l-179.9 45C79 51.3 64 70.5 64 92.5L64 448l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 192 0 32 0 0-32 0-448zM256 256c0 17.7-10.7 32-24 32s-24-14.3-24-32s10.7-32 24-32s24 14.3 24 32zm96-128l96 0 0 352c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0 0-320c0-35.3-28.7-64-64-64l-96 0 0 64z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Porta e circulação</h3>
+                        <p class="text-sm text-gray-600 mb-2">Especificações para acesso e segurança:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Vão livre de 0,80m x 2,10m</li>
+                            <li>Maçanetas tipo alavanca (0,90m a 1,10m)</li>
+                            <li>Espaço adjacente às portas</li>
+                            <li>Áreas de manobra (90°, 180°, 360°)</li>
+                            <li>Altura mínima de 2,10m nas rotas</li>
+                            <li>Vãos em grelhas ≤ 15mm</li>
+                        </ul>
+                    </div>
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-blue w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 96c0 50.2-59.1 125.1-84.6 155c-3.8 4.4-9.4 6.1-14.5 5L320 256c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c53 0 96 43 96 96s-43 96-96 96l-276.4 0c8.7-9.9 19.3-22.6 30-36.8c6.3-8.4 12.8-17.6 19-27.2L416 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0c-53 0-96-43-96-96s43-96 96-96l39.8 0c-21-31.5-39.8-67.7-39.8-96c0-53 43-96 96-96s96 43 96 96zM117.1 489.1c-3.8 4.3-7.2 8.1-10.1 11.3l-1.8 2-.2-.2c-6 4.6-14.6 4-20-1.8C59.8 473 0 402.5 0 352c0-53 43-96 96-96s96 43 96 96c0 30-21.1 67-43.5 97.9c-10.7 14.7-21.7 28-30.8 38.5l-.6 .7zM128 352a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM416 128a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Acessos e percursos acessíveis</h3>
+                        <p class="text-sm text-gray-600 mb-2">Rotas contínuas e sem obstáculos:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Corredores: mín. 0,90m até 4m</li>
+                            <li>1,20m até 10m e 1,50m acima de 10m</li>
+                            <li>Inclinação transversal: 2% internas, 3% externas</li>
+                            <li>Piso firme e antiderrapante</li>
+                        </ul>
+                    </div>
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M128 40c0-22.1 17.9-40 40-40s40 17.9 40 40l0 148.2c8.5-7.6 19.7-12.2 32-12.2c20.6 0 38.2 13 45 31.2c8.8-9.3 21.2-15.2 35-15.2c25.3 0 46 19.5 47.9 44.3c8.5-7.7 19.8-12.3 32.1-12.3c26.5 0 48 21.5 48 48l0 48 0 16 0 48c0 70.7-57.3 128-128 128l-16 0-64 0-.1 0-5.2 0c-5 0-9.9-.3-14.7-1c-55.3-5.6-106.2-34-140-79L8 336c-13.3-17.7-9.7-42.7 8-56s42.7-9.7 56 8l56 74.7L128 40zM240 304c0-8.8-7.2-16-16-16s-16 7.2-16 16l0 96c0 8.8 7.2 16 16 16s16-7.2 16-16l0-96zm48-16c-8.8 0-16 7.2-16 16l0 96c0 8.8 7.2 16 16 16s16-7.2 16-16l0-96c0-8.8-7.2-16-16-16zm80 16c0-8.8-7.2-16-16-16s-16 7.2-16 16l0 96c0 8.8 7.2 16 16 16s16-7.2 16-16l0-96z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Sinalização tátil e visual</h3>
+                        <p class="text-sm text-gray-600 mb-2">Sistemas de orientação e segurança:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Piso tátil de alerta e direcional</li>
+                            <li>Sinalizações em Braille</li>
+                            <li>Contraste visual adequado</li>
+                            <li>Símbolo Internacional de Acesso</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-blue w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 480l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm0-128l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Rampas e desníveis</h3>
+                        <p class="text-sm text-gray-600 mb-2">Parâmetros para transposição de desníveis:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Até 5mm: sem tratamento</li>
+                            <li>5-20mm: rampa até 50%</li>
+                            <li>Acima de 20mm: rampa ou equipamento</li>
+                            <li>Inclinação: até 8,33% (0,80m), 5% (1,50m)</li>
+                            <li>Patamares obrigatórios (mín. 1,20m)</li>
+                        </ul>
+                    </div>
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48l8 0 0 148.9c-1.9 1.4-3.8 2.9-5.6 4.4C10.9 214.5 0 232.9 0 256c0 46.9 14.3 84.1 37 112.5c14.2 17.7 31.1 31.3 48.5 41.8L65.6 469.9c-3.3 9.8-1.6 20.5 4.4 28.8s15.7 13.3 26 13.3l256 0c10.3 0 19.9-4.9 26-13.3s7.7-19.1 4.4-28.8l-19.8-59.5c17.4-10.5 34.3-24.1 48.5-41.8c22.7-28.4 37-65.5 37-112.5c0-23.1-10.9-41.5-26.4-54.6c-1.8-1.5-3.7-3-5.6-4.4L416 48l8 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L24 0zM384 256.3c0 1-.3 2.6-3.8 5.6c-4.8 4.1-14 9-29.3 13.4C320.5 284 276.1 288 224 288s-96.5-4-126.9-12.8c-15.3-4.4-24.5-9.3-29.3-13.4c-3.5-3-3.8-4.6-3.8-5.6l0-.3c0 0 0-.1 0-.1c0-1 0-2.5 3.8-5.8c4.8-4.1 14-9 29.3-13.4C127.5 228 171.9 224 224 224s96.5 4 126.9 12.8c15.3 4.4 24.5 9.3 29.3 13.4c3.8 3.2 3.8 4.8 3.8 5.8c0 0 0 .1 0 .1l0 .3zM328.2 384l-.2 .5 0-.5 .2 0zM112 64l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Sanitários acessíveis</h3>
+                        <p class="text-sm text-gray-600 mb-2">Uso com autonomia e dignidade:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Giro de 360° (mín. 1,50m)</li>
+                            <li>Área de transferência (0,80m x 1,20m)</li>
+                            <li>Bacia: 0,46m com assento</li>
+                            <li>Barras de apoio: 30-45mm, afastadas 40mm</li>
+                            <li>Lavatório: 0,78m a 0,80m</li>
+                            <li>Porta abrindo para fora (mín. 0,80m)</li>
+                        </ul>
+                    </div>
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-blue w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M248 48l0 208 48 0 0-197.3c23.9 13.8 40 39.7 40 69.3l0 128 48 0 0-128C384 57.3 326.7 0 256 0L192 0C121.3 0 64 57.3 64 128l0 128 48 0 0-128c0-29.6 16.1-55.5 40-69.3L152 256l48 0 0-208 48 0zM48 288c-12.1 0-23.2 6.8-28.6 17.7l-16 32c-5 9.9-4.4 21.7 1.4 31.1S20.9 384 32 384l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96 256 0 0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c11.1 0 21.4-5.7 27.2-15.2s6.4-21.2 1.4-31.1l-16-32C423.2 294.8 412.1 288 400 288L48 288z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Mobiliário e equipamentos</h3>
+                        <p class="text-sm text-gray-600 mb-2">Mobiliário urbano acessível:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>Bebedouro: bica a 0,90m</li>
+                            <li>Balcão: máx. 0,90m de altura</li>
+                            <li>Mesas: 0,75m a 0,85m</li>
+                            <li>Telefones: até 1,20m</li>
+                            <li>Botões: 0,80m a 1,00m</li>
+                            <li>Sem arestas cortantes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="shadow-lg shadow-custom-purple-guideline/30 border border-custom-purple-guideline p-5 rounded-lg flex flex-col min-h-[380px] w-full md:w-2/3 lg:w-1/3 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        <svg class="fill-custom-purple w-10 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM192 256l48 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-48 0 0 64zm48 64l-48 0 0 32c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64 0-120c0-22.1 17.9-40 40-40l72 0c53 0 96 43 96 96s-43 96-96 96z"/></svg>
+                        <h3 class="font-semibold text-lg mb-2">Vagas de estacionamento acessíveis</h3>
+                        <p class="text-sm text-gray-600 mb-2">Critérios para vagas reservadas:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 pl-4 flex-grow">
+                            <li>2,50m x 5,00m + 1,20m faixa</li>
+                            <li>Próximo da entrada acessível</li>
+                            <li>Máx. 50m da edificação</li>
+                            <li>Sinalização vertical e horizontal</li>
+                            <li>Piso nivelado e estável</li>
+                            <li>2% das vagas para deficientes</li>
+                            <li>5% das vagas para idosos</li>
+                            <li>Evitar circulação entre veículos</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="md:w-1/2 lg:w-2/5 mt-10 md:mt-0 flex justify-center md:justify-end">
-        <img src="assets/images/hero-image.png" alt="Imagem representativa da acessibilidade" class="max-w-2xl">
-    </div>
-</section>
 
-    <section class="py-12 bg-gray-50">
-        <div class="container mx-auto px-6 text-center">
-            <h3 class="text-2xl font-semibold text-custom-blue">
-                Seja capaz de identificar Barreiras Arquitetônicas em sua instituição
-            </h3>
-        </div>
-    </section>
-
-    <section class="py-16">
-        <div class="container mx-auto px-6">
-            <div class="border-custom-blue border-4 rounded-lg p-8 md:p-12 w-full md:w-11/12 lg:w-4/5 mx-auto text-center shadow-lg">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6">O que são Barreiras Arquitetônicas?</h2>
-                <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
-                    Barreiras arquitetônicas são obstáculos físicos ou estruturais presentes em ambientes
-                    construídos que dificultam ou até impedem o acesso de pessoas, especialmente aquelas
-                    com deficiência, mobilidade reduzida ou necessidades específicas.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Alguns exemplos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-                <div class="bg-white p-6 border border-custom-blue rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 min-h-[250px] flex flex-col">
-                    <svg class="fill-custom-blue w-9 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M384 64c0-17.7 14.3-32 32-32l128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-96 0 0 96c0 17.7-14.3 32-32 32l-96 0 0 96c0 17.7-14.3 32-32 32l-96 0 0 96c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l96 0 0-96c0-17.7 14.3-32 32-32l96 0 0-96c0-17.7 14.3-32 32-32l96 0 0-96z"/></svg>
-                    <h4 class="text-xl font-semibold mb-2">Escadas sem rampas de acesso</h4>
-                    <p class="text-gray-600 flex-grow">
-                        Escadas são obstáculos para pessoas com cadeiras de rodas ou dificuldades de mobilidade.
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold text-center mb-10">Fiscalização e Responsabilidades</h2>
+            <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 justify-center">
+                <div class="lg:w-2/5">
+                    <h2 class="text-xl font-semibold mb-4">Quem fiscaliza?</h2>
+                    <p class="shadow-lg border border-custom-blue p-5 rounded-lg text-base text-gray-700 leading-relaxed mb-6 transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105">
+                        A fiscalização da NBR 9050 é realizada principalmente pelo Conselho de Arquitetura e Urbanismo do Brasil (CAU). O documento que atesta o atendimento à norma é o Registro de Responsabilidade Técnica (RRT).<br>Esse documento comprova que a obra foi projetada por um arquiteto e seguiu as diretrizes de planejamento físico-territorial, infraestrutura e acessibilidade, conforme exigido pela Lei nº 12.378, que regulamenta o exercício da profissão de arquiteto.
+                    </p>
+                    <p class="text-base text-gray-700 leading-relaxed">
+                        Órgãos municipais de licenciamento para obras também podem realizar essa vistoria, amparados por leis municipais e federais. As prefeituras analisam se determinada construção atende ou não a NBR 9050 pelo "Certificado de Acessibilidade".<br> A promoção da acessibilidade é uma obrigação legal regulamentada pelo Decreto 5.296, de 2004. A Lei Brasileira de Inclusão (Lei de Inclusão, de 2015) veio para complementar e fortalecer essa legislação, estabelecendo critérios ainda mais rigorosos.
                     </p>
                 </div>
-                <div class="bg-white p-6 border border-custom-blue rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 min-h-[250px] flex flex-col">
-                    <svg class="fill-custom-purple w-9 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32 64c17.7 0 32 14.3 32 32l0 320c0 17.7-14.3 32-32 32s-32-14.3-32-32L0 96C0 78.3 14.3 64 32 64zm214.6 73.4c12.5 12.5 12.5 32.8 0 45.3L205.3 224l229.5 0-41.4-41.4c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l96 96c12.5 12.5 12.5 32.8 0 45.3l-96 96c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L434.7 288l-229.5 0 41.4 41.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0l-96-96c-12.5-12.5-12.5-32.8 0-45.3l96-96c12.5-12.5 32.8-12.5 45.3 0zM640 96l0 320c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-320c0-17.7 14.3-32 32-32s32 14.3 32 32z"/></svg>
-                    <h4 class="text-xl font-semibold mb-2">Portas e corredores estreitos</h4>
-                    <p class="text-gray-600 flex-grow">
-                        Portas pequenas não permitem a passagem de cadeiras de rodas ou carrinhos de bebê.
-                    </p>
-                </div>
-                <div class="bg-white p-6 border border-custom-blue rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 min-h-[250px] flex flex-col">
-                    <svg class="fill-custom-blue w-9 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z"/></svg>
-                    <h4 class="text-xl font-semibold mb-2">Falta de sinalização tátil ou visual</h4>
-                    <p class="text-gray-600 flex-grow">
-                        A ausência de pisos táteis ou sinalização visual dificulta a acessibilidade.
-                    </p>
-                </div>
-                <div class="bg-white p-6 border border-custom-blue rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 min-h-[250px] flex flex-col">
-                    <svg class="fill-custom-purple w-9 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
-                    <h4 class="text-xl font-semibold mb-2">Estacionamento inadequado</h4>
-                    <p class="text-gray-600 flex-grow">
-                        Vagas sem dimensão adequada dificultam o uso por cadeirantes.
-                    </p>
-                </div>
-            </div>
-            <div class="flex justify-center mt-7">
-                <div class="bg-white p-6 border border-custom-blue rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 min-h-[250px] flex flex-col w-full md:w-1/2 lg:w-[calc(50%-1rem)]">
-                    <svg class="fill-custom-blue w-9 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M144.1 179.2C173.8 127.7 228.6 96 288 96s114.2 31.7 143.9 83.2L540.4 368c12.3 21.3-3.1 48-27.7 48H63.3c-24.6 0-40-26.6-27.7-48L144.1 179.2z"/></svg>
-                    <h4 class="text-xl font-semibold mb-2">Calçadas e vias públicas mal planejadas</h4>
-                    <p class="text-gray-600 flex-grow">
-                        Calçadas estreitas, irregulares ou com buracos dificultam a locomoção.
-                    </p>
+                <div class="lg:w-2/5">
+                    <h2 class="text-xl font-semibold mb-4">Responsáveis pelo cumprimento</h2>
+                    <div class="space-y-6">
+                        <div class="p-3 rounded-lg hover:bg-gray-200 transition-colors duration-300">
+                            <div class="flex items-center gap-3 mb-1">
+                                <svg class="fill-custom-blue w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 32c-17.7 0-32 14.3-32 32l0 2.3 0 99.6c0 5.6-4.5 10.1-10.1 10.1c-3.6 0-7-1.9-8.8-5.1L157.1 87C83 123.5 32 199.8 32 288l0 64 512 0 0-66.4c-.9-87.2-51.7-162.4-125.1-198.6l-48 83.9c-1.8 3.2-5.2 5.1-8.8 5.1c-5.6 0-10.1-4.5-10.1-10.1l0-99.6 0-2.3c0-17.7-14.3-32-32-32l-64 0zM16.6 384C7.4 384 0 391.4 0 400.6c0 4.7 2 9.2 5.8 11.9C27.5 428.4 111.8 480 288 480s260.5-51.6 282.2-67.5c3.8-2.8 5.8-7.2 5.8-11.9c0-9.2-7.4-16.6-16.6-16.6L16.6 384z"/></svg>
+                                <h3 class="text-lg font-medium">Profissionais da construção civil</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed">Arquitetos e engenheiros são os responsáveis técnicos pelo projeto e pela execução conforme as normas. O arquiteto ou engenheiro que assina o projeto da edificação é diretamente responsável pelo cumprimento das exigências da NBR 9050, podendo responder profissionalmente por falhas e omissões.</p>
+                        </div>
+                        <div class="p-3 rounded-lg hover:bg-gray-200 transition-colors duration-300">
+                            <div class="flex items-center gap-3 mb-1">
+                                <svg class="fill-custom-purple w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+                                <h3 class="text-lg font-medium">Poder público</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed">Órgãos municipais, estaduais e federais responsáveis pela fiscalização e aprovação de projetos e obras têm o dever de verificar a conformidade com a norma. As prefeituras são responsáveis pela emissão de alvarás e "Habite-se", que devem ser condicionados ao cumprimento das normas de acessibilidade.</p>
+                        </div>
+                        <div class="p-3 rounded-lg hover:bg-gray-200 transition-colors duration-300">
+                            <div class="flex items-center gap-3 mb-1">
+                                <svg class="fill-custom-blue w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M243.4 2.6l-224 96c-14 6-21.8 21-18.7 35.8S16.8 160 32 160l0 8c0 13.3 10.7 24 24 24l400 0c13.3 0 24-10.7 24-24l0-8c15.2 0 28.3-10.7 31.3-25.6s-4.8-29.9-18.7-35.8l-224-96c-8-3.4-17.2-3.4-25.2 0zM128 224l-64 0 0 196.3c-.6 .3-1.2 .7-1.8 1.1l-48 32c-11.7 7.8-17 22.4-12.9 35.9S17.9 512 32 512l448 0c14.1 0 26.5-9.2 30.6-22.7s-1.1-28.1-12.9-35.9l-48-32c-.6-.4-1.2-.7-1.8-1.1L448 224l-64 0 0 192-40 0 0-192-64 0 0 192-48 0 0-192-64 0 0 192-40 0 0-192zM256 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                                <h3 class="text-lg font-medium">Proprietários</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed">Proprietários de imóveis e gestores de edifícios são responsáveis por garantir que as edificações estejam em conformidade com a norma, tanto na fase de construção quanto na manutenção. Em condomínios, a responsabilidade pela manutenção das condições de acessibilidade recai sobre o condomínio, representado pelo síndico.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 
-    <section class="py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-10">Aprenda Mais Sobre Barreiras</h2>
-            <div class="space-y-6 max-w-2xl mx-auto">
-                <a href="/pages/nbr-9050" class="block bg-custom-blue hover:bg-custom-blue-hover text-white text-lg font-semibold text-center rounded-lg py-6 px-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    Nosso Artigo Sobre a Norma NBR 9050/2020
-                </a>
-                <a href="https://acessibilidade.unb.br/images/PDF/NORMA_NBR-9050.pdf" class="block bg-custom-blue hover:bg-custom-blue-hover text-white text-lg font-semibold text-center rounded-lg py-6 px-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    Baixar Documento Completo da Norma
-                </a>
-            </div>
+    <section class="bg-custom-purple-guideline text-white py-12">
+        <div class="container mx-auto px-4 flex flex-col items-center justify-center text-center">
+            <h2 class="text-2xl font-semibold mb-4">Contribua para um Brasil mais acessível e inclusivo</h2>
+            <p class="w-full md:w-3/4 lg:w-1/2 text-base text-indigo-100 leading-relaxed mb-6">A construção de um Brasil verdadeiramente acessível e inclusivo é uma tarefa coletiva. A NBR 9050 fornece o roteiro técnico essencial, mas sua efetivação depende do compromisso de todos para superar não apenas as barreiras físicas evidentes, mas também as barreiras atitudinais, culturais, econômicas e institucionais.</p>
+            <a href="https://acessibilidade.unb.br/images/PDF/NORMA_NBR-9050.pdf" class="bg-custom-blue hover:bg-custom-blue-hover text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Consultar norma completa
+            </a>
         </div>
     </section>
-
-    <section class="relative py-20 md:py-32 min-h-[80vh] flex items-center justify-center overflow-hidden mt-12">
-        <div class="bg-custom-purple w-11/12 md:w-4/5 h-[600px] md:h-[560px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-b-lg z-0 clip-custom-shape"></div>
-        <style>
-            .clip-custom-shape {
-                clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
-            }
-            @media (min-width: 768px) { /* md breakpoint */
-                .clip-custom-shape {
-                    clip-path: polygon(0 0, 100% 0, 100% 85%, 55% 100%, 0% 85%); /* Adjusted for wider screens */
-                }
-            }
-        </style>
-
-
-        <div class="bg-gray-100 rounded-lg shadow-2xl relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 p-8 md:p-12 w-11/12 md:w-4/5 lg:w-3/4">
-            <div class="w-full md:w-1/3 flex justify-center">
-                <img src="assets/images/blind-man.png" alt="Pessoa com deficiência visual" class="max-h-[400px] md:max-h-[500px] object-contain rounded">
-            </div>
-            <div class="w-full md:w-2/3 text-center md:text-left">
-                <p class="text-custom-blue font-semibold text-xl md:text-2xl">SIMBA</p>
-                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Transforme a acessibilidade da sua escola!</h2>
-                <p class="text-gray-700 text-base md:text-lg leading-relaxed mb-8">
-                    Descubra como identificar, registrar e resolver barreiras arquitetônicas com nosso sistema.<br>
-                    Aprenda sobre acessibilidade, legislação, boas práticas e participe de um ambiente inclusivo.<br>
-                    Tudo de forma simples, rápida e acessível — do registro ao acompanhamento de soluções.
-                </p>
-                <a href="/register" class="bg-custom-blue hover:bg-custom-blue-hover text-white font-semibold py-3 px-8 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105 inline-block">
-                    COMEÇAR AGORA
-                </a>
-            </div>
-        </div>
-    </section>
-
 </main>
 
 <footer class="bg-dark-gray text-white py-10">
     <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
         <div class="text-center md:text-left mb-6 md:mb-0">
             <a href="/index" class="inline-block mb-4">
-                <svg class="fill-white h-8" width="auto" height="87" viewBox="0 0 259 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="fill-white h-10" width="auto" height="87" viewBox="0 0 259 87" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M164.239 13.1733C165.774 13.278 167.29 13.5096 168.787 13.8681C173.441 14.9841 177.276 16.8226 179.828 21.0427C181.779 24.2706 182.283 28.4478 181.339 32.0743C180.332 35.9396 178.259 38.1576 174.874 40.1424C175.733 40.5692 176.599 41.1281 177.383 41.6807C180.856 44.1307 182.487 47.8513 183.14 51.9418C183.765 55.8468 182.542 60.2956 180.23 63.4812C180.082 63.6871 179.928 63.8893 179.769 64.0878C179.61 64.286 179.446 64.4803 179.277 64.6706C179.109 64.8607 178.936 65.0466 178.758 65.2283C178.58 65.41 178.398 65.5871 178.211 65.7597C178.025 65.9324 177.834 66.1003 177.639 66.2634C177.444 66.4266 177.246 66.5848 177.043 66.7381C176.84 66.8914 176.634 67.0396 176.424 67.1828C176.214 67.3258 176 67.4635 175.783 67.596C175.567 67.7287 175.347 67.8558 175.124 67.9774C174.9 68.0991 174.674 68.2152 174.446 68.3256C174.217 68.436 173.985 68.5407 173.751 68.6397C173.517 68.7385 173.281 68.8316 173.042 68.9188C172.803 69.0061 172.562 69.0874 172.32 69.1627C172.077 69.2381 171.832 69.3074 171.586 69.3705C171.34 69.4338 171.093 69.4909 170.844 69.5418C170.595 69.5929 170.345 69.6377 170.093 69.6761C165.765 70.5195 161.433 70.3543 157.049 70.3479L144.436 70.3136C144.647 64.1676 144.468 57.9645 144.469 51.8115L144.478 13.2282L164.239 13.1733ZM170.302 59.0873C171.911 57.3387 172.579 55.3974 172.485 53.0287C172.415 51.2618 171.85 49.6125 170.539 48.3802C166.972 45.0297 159.854 45.885 155.301 45.8847C155.309 50.9798 155.37 56.0802 155.319 61.1747C157.16 61.1576 159 61.1523 160.84 61.1586C164.398 61.1747 167.256 61.1501 170.302 59.0873ZM155.319 35.3612C157.032 35.3416 158.744 35.3397 160.458 35.3555C163.549 35.3789 166.586 35.588 169.075 33.3691C170.441 31.5763 171.06 29.8132 170.731 27.5445C170.525 26.1248 169.82 24.914 168.662 24.0643C165.602 21.8205 159.058 22.6339 155.277 22.6036L155.319 35.3612Z"/>
                     <path d="M121.41 13.1619C124.114 12.9503 130.226 12.8907 132.853 13.1824C132.509 19.6158 132.761 26.1907 132.765 32.6361L132.812 70.025C129.251 69.9527 125.656 70.0439 122.087 70.013C122.302 67.3355 122.092 64.4662 122.086 61.7714L122.072 45.187L122.048 31.9829C120.492 34.8215 118.667 37.5602 116.962 40.3146C113.118 46.525 109.173 52.6965 105.439 58.9731C104.156 58.9936 102.871 58.9801 101.587 58.9807C98.8032 53.5071 94.9855 47.7598 91.7147 42.5054C89.5072 38.9587 87.5286 35.2849 85.1117 31.8734C85.1751 36.2642 85.0962 40.6376 85.1164 45.0287L85.2606 69.8373C81.6416 69.9168 78.0138 69.8717 74.3936 69.8736C74.6115 63.5661 74.4305 57.1898 74.4327 50.8763L74.4118 13.1197C78.4323 13.1124 82.4607 13.0585 86.4802 13.1386C89.5923 18.0564 92.4118 23.2291 95.4176 28.2207C98.1588 32.773 101.376 37.5369 103.746 42.226C104.649 40.2948 105.897 38.432 107.012 36.6124L112.805 27.1874L118.349 17.9199C119.315 16.3312 120.235 14.6049 121.41 13.1619Z"/>
                     <path d="M20.3733 12.3652C21.9957 12.291 23.614 12.3445 25.228 12.5258C29.7658 12.996 34.682 14.6693 38.1092 17.7883C39.2359 18.8137 40.1685 20.0375 41.1233 21.2187C39.1324 23.2625 35.5409 26.1346 33.1286 27.6284C32.4795 26.8572 31.8008 26.0949 31.0949 25.3757C28.7959 23.0329 25.5747 22.0775 22.3629 22.0286C19.8519 21.9905 16.9738 22.5857 15.13 24.4358C14.0261 25.5439 13.371 26.9241 13.3852 28.5049C13.4 30.1463 14.1365 31.4978 15.3974 32.5247C18.7272 35.2366 28.7366 37.0798 33.3898 39.2214C33.8459 39.4273 34.2911 39.6545 34.7255 39.903C35.16 40.1518 35.5814 40.4207 35.99 40.7098C36.3986 40.9988 36.7923 41.3067 37.1712 41.6337C37.5501 41.9606 37.9125 42.305 38.2584 42.6666C40.9271 45.4217 42.4398 48.987 42.3707 52.8498C42.2833 57.7358 40.6309 62.2184 37.0857 65.6301C32.6287 69.9203 25.6059 70.9636 19.68 70.8835C13.7687 70.7469 7.36784 68.6413 2.94458 64.6309C2.16552 63.9247 0.236495 61.9342 0.280021 60.8716C0.305569 60.249 7.06977 54.969 8.06898 54.2159C9.36877 55.5261 10.3607 57.0712 11.7838 58.295C14.9543 61.0217 19.1265 61.5286 23.1637 61.1939C25.6699 60.9861 27.9979 60.0411 29.6324 58.0544C30.6745 56.7877 31.4223 54.6161 31.2103 52.9618C30.9848 51.2022 29.7033 49.7671 28.2547 48.8559C26.2499 47.5945 23.744 47.0054 21.4898 46.3383C16.7341 44.9306 11.5656 43.3886 7.53374 40.4118C4.55062 38.2096 2.80611 35.1341 2.29736 31.4751C1.68327 27.0569 2.68374 22.7503 5.42493 19.2111C9.16534 14.3819 14.6215 13.1235 20.3733 12.3652Z"/>
