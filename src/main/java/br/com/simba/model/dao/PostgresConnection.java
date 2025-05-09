@@ -1,16 +1,18 @@
 package br.com.simba.model.dao;
 
+import org.postgresql.core.ConnectionFactory;
+import org.postgresql.jdbc.PgConnection;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SupabaseConnection {
+public class PostgresConnection implements DBConnection {
+    private Connection connection = null;
 
-    private static Connection connection = null;
-
-    public Connection openConnection() {
-        if (connection != null)
-            return connection;
+    @Override
+    public Connection getConnection() {
+        if (connection != null) return connection;
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -30,7 +32,8 @@ public class SupabaseConnection {
         return connection;
     }
 
-    public void closeConnection() {
+    @Override
+    public void close() {
         if (connection != null) {
             try {
                 connection.close();
