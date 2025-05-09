@@ -8,6 +8,7 @@ import br.com.simba.model.enums.*;
 
 public class Record {
     private int id;
+    private int userId;
     private BarrierStatus status;
     private BarrierCriticality criticality;
     private String barrierSpecification;
@@ -18,8 +19,10 @@ public class Record {
     private BarrierType barrierType;
     private LocalDate barrierIdentification;
     
-    public Record(BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location,
+    public Record(int id, int userId, BarrierStatus status, BarrierCriticality criticality, Picture picture, School school, String location,
                   String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
+        this.id = id;
+        this.userId = userId;
         this.status = status;
         this.criticality = criticality;
         this.picture = picture;
@@ -31,9 +34,11 @@ public class Record {
         this.barrierIdentification = barrierIdentification;
     }
 
-    public Record(String status, BarrierCriticality criticality, String location,
+    public Record(int id, int userId, BarrierStatus status, BarrierCriticality criticality, String location,
                   String barrierSpecification, String resolutionSuggestion, BarrierType barrierType, LocalDate barrierIdentification) {
-        //this.status = status;
+        this.id = id;
+        this.userId = userId;
+        this.status = status;
         this.criticality = criticality;
         this.location = location;
         this.barrierSpecification = barrierSpecification;
@@ -107,5 +112,13 @@ public class Record {
         this.barrierSpecification = barrierSpecification;
         this.resolutionSuggestion = resolutionSuggestion;
         this.barrierType = barrierType;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
