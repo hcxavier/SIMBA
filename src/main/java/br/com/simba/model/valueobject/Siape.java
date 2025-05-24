@@ -1,6 +1,6 @@
 package br.com.simba.model.valueobject;
 
-import br.com.simba.config.exceptions.InvalidSiapeException;
+import br.com.simba.exceptions.InvalidSiapeException;
 
 public class Siape {
     private String siape;

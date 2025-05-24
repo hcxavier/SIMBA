@@ -7,20 +7,23 @@ public class Picture {
     private String imagePath;
     private LocalDate uploadDate;
     private String description;
-    private int recordId;
+    private int registryId;
 
-    public Picture(String imagePath, LocalDate uploadDate, String description, int recordId) {
+    public Picture(String imagePath, LocalDate uploadDate, String description, int registryId) {
         this.imagePath = imagePath;
         this.uploadDate = uploadDate;
         this.description = description;
-        this.recordId = recordId;
+        this.registryId = registryId;
     }
 
-    public void setRecordId(int recordId) {
-        this.recordId = recordId;
+    public void setId(int id){
+        this.id = id;
     }
-    public int getRecordId() {
-        return recordId;
+    public void setRegistryId(int recordId) {
+        this.registryId = registryId;
+    }
+    public int getRegistryId() {
+        return registryId;
     }
 
     public int getId() {
@@ -48,7 +51,7 @@ public class Picture {
     //ToDo
 
     public void uploadPicture() {
-        
+
     }
 
     public void updatePicture(){
@@ -56,6 +59,6 @@ public class Picture {
     }
 
     public void deletePicture() {
-        
+
     }
 }

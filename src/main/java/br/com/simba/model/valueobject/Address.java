@@ -1,6 +1,6 @@
 package br.com.simba.model.valueobject;
 
-import br.com.simba.config.exceptions.InvalidAddressException;
+import br.com.simba.exceptions.InvalidAddressException;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

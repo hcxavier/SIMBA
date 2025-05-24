@@ -1,5 +1,5 @@
 package br.com.simba.model.valueobject;
-import br.com.simba.config.exceptions.InvalidPasswordException;
+import br.com.simba.exceptions.InvalidPasswordException;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

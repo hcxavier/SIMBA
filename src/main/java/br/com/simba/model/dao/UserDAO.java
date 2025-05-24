@@ -4,199 +4,99 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import br.com.simba.model.entities.*;
-import br.com.simba.config.exceptions.DataAccessException;
-import br.com.simba.model.enums.BarrierCriticality;
-import br.com.simba.model.enums.BarrierStatus;
-import br.com.simba.model.enums.BarrierType;
+import br.com.simba.exceptions.DataAccessException;
+import br.com.simba.model.entities.Reporter;
+import br.com.simba.model.entities.User;
+import br.com.simba.model.util.Instantiator;
+import br.com.simba.model.util.SQLErrorLog;
+import br.com.simba.model.valueobject.Email;
+import br.com.simba.model.valueobject.Password;
+import br.com.simba.model.valueobject.Username;
 
 public class UserDAO {
-
-    private static final String TABLE_USERS = "users";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_FULL_NAME = "full_name";
-    private static final String COLUMN_STREET = "street";
-    private static final String COLUMN_ADDRESS_NUMBER = "address_number";
-    private static final String COLUMN_NEIGHBORHOOD = "neighborhood";
-    private static final String COLUMN_CITY = "city";
-    private static final String COLUMN_STATE_ABBR = "state_abbr";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_USERNAME = "username";
-    private static final String COLUMN_HASHED_PASSWORD = "hashed_password";
-
-    private static final String TABLE_RECORDS = "records";
-    private static final String COLUMN_RECORD_ID = "record_id";
-    private static final String COLUMN_RECORD_USER_ID = "user_id";
-    private static final String COLUMN_BARRIER_SPECIFICATION = "barrier_specification";
-    private static final String COLUMN_RESOLUTION_SUGGESTION = "resolution_suggestion";
-    private static final String COLUMN_LOCATION = "location";
-    private static final String COLUMN_BARRIER_STATUS = "barrier_status";
-    private static final String COLUMN_BARRIER_CRITICALITY = "barrier_criticality";
-    private static final String COLUMN_BARRIER_TYPE = "barrier_type";
-    private static final String COLUMN_BARRIER_IDENTIFICATION_DATE = "barrier_identification_date";
-
-
-    private final Connection conn; // Recebe a conexão no construtor
+    private final String COLUMNS = "id, full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password";
+    protected final Connection connection;
+    private final Instantiator instantiator;
 
     public UserDAO(Connection connection) {
-        if (connection == null) {
-            throw new IllegalArgumentException("Connection não pode ser nula.");
-        }
-        this.conn = connection;
+        if (connection == null) throw new IllegalArgumentException("Connection cannot be null!");
+        instantiator = new Instantiator(connection);
+        this.connection = connection;
     }
 
-    public User createNewUser(User user) {
-        String sql = String.format(
-                "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?,?,?,?,?,?,?,?,?);",
-                TABLE_USERS, COLUMN_FULL_NAME, COLUMN_STREET, COLUMN_ADDRESS_NUMBER, COLUMN_NEIGHBORHOOD,
-                COLUMN_CITY, COLUMN_STATE_ABBR, COLUMN_EMAIL, COLUMN_USERNAME, COLUMN_HASHED_PASSWORD
-        );
+    public void update(User user){
+        String sql = "UPDATE users SET full_name = ?, street = ?, address_number = ?, neighborhood = ?, city = ?, state_abbr = ?, email = ?, hashed_password = ? WHERE username = ?";
 
-        // A conexão é gerenciada externamente, então não usamos try-with-resources para ela aqui.
-        // Apenas para PreparedStatement e ResultSet.
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getAddress().getStreet());
-            stmt.setInt(3, user.getAddress().getNumber());
-            stmt.setString(4, user.getAddress().getNeighborhood());
-            stmt.setString(5, user.getAddress().getCity());
-            stmt.setString(6, user.getAddress().getStateAbbr());
-            stmt.setString(7, user.getEmail().toString());
-            stmt.setString(8, user.getUsername().toString());
-            stmt.setString(9, user.getPassword());
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getStreet());
+            statement.setInt(3, user.getAddressNumber());
+            statement.setString(4, user.getNeighborhood());
+            statement.setString(5, user.getCity());
+            statement.setString(6, user.getStateAbbr());
+            statement.setString(7, user.getEmail());
+            statement.setString(8, user.getHashedPassword());
+            statement.setString(9, user.getUsername());
 
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DataAccessException("Falha ao inserir usuário, nenhuma linha afetada.");
-            }
+            int affectedRows = statement.executeUpdate();
 
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    user.setId(generatedKeys.getInt(1));
-                } else {
-                    System.err.println("Inserção de usuário bem-sucedida, mas não foi possível obter o ID gerado.");
-                }
-            }
-            return user;
-        } catch (SQLException e) {
-            throw new DataAccessException("Erro ao inserir usuário: " + user.getUsername(), e);
+            if (affectedRows == 0) throw new DataAccessException("Error: failed to update user, no rows affected!");
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to update user!", e);
         }
     }
 
-    public void updateUser(User user) {
-        String sql = String.format(
-                "UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?;",
-                TABLE_USERS, COLUMN_FULL_NAME, COLUMN_STREET, COLUMN_ADDRESS_NUMBER, COLUMN_NEIGHBORHOOD,
-                COLUMN_CITY, COLUMN_STATE_ABBR, COLUMN_EMAIL, COLUMN_USERNAME
-        );
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getAddress().getStreet());
-            stmt.setInt(3, user.getAddress().getNumber());
-            stmt.setString(4, user.getAddress().getNeighborhood());
-            stmt.setString(5, user.getAddress().getCity());
-            stmt.setString(6, user.getAddress().getStateAbbr());
-            stmt.setString(7, user.getEmail().toString());
-            stmt.setString(8, user.getUsername().toString()); // Condição WHERE
+    public void changeUsername(Username oldUsername, Username newUsername){
+        String sql = "UPDATE users SET username = ? WHERE username = ?";
 
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DataAccessException("Falha ao atualizar usuário '" + user.getUsername() + "', nenhuma linha afetada.");
-            }
-        } catch (SQLException e) {
-            throw new DataAccessException("Erro ao atualizar usuário: " + user.getUsername(), e);
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, newUsername.toString());
+            statement.setString(2, oldUsername.toString());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) throw new DataAccessException("Error: failed to change username, no rows affected!");
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to change username!", e);
         }
     }
 
-    public boolean deleteByUsername(String username) {
-        String sql = String.format("DELETE FROM %s WHERE %s = ?;", TABLE_USERS, COLUMN_USERNAME);
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            throw new DataAccessException("Erro ao deletar usuário: " + username, e);
+    public void delete(int id){
+        String sql = "DELETE FROM users WHERE id = ?";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1, id);
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) throw new DataAccessException("Error: failed to remove user, now rows affected!");
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to remove user!");
         }
     }
 
-    public Optional<User> findByUsername(String username) {
-        String sql = String.format(
-                "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
-                COLUMN_ID, COLUMN_FULL_NAME, COLUMN_STREET, COLUMN_ADDRESS_NUMBER, COLUMN_NEIGHBORHOOD,
-                COLUMN_CITY, COLUMN_STATE_ABBR, COLUMN_EMAIL, COLUMN_USERNAME, COLUMN_HASHED_PASSWORD,
-                TABLE_USERS, COLUMN_USERNAME
-        );
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int id = rs.getInt(COLUMN_ID);
-                    String name = rs.getString(COLUMN_FULL_NAME);
-                    String street = rs.getString(COLUMN_STREET);
-                    int number = rs.getInt(COLUMN_ADDRESS_NUMBER);
-                    String neighborhood = rs.getString(COLUMN_NEIGHBORHOOD);
-                    String city = rs.getString(COLUMN_CITY);
-                    String stateAbbr = rs.getString(COLUMN_STATE_ABBR);
-                    String emailStr = rs.getString(COLUMN_EMAIL);
-                    String usernameStr = rs.getString(COLUMN_USERNAME);
-                    String hashedPassword = rs.getString(COLUMN_HASHED_PASSWORD);
+    public User getUserByUsername(Username usernameEntry){
+        String sql = String.format("SELECT %s FROM users WHERE username = ?", COLUMNS);
 
-                    // Ajuste o construtor do User para aceitar todos esses campos
-                    User foundUser = new User(id, usernameStr, name, street, number, neighborhood, city, stateAbbr, emailStr, hashedPassword);
-                    return Optional.of(foundUser);
-                } else {
-                    return Optional.empty();
-                }
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, usernameEntry.toString());
+
+            statement.executeQuery();
+
+            try (ResultSet resultSet = statement.getResultSet()){
+                boolean exists = resultSet.next();
+
+                if (!exists) throw new DataAccessException("Error: username not found!");
+
+                return instantiator.instantiateUser(resultSet);
             }
-        } catch (SQLException e) {
-            throw new DataAccessException("Erro ao buscar usuário: " + username, e);
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get user by username!");
         }
-    }
-
-    public List<br.com.simba.model.entities.Record> getRecordsByUserId(int userId) {
-        String sql = String.format(
-                "SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?;",
-                COLUMN_RECORD_ID, COLUMN_BARRIER_SPECIFICATION, COLUMN_RESOLUTION_SUGGESTION, COLUMN_LOCATION,
-                COLUMN_BARRIER_STATUS, COLUMN_BARRIER_CRITICALITY, COLUMN_BARRIER_TYPE,
-                COLUMN_BARRIER_IDENTIFICATION_DATE,
-                TABLE_RECORDS, COLUMN_RECORD_USER_ID
-        );
-        List<br.com.simba.model.entities.Record> records = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    int record_id = rs.getInt(COLUMN_RECORD_ID);
-                    String barrier_specification = rs.getString(COLUMN_BARRIER_SPECIFICATION);
-                    String resolution_suggestion = rs.getString(COLUMN_RESOLUTION_SUGGESTION);
-                    String location = rs.getString(COLUMN_LOCATION);
-                    BarrierStatus barrier_status = BarrierStatus.valueOf(rs.getString(COLUMN_BARRIER_STATUS));
-                    BarrierCriticality barrier_criticality = BarrierCriticality.valueOf(rs.getString(COLUMN_BARRIER_CRITICALITY));
-                    BarrierType barrier_type = BarrierType.valueOf(rs.getString(COLUMN_BARRIER_TYPE));
-                    LocalDate barrier_identification_date = rs.getDate(COLUMN_BARRIER_IDENTIFICATION_DATE).toLocalDate();
-
-                    records.add(new br.com.simba.model.entities.Record(
-                            record_id,
-                            userId,
-                            barrier_status,
-                            barrier_criticality,
-                            location,
-                            barrier_specification,
-                            resolution_suggestion,
-                            barrier_type,
-                            barrier_identification_date
-                    ));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DataAccessException("Erro ao buscar registros para o usuário ID: " + userId, e);
-        }
-        return records;
     }
 }

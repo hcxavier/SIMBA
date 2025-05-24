@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Deploy no Tomcat
-FROM tomcat:10.1-jdk17-temurin
+FROM tomcat:11.0.7
 
 # Remove aplicações padrão
 RUN rm -rf /usr/local/tomcat/webapps/*

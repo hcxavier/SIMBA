@@ -1,0 +1,43 @@
+package br.com.simba.controller;
+
+import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.SchoolDAO;
+import br.com.simba.model.entities.School;
+import br.com.simba.model.service.RegisterValidator;
+import br.com.simba.model.service.SchoolHandle;
+import com.google.gson.Gson;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/search-school")
+public class SearchSchoolsServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        DBConnection dbConnection = new PostgresConnection();
+        String schoolNameQuery = request.getParameter("q");
+        SchoolHandle schoolHandle = new SchoolHandle(dbConnection.getConnection());
+        List<School> schools = schoolHandle.getSchoolsByName(schoolNameQuery);
+
+        List<String> schoolNames = new ArrayList<>();
+        if (schools != null) {
+            for (School schoolObj : schools) {
+                schoolNames.add(schoolObj.getName());
+            }
+        }
+
+        String jsonResponse = new Gson().toJson(schoolNames);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(jsonResponse);
+        out.flush();
+    }
+}

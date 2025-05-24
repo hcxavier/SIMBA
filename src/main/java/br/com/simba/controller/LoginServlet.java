@@ -1,7 +1,9 @@
 package br.com.simba.controller;
 
+import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
-import br.com.simba.model.entities.User;
+//import br.com.simba.model.service.LoginValidator;
 import br.com.simba.model.service.LoginValidator;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -15,7 +17,9 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
+    private DBConnection connection = new PostgresConnection();
+    private UserDAO userDAO = new UserDAO(connection.getConnection());
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LoginValidator loginValidator = new LoginValidator();
@@ -26,18 +30,18 @@ public class LoginServlet extends HttpServlet {
         if (loginValidator.isUsernamePasswordValid(username, password)){
             HttpSession session = request.getSession();
             session.setAttribute("user", username);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("/dashboard");
             return;
         }
 
         request.setAttribute("accessUnauthorized", "Apelido de acesso ou senha incorretos!");
-        dispatcher = request.getRequestDispatcher("/pages/login.jsp");
+        dispatcher = request.getRequestDispatcher("/pages/Login.jsp");
         dispatcher.forward(request, response);
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/Login.jsp");
         dispatcher.forward(request, response);
     }
 }

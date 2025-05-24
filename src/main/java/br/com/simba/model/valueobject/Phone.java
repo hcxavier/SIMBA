@@ -1,6 +1,6 @@
 package br.com.simba.model.valueobject;
 
-import br.com.simba.config.exceptions.InvalidPhoneException;
+import br.com.simba.exceptions.InvalidPhoneException;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class NbrServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/nbr.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/NBR.jsp");
         dispatcher.forward(request, response);
     }
 }

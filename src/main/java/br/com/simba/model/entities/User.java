@@ -1,6 +1,10 @@
 package br.com.simba.model.entities;
-import br.com.simba.model.dao.UserDAO;
+import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.ManagerDAO;
 import br.com.simba.model.valueobject.*;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,91 +17,69 @@ public class User {
     private Password password;
     private List<Record> records = new ArrayList<>();
 
-    public User(int id, String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email, String password) {
-        this.id = id;
-        this.username = new Username(username);
+    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
+        this.username = username;
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);
-        this.email = new Email(email);
-        this.password = new Password(password);
+        this.email = email;
+        this.password = password;
+        this.records = new ArrayList<>();
+    }
+
+    public User(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
+        this.username = username;
+        this.name = name;
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
+        this.email = email;
+        this.password = password;
         this.records = new ArrayList<>();
     }
 
     public void setId(int id) {
         this.id = id;
     }
-    public Username getUsername() {
-        return username;
+
+    public String getUsername() {
+        return username.toString();
     }
-    public void setUsername(Username username) {
-        this.username = username;
-    }
+
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public String getStreet() {
+        return address.getStreet();
     }
-    public Address getAddress() {
-        return address;
+
+    public int getAddressNumber() {
+        return address.getNumber();
     }
-    public void setAddress(Address address) {
-        this.address = address;
+
+    public String getNeighborhood() {
+        return address.getNeighborhood();
     }
-    public Email getEmail() {
-        return email;
+
+    public String getCity() {
+        return address.getCity();
     }
-    public void setEmail(Email email) {
-        this.email = email;
+
+    public String getStateAbbr() {
+        return address.getStateAbbr();
     }
-    public String getPassword() {
+
+    public String getEmail() {
+        return email.toString();
+    }
+
+    public String getHashedPassword() {
         return password.getHash();
     }
-    public void setPassword(String password) {
-        this.password = new Password(password);
-    }
-    public void addRecord(Record record) {
-        this.records.add(record);
-    }
-    public void removeRecord(Record record) {
-        this.records.remove(record);
-    }
 
-    // ToDo
-
-    public void login(String username, String password) {
-
-    }
-    public void logout() {
-
-    }
-
-    public void changePassword(String password) {
-        if (!validatePassword(password)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        this.password = new Password(password);
-    }
-
-    private Boolean validatePassword(String password) {
-
-        return true;
-    }
-
-    public int getId(){
-        UserDAO userDAO = new UserDAO();
-        return userDAO.getId(this.username.toString());
-    }
-
-    public void updateProfile(String username, String name, String street, int number , String neighborhood, String city, String stateAbbr, String email, String phone, String password) {
-        this.username = new Username(username);
-        this.name = name;
-        this.address = new Address(street, number, neighborhood, city, stateAbbr);
-        this.email = new Email(email);
-        this.password = new Password(password);
-        this.records = new ArrayList<>();
-    }
-    public List<Record> listRecords(){
+    public List<Record> getRecords() {
         return records;
+    }
+
+    public int getId() {
+        return id;
     }
 }

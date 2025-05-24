@@ -1,7 +1,6 @@
 package br.com.simba.model.dao;
 
-import org.postgresql.core.ConnectionFactory;
-import org.postgresql.jdbc.PgConnection;
+import br.com.simba.model.util.SQLErrorLog;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,14 +15,20 @@ public class PostgresConnection implements DBConnection {
 
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(
-                    System.getenv("DB_URL"),
-                    System.getenv("DB_USER"),
-                    System.getenv("DB_PASSWORD"));
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER");
+            String password = System.getenv("DB_PASSWORD");
+
+//            String url = "jdbc:postgresql://localhost:5432/simbadb";
+//            String user = "simba";
+//            String password = "@Cloud772";
+            connection = DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
+            SQLErrorLog.reportSqlException(e);
             System.out.println("Error connecting to the database");
             throw new RuntimeException(e);
+
         } catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL Driver not found");
             throw new RuntimeException(e);
@@ -34,14 +39,14 @@ public class PostgresConnection implements DBConnection {
 
     @Override
     public void close() {
-        if (connection != null) {
-            try {
-                connection.close();
-                connection = null;
-            } catch (SQLException e) {
-                System.out.println("Error closing connection");
-                e.printStackTrace();
-            }
+        if (connection == null) throw new IllegalArgumentException("Connection doesn't exist or is closed!");
+
+        try {
+            connection.close();
+            connection = null;
+        } catch (SQLException e) {
+            System.out.println("Error closing connection");
+            e.printStackTrace();
         }
     }
 }

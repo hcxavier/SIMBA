@@ -1,13 +1,32 @@
 package br.com.simba.model.service;
 
-import br.com.simba.config.exceptions.*;
+import br.com.simba.exceptions.*;
+import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.SchoolDAO;
+import br.com.simba.model.entities.School;
+import br.com.simba.model.entities.User;
+import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.*;
 import br.com.simba.model.dao.UserDAO;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
 public class RegisterValidator {
+    private UserDAO userDAO;
+    private Connection connection;
+
+    public RegisterValidator(){
+        DBConnection dbConnection = new PostgresConnection();
+        connection = dbConnection.getConnection();
+        userDAO = new UserDAO(connection);
+    }
+
     public Email validateEmail(String email, HttpServletRequest request){
         if (email.isEmpty()){
             request.setAttribute("invalidEmail", "Campo de email vazio!");
@@ -22,12 +41,13 @@ public class RegisterValidator {
         }
     }
 
-    private boolean isUsernameAvailable(String username) {
-        UserDAO userDAO = new UserDAO();
-
-        if (userDAO.findByUsername(username) == null) return true;
-
-        return false;
+    private boolean isUsernameAvailable(Username username) {
+        try {
+            userDAO.getUserByUsername(username);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     public Username validateUsername(String username, HttpServletRequest request){
@@ -36,8 +56,8 @@ public class RegisterValidator {
             return null;
         }
 
-        if (!isUsernameAvailable(username)){
-            request.setAttribute("usernameAlreadyUsed", "Apelido de acesso já está em uso");
+        if (!isUsernameAvailable(new Username(username))){
+            request.setAttribute("invalidUsername", "Apelido de acesso já está em uso");
             return null;
         }
         try {
@@ -46,6 +66,15 @@ public class RegisterValidator {
             request.setAttribute("invalidUsername", "Apelido de acesso inválido! Não pode começar e nem terminar com os símbolos (_ e .).");
             return null;
         }
+    }
+
+    public LocalDate validateIdentificationDate(String date, HttpServletRequest request){
+        if (date == null || date.isEmpty()){
+            request.setAttribute("identificationDate", "Data inválida!");
+            return null;
+        }
+
+        return LocalDate.parse(date);
     }
 
     public Password validatePassword(String password, HttpServletRequest request){
@@ -90,6 +119,16 @@ public class RegisterValidator {
         }
     }
 
+    public School validateSchoolName(String schoolName, HttpServletRequest request){
+        SchoolDAO schoolDAO = new SchoolDAO(connection);
+        try {
+            return schoolDAO.getSchoolByName(request.getParameter("schoolName"));
+        } catch (DataAccessException e){
+            request.setAttribute("invalidSiape", "Siape inválido!");
+            return null;
+        }
+    }
+
     public boolean siapeIsNull(Siape siape){
         if (siape == null) return true;
 
@@ -98,6 +137,18 @@ public class RegisterValidator {
 
     public boolean anyNull(Email email, Username username, Password password, Address address){
         if (email == null || username == null || password == null || address == null || address.getNumber() == -1) return true;
+
+        return false;
+    }
+
+    public boolean anyNull(Email email, Username username, Password password, Address address, Siape siape, School school){
+        if (email == null || username == null || password == null || address == null || siape == null || school == null || address.getNumber() == -1) return true;
+
+        return false;
+    }
+
+    public boolean anyNull(School school, LocalDate localDate){
+        if (school == null || localDate == null) return true;
 
         return false;
     }

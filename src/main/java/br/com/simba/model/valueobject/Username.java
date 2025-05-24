@@ -1,6 +1,6 @@
 package br.com.simba.model.valueobject;
 
-import br.com.simba.config.exceptions.InvalidUsernameException;
+import br.com.simba.exceptions.InvalidUsernameException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +32,10 @@ public class Username {
     private void verifyReservedWords(String username) throws InvalidUsernameException {
         if (username.equals(ADMIN) || username.equals(SUPPORT) || username.equals(USER))
             throw new InvalidUsernameException("Invalid Username! Username cannot be reserved words: admin, user, support.");
+    }
+
+    public boolean isEmpty(){
+        return username.isEmpty();
     }
 
     @Override

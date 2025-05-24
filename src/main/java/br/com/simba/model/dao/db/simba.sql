@@ -11,21 +11,17 @@ CREATE TABLE users (
     hashed_password VARCHAR(60) NOT NULL
 );
 
-CREATE TABLE teachers (
-    siape VARCHAR(20) PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    CONSTRAINT unique_teacher_user UNIQUE(user_id)
-);
-
-CREATE TABLE students (
-    enrollment_id VARCHAR(20) PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    CONSTRAINT unique_student_user UNIQUE(user_id)
+CREATE TABLE reporters (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT unique_reporter_user UNIQUE(user_id)
 );
 
 CREATE TABLE managers (
     siape VARCHAR(20) PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
+    school_id INTEGER NOT NULL,
+    CONSTRAINT fk_school_id FOREIGN KEY (school_id) REFERENCES schools(id),
     CONSTRAINT unique_manager_user UNIQUE(user_id)
 );
 
@@ -37,7 +33,8 @@ CREATE TABLE schools (
     neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state_abbr CHAR(2) NOT NULL,
-    phone VARCHAR(20) NOT NULL
+    phone VARCHAR(20) NOT NULL,
+    cnpj CHAR(14) UNIQUE NOT NULL
 );
 
 CREATE TABLE records (

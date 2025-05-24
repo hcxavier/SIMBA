@@ -9,13 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/dashboard")
+public class DashboardServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/Dashboard.jsp");
         dispatcher.forward(request, response);
     }
 }
