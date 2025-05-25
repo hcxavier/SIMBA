@@ -33,6 +33,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.records = new ArrayList<>();
+        this.id = id;
     }
 
     public void setId(int id) {

@@ -37,6 +37,12 @@ CREATE TABLE managers (
                           CONSTRAINT unique_manager_user UNIQUE(user_id)
 );
 
+CREATE TABLE pictures(
+                         id SERIAL PRIMARY KEY,
+                         picture_path VARCHAR(255) NOT NULL,
+                         upload_date DATE NOT NULL
+);
+
 CREATE TABLE registries (
                          id SERIAL PRIMARY KEY,
                          barrier_specification VARCHAR(255),
@@ -46,16 +52,9 @@ CREATE TABLE registries (
                          barrier_criticality VARCHAR(8),
                          barrier_type VARCHAR(15),
                          barrier_identification_date DATE,
+                         picture_id INTEGER REFERENCES pictures(id),
                          school_id INTEGER REFERENCES schools(id),
                          reporter_id INTEGER REFERENCES reporters(id)
-);
-
-CREATE TABLE pictures(
-                         id SERIAL PRIMARY KEY,
-                         picture_path VARCHAR(255) NOT NULL,
-                         upload_date DATE NOT NULL,
-                         description VARCHAR(100) NOT NULL,
-                         registries_id INTEGER REFERENCES registries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments (

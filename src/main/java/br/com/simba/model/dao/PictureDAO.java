@@ -14,18 +14,16 @@ public class PictureDAO {
     }
 
     public void insert(Picture picture){
-        String sql = "INSERT INTO pictures(picture_path, upload_date, description, registries_id) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO pictures(picture_path, upload_date) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1, picture.getImagePath());
             statement.setObject(2, picture.getUploadDate());
-            statement.setString(3, picture.getDescription());
-            statement.setInt(4, picture.getRegistryId());
 
             int affected_rows = statement.executeUpdate();
 
             if (affected_rows == 0) throw new DataAccessException("Error: failed to insert picture, no rows affected!");
 
-            try (ResultSet generatedKeys = statement.getResultSet()){
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()){
                 boolean exists = generatedKeys.next();
 
                 if (!exists) throw new DataAccessException("Error: failed to insert picture, no ID obtained!");

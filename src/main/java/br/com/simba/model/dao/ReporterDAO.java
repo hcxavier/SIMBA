@@ -61,7 +61,7 @@ public class ReporterDAO extends UserDAO {
 
     public Reporter getReporterByUsername(Username usernameEntry){
         Reporter reporter = null;
-        String sql = "SELECT u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE username = ?";
+        String sql = "SELECT r.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE username = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, usernameEntry.toString());

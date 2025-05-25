@@ -1,9 +1,14 @@
 package br.com.simba.model.entities;
 
+import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PictureDAO;
+import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.enums.BarrierCategory;
 import br.com.simba.model.enums.BarrierCriticality;
 import br.com.simba.model.enums.BarrierStatus;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 
 public class Registry {
@@ -20,7 +25,7 @@ public class Registry {
     private Reporter reporter;
 
     public Registry(BarrierCriticality barrierCriticality, Picture picture, School school, String location,
-                  String barrierSpecification, String resolutionSuggestion, BarrierCategory barrierCategory, LocalDate barrierIdentificationDate) {
+                  String barrierSpecification, String resolutionSuggestion, BarrierCategory barrierCategory, LocalDate barrierIdentificationDate, Reporter reporter) {
         this.barrierStatus = BarrierStatus.UNDER_ANALYSIS;
         this.barrierCriticality = barrierCriticality;
         this.picture = picture;
@@ -30,10 +35,19 @@ public class Registry {
         this.resolutionSuggestion = resolutionSuggestion;
         this.barrierCategory = barrierCategory;
         this.barrierIdentificationDate = barrierIdentificationDate;
+        this.reporter = reporter;
     }
 
-    public void addToDatabase(){
+    public boolean addToDatabase(){
+        DBConnection dbConnection = new PostgresConnection();
 
+        try (Connection connection = dbConnection.getConnection()){
+            RegistryDAO registryDAO = new RegistryDAO(connection);
+            registryDAO.insert(this);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void setId(int id){
@@ -66,6 +80,10 @@ public class Registry {
 
     public Picture getPicture() {
         return picture;
+    }
+
+    public int getPictureId(){
+        return picture.getId();
     }
 
     public School getSchool(){
