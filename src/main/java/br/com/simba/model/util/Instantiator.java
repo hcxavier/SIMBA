@@ -11,6 +11,8 @@ import br.com.simba.model.valueobject.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Instantiator {
     private final Connection connection;
@@ -95,6 +97,21 @@ public class Instantiator {
             CNPJ cnpj = new CNPJ(result.getString("cnpj"));
 
             return new School(id, name, street, addressNumber, neighborhood, city, state, phone, cnpj);
+        } catch (SQLException e) {
+            SQLErrorLog.reportSqlException(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<String> instantiateCities(ResultSet result){
+        List<String> cities = new ArrayList<>();
+
+        try {
+            while(result.next()){
+                cities.add(result.getString("city_name"));
+            }
+
+            return cities;
         } catch (SQLException e) {
             SQLErrorLog.reportSqlException(e);
             throw new RuntimeException(e);

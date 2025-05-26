@@ -26,6 +26,7 @@ public class SearchSchoolsServlet extends HttpServlet {
         List<School> schools = schoolHandle.getSchoolsByName(schoolNameQuery);
 
         List<String> schoolNames = new ArrayList<>();
+
         if (schools != null) {
             for (School schoolObj : schools) {
                 schoolNames.add(schoolObj.getName());
