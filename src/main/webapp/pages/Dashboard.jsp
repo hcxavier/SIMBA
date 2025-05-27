@@ -198,7 +198,7 @@
                 </div>
                 <h2 class="text-lg font-semibold text-dark-gray mb-1">Fórum de Discussão</h2>
                 <p class="text-sm text-medium-gray mb-3">Participe de debates sobre soluções de acessibilidade.</p>
-                <a href="forumdediscussao.html" class="mt-auto text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Entrar no fórum <i class="fas fa-arrow-right ml-1"></i></a>
+                <a href="/dashboard/forum" class="mt-auto text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Entrar no fórum <i class="fas fa-arrow-right ml-1"></i></a>
             </div>
             <div class="bg-white rounded-2xl shadow-custom-lg p-6 flex flex-col items-start">
                 <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-teal-100 text-teal-600 mb-4">
@@ -206,7 +206,7 @@
                 </div>
                 <h2 class="text-lg font-semibold text-dark-gray mb-1">Material Educativo</h2>
                 <p class="text-sm text-medium-gray mb-3">Conheça a NBR 9050 e saiba mais sobre acessibilidade.</p>
-                <a href="#" class="mt-auto text-sm font-medium text-teal-600 hover:text-teal-700 hover:underline">Acessar material <i class="fas fa-arrow-right ml-1"></i></a>
+                <a href="/pages/nbr-9050" class="mt-auto text-sm font-medium text-teal-600 hover:text-teal-700 hover:underline">Acessar material <i class="fas fa-arrow-right ml-1"></i></a>
             </div>
         </div>
         <footer class="text-center text-xs text-medium-gray mt-10 py-6 border-t border-border-gray">
