@@ -26,6 +26,11 @@ public class RegistryHandle {
         firstRecentRegistries = registryDAO.listAllUserRegistriesOrderedByRecentDate(username);
     }
 
+    public RegistryHandle(Connection connection){
+        this.connection = connection;
+        registryDAO = new RegistryDAO(connection);
+    }
+
     public List<Registry> getRegistriesByNameAndStatus(String name, BarrierStatus barrierStatus){
         List<Registry> foundRegistries = new ArrayList<>();
         if (userRegistries == null) return foundRegistries;
@@ -82,5 +87,13 @@ public class RegistryHandle {
         }
 
         return foundRegistries;
+    }
+
+    public int getAmountRegistry(){
+        return registryDAO.getRegistryAmount();
+    }
+
+    public int getAmountRegistryByStatus(String status){
+        return registryDAO.getRegistryAmountByStatus(status);
     }
 }

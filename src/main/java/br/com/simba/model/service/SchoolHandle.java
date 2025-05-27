@@ -46,4 +46,8 @@ public class SchoolHandle {
 
         return foundSchools;
     }
+
+    public int getAmountSchools(){
+        return schools != null ? schools.size() : 0;
+    }
 }

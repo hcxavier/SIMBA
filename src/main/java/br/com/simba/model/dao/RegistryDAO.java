@@ -66,7 +66,44 @@ public class RegistryDAO {
             }
         } catch (SQLException e){
             SQLErrorLog.reportSqlException(e);
-            throw new DataAccessException("Error: failed to list all schools!");
+            throw new DataAccessException("Error: failed to list all registries!");
+        }
+    }
+
+    public int getRegistryAmount(){
+        String sql = "SELECT count(id) as amount FROM registries;";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.executeQuery();
+
+            try(ResultSet result = statement.getResultSet()){
+                boolean exists = result.next();
+                if  (!exists) throw new DataAccessException("Error: failed to get amount of registries!");
+
+                return result.getInt("amount");
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get amount of registries!");
+        }
+    }
+
+    public int getRegistryAmountByStatus(String status){
+        String sql = "SELECT count(id) as amount FROM registries WHERE barrier_status = ?;";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, status);
+            statement.executeQuery();
+
+            try(ResultSet result = statement.getResultSet()){
+                boolean exists = result.next();
+                if  (!exists) throw new DataAccessException("Error: failed to get amount of registries!");
+
+                return result.getInt("amount");
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get amount of registries!");
         }
     }
 

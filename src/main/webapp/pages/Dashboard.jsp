@@ -14,38 +14,35 @@
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            font-family: 'Inter', sans-serif; /* Ensure Inter is the base font */
+            font-family: 'Inter', sans-serif;
         }
-        /* Custom scrollbar for webkit browsers */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #F3F4F6; /* light-gray-bg */
+            background: #F3F4F6;
         }
         ::-webkit-scrollbar-thumb {
-            background: #D1D5DB; /* border-gray */
+            background: #D1D5DB;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #9CA3AF; /* A bit darker gray, similar to medium-gray */
+            background: #9CA3AF;
         }
-        /* Ensure date input icon is clickable if needed, though typically not for native pickers */
         .date-input-container .input-icon {
             position: absolute;
             top: 50%;
-            right: 0.75rem; /* Adjusted to right */
+            right: 0.75rem;
             transform: translateY(-50%);
-            color: #9CA3AF; /* text-medium-gray */
-            pointer-events: none; /* Allow click through to input */
+            color: #9CA3AF;
+            pointer-events: none;
         }
-        /* Basic responsive adjustments for sidebar */
-        @media (max-width: 768px) { /* md breakpoint in Tailwind */
+        @media (max-width: 768px) {
             .sidebar {
-                width: 100%; /* Full width on small screens */
-                height: auto; /* Auto height */
-                position: relative; /* Change from fixed */
+                width: 100%;
+                height: auto;
+                position: relative;
                 box-shadow: none;
             }
             .main-content {
@@ -53,54 +50,62 @@
                 width: 100%;
             }
             .sidebar-toggle-button {
-                display: block; /* Show toggle button */
+                display: block;
             }
-            .sidebar-nav-container.hidden-mobile { /* Initially hide nav on mobile */
+            .sidebar-nav-container.hidden-mobile {
                 display: none;
             }
-            .sidebar-nav-container.open-mobile { /* Show nav on mobile when toggled */
+            .sidebar-nav-container.open-mobile {
                 display: block;
             }
         }
-        @media (min-width: 769px) { /* md breakpoint in Tailwind */
+        @media (min-width: 769px) {
             .sidebar-toggle-button {
-                display: none; /* Hide toggle button on larger screens */
+                display: none;
             }
-            .sidebar-nav-container.hidden-mobile { /* Ensure it's visible on larger screens */
+            .sidebar-nav-container.hidden-mobile {
                 display: block;
             }
         }
 
-        /* Shared styles for form inputs and selects */
         .form-input {
             display: block;
             width: 100%;
-            background-color: #F9FAFB; /* input-bg */
-            margin-top: 0.25rem; /* mt-1 */
-            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #F9FAFB;
+            margin-top: 0.25rem;
+            border-radius: 0.5rem;
             border-width: 1px;
-            border-color: #D1D5DB; /* border-gray */
-            padding-left: 1rem; /* px-4 */
-            padding-right: 1rem; /* px-4 */
-            padding-top: 0.75rem; /* py-3 */
-            padding-bottom: 0.75rem; /* py-3 */
-            color: #212121; /* dark-gray */
+            border-color: #D1D5DB;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            color: #212121;
             transition-property: box-shadow;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 150ms;
         }
         .form-input::placeholder {
-            color: rgba(107, 114, 128, 0.7); /* placeholder-gray-400/70 */
+            color: rgba(107, 114, 128, 0.7);
         }
         .form-input:focus {
-            border-color: #3F88C5; /* focus:border-custom-blue */
+            border-color: #3F88C5;
             outline: none;
-            --tw-ring-color: rgba(63, 136, 197, 0.4); /* focus:ring-custom-blue focus:ring-opacity-40 */
+            --tw-ring-color: rgba(63, 136, 197, 0.4);
             box-shadow: 0 0 0 2px var(--tw-ring-color);
         }
     </style>
 </head>
 <body class="bg-light-gray-bg text-dark-gray antialiased">
+
+<!-- Scriptlets -->
+
+<%
+    Integer schoolAmount = (Integer) request.getAttribute("schoolAmount");
+    Integer registryAmount = (Integer) request.getAttribute("registryAmount");
+    Integer registryUnderAnalysisAmount = (Integer) request.getAttribute("registryUnderAnalysisAmount");
+    Integer registryResolvedAmount = (Integer) request.getAttribute("registryResolvedAmount");
+%>
 
 <div class="flex flex-col md:flex-row h-screen">
     <jsp:include page="../partials/sidebar.html" flush="true"/>
@@ -124,19 +129,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <div class="bg-white rounded-2xl shadow-custom-lg p-6">
                 <h2 class="text-medium-gray text-sm font-medium mb-1">Total de barreiras</h2>
-                <p class="text-custom-purple font-bold text-3xl" id="totalBarriersStat">300</p>
+                <p class="text-custom-purple font-bold text-3xl" id="totalBarriersStat"><%= registryAmount %></p>
             </div>
             <div class="bg-white rounded-2xl shadow-custom-lg p-6">
                 <h2 class="text-medium-gray text-sm font-medium mb-1">Barreiras em análise</h2>
-                <p class="text-orange-500 font-bold text-3xl" id="inAnalysisStat">200</p>
+                <p class="text-orange-500 font-bold text-3xl" id="inAnalysisStat"><%= registryUnderAnalysisAmount %></p>
             </div>
             <div class="bg-white rounded-2xl shadow-custom-lg p-6">
                 <h2 class="text-medium-gray text-sm font-medium mb-1">Barreiras resolvidas</h2>
-                <p class="text-custom-blue font-bold text-3xl" id="resolvedStat">400</p>
+                <p class="text-custom-blue font-bold text-3xl" id="resolvedStat"><%= registryResolvedAmount %></p>
             </div>
             <div class="bg-white rounded-2xl shadow-custom-lg p-6">
                 <h2 class="text-medium-gray text-sm font-medium mb-1">Escolas mapeadas</h2>
-                <p class="text-green-600 font-bold text-3xl" id="mappedSchoolsStat">1000</p>
+                <p class="text-green-600 font-bold text-3xl" id="mappedSchoolsStat"><%= schoolAmount %></p>
             </div>
         </div>
 
