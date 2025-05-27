@@ -1,7 +1,17 @@
 package br.com.simba.model.enums;
 
 public enum BarrierCriticality {
-    LOW,
-    MODERATE,
-    HIGH
+    HIGH("Alta"),
+    MODERATE("Moderada"),
+    LOW("Baixa");
+
+    private final String displayName;
+
+    BarrierCriticality(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

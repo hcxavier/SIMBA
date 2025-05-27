@@ -10,7 +10,6 @@ import java.util.List;
 public class SchoolHandle {
     private final Connection connection;
     private List<School> schools;
-    private List<String> states;
     private SchoolDAO schoolDAO;
 
     public SchoolHandle(Connection connection){

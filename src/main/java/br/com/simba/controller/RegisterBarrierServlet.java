@@ -237,8 +237,6 @@ public class RegisterBarrierServlet extends HttpServlet {
 
             boolean regSuccess = false;
             try {
-
-
                 registryDAO.insert(registry);
                 regSuccess = true;
                 System.out.println("INFO doPost: Record inserted into database successfully.");

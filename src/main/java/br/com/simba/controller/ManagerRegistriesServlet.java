@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet("/dashboard/my-registries")
 public class ManagerRegistriesServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/ManagerRegistries.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegistriesManager.jsp");
         dispatcher.forward(request, response);
     }
 }

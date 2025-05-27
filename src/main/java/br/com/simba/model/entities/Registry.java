@@ -38,6 +38,22 @@ public class Registry {
         this.reporter = reporter;
     }
 
+    public Registry(int id, BarrierCriticality barrierCriticality, Picture picture, School school, String location,
+                    String barrierSpecification, String resolutionSuggestion, BarrierCategory barrierCategory, LocalDate barrierIdentificationDate, Reporter reporter, BarrierStatus barrierStatus) {
+        this.id = id;
+        this.barrierStatus = BarrierStatus.UNDER_ANALYSIS;
+        this.barrierCriticality = barrierCriticality;
+        this.picture = picture;
+        this.school = school;
+        this.location = location;
+        this.barrierSpecification = barrierSpecification;
+        this.resolutionSuggestion = resolutionSuggestion;
+        this.barrierCategory = barrierCategory;
+        this.barrierIdentificationDate = barrierIdentificationDate;
+        this.reporter = reporter;
+        this.barrierStatus = barrierStatus;
+    }
+
     public boolean addToDatabase(){
         DBConnection dbConnection = new PostgresConnection();
 
@@ -108,5 +124,45 @@ public class Registry {
 
     public LocalDate getBarrierIdentificationDate() {
         return barrierIdentificationDate;
+    }
+
+    public void setBarrierStatus(BarrierStatus barrierStatus) {
+        this.barrierStatus = barrierStatus;
+    }
+
+    public void setBarrierCriticality(BarrierCriticality barrierCriticality) {
+        this.barrierCriticality = barrierCriticality;
+    }
+
+    public void setBarrierSpecification(String barrierSpecification) {
+        this.barrierSpecification = barrierSpecification;
+    }
+
+    public void setResolutionSuggestion(String resolutionSuggestion) {
+        this.resolutionSuggestion = resolutionSuggestion;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public void setBarrierType(BarrierCategory barrierCategory) {
+        this.barrierCategory = barrierCategory;
+    }
+
+    public void setBarrierIdentificationDate(LocalDate barrierIdentificationDate) {
+        this.barrierIdentificationDate = barrierIdentificationDate;
+    }
+
+    public void setReporter(Reporter reporter) {
+        this.reporter = reporter;
     }
 }

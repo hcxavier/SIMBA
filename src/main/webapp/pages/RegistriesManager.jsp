@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List, br.com.simba.model.entities.Registry" %>
 <!doctype html>
 <html lang="pt-BR">
 
@@ -31,7 +32,7 @@
     .status-em-analise { background-color: #E3F2FD; color: #1565C0; }
     .status-corrigindo { background-color: #FFF3E0; color: #E65100; }
     .status-resolvido { background-color: #E8F5E9; color: #2E7D32; }
-
+    .status-default { background-color: #ECEFF1; color: #37474F; }
   </style>
 </head>
 
@@ -74,15 +75,14 @@
           <select name="sortRecords" id="sortRecordsSelect" class="form-input w-full sm:w-auto">
             <option value="recent">Mais recentes</option>
             <option value="oldest">Mais antigos</option>
-            <option value="all">Todos</option>
             <option value="urgency_high">Urgência: Alta</option>
             <option value="urgency_low">Urgência: Baixa</option>
             <option value="status_pending">Status: Em Análise</option>
             <option value="status_resolved">Status: Resolvido</option>
           </select>
-          <a href="<c:url value='/newRecordPage.jsp'/>" class="w-full sm:w-auto bg-custom-purple hover:bg-custom-purple-hover text-white font-medium py-3 px-6 rounded-lg transition duration-150 ease-in-out text-center whitespace-nowrap">
+          <div onclick="openModal('registerBarrierModal')" class="w-full cursor-pointer sm:w-auto bg-custom-purple hover:bg-custom-purple-hover text-white font-medium py-3 px-6 rounded-lg transition duration-150 ease-in-out text-center whitespace-nowrap">
             <i class="fas fa-plus mr-2"></i>CRIAR NOVO REGISTRO
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -99,80 +99,14 @@
           <th scope="col" class="px-6 py-3 text-center min-w-[100px]">Ações</th>
         </tr>
         </thead>
-        <tbody>
-        <%-- Example Row 1 --%>
-        <tr class="bg-white border-b border-border-gray hover:bg-gray-50">
-          <td class="px-6 py-4 font-medium text-custom-purple-light whitespace-nowrap">Escada sem corrimão</td>
-          <td class="px-6 py-4">Acesso físico</td>
-          <td class="px-6 py-4"><span class="status-badge status-alta">Alta</span></td>
-          <td class="px-6 py-4"><span class="status-badge status-em-analise">Em análise</span></td>
-          <td class="px-6 py-4">04/05/2025</td>
-          <td class="px-6 py-4 text-center">
-            <button class="text-medium-gray hover:text-custom-blue focus:outline-none" title="Ver detalhes">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="text-medium-gray hover:text-custom-purple focus:outline-none ml-2" title="Editar">
-              <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button class="text-medium-gray hover:text-status-danger focus:outline-none ml-2" title="Excluir">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr class="bg-white border-b border-border-gray hover:bg-gray-50">
-          <td class="px-6 py-4 font-medium text-custom-purple-light whitespace-nowrap">Porta estreita</td>
-          <td class="px-6 py-4">Sinalização</td>
-          <td class="px-6 py-4"><span class="status-badge status-moderada">Moderada</span></td>
-          <td class="px-6 py-4"><span class="status-badge status-corrigindo">Corrigindo</span></td>
-          <td class="px-6 py-4">01/05/2025</td>
-          <td class="px-6 py-4 text-center">
-            <button class="text-medium-gray hover:text-custom-blue focus:outline-none" title="Ver detalhes">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="text-medium-gray hover:text-custom-purple focus:outline-none ml-2" title="Editar">
-              <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button class="text-medium-gray hover:text-status-danger focus:outline-none ml-2" title="Excluir">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr class="bg-white border-b border-border-gray hover:bg-gray-50">
-          <td class="px-6 py-4 font-medium text-custom-purple-light whitespace-nowrap">Rampa com inclinação inadequada</td>
-          <td class="px-6 py-4">Mobiliária</td>
-          <td class="px-6 py-4"><span class="status-badge status-baixa">Baixa</span></td>
-          <td class="px-6 py-4"><span class="status-badge status-resolvido">Resolvido</span></td>
-          <td class="px-6 py-4">27/04/2025</td>
-          <td class="px-6 py-4 text-center">
-            <button class="text-medium-gray hover:text-custom-blue focus:outline-none" title="Ver detalhes">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="text-medium-gray hover:text-custom-purple focus:outline-none ml-2" title="Editar">
-              <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button class="text-medium-gray hover:text-status-danger focus:outline-none ml-2" title="Excluir">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </td>
-        </tr>
-        <c:if test="${empty records}">
-          <tr>
-            <td colspan="6" class="px-6 py-10 text-center text-medium-gray">Nenhum registro encontrado.</td>
-          </tr>
-        </c:if>
+        <tbody id="recordsTableBody">
         </tbody>
       </table>
     </div>
 
     <div class="mt-10 flex justify-center">
       <nav aria-label="Page navigation">
-        <ul class="inline-flex items-center -space-x-px">
-          <li><a href="#" class="py-2 px-3 ml-0 leading-tight text-medium-gray bg-white rounded-l-lg border border-border-gray hover:bg-gray-100 hover:text-dark-gray"><i class="fas fa-chevron-left"></i></a></li>
-          <li><a href="#" aria-current="page" class="py-2 px-3 leading-tight text-custom-blue bg-blue-50 border border-border-gray hover:bg-blue-100 hover:text-custom-blue-hover">1</a></li>
-          <li><a href="#" class="py-2 px-3 leading-tight text-medium-gray bg-white border border-border-gray hover:bg-gray-100 hover:text-dark-gray">2</a></li>
-          <li><a href="#" class="py-2 px-3 leading-tight text-medium-gray bg-white rounded-r-lg border border-border-gray hover:bg-gray-100 hover:text-dark-gray"><i class="fas fa-chevron-right"></i></a></li>
+        <ul class="inline-flex items-center -space-x-px" id="paginationControls">
         </ul>
       </nav>
     </div>
@@ -183,12 +117,76 @@
   </main>
 </div>
 
-<script>const contextPath = '${pageContext.request.contextPath}';</script>
+<div id="editRecordModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
+  <div class="bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-2xl transform transition-all duration-300 ease-in-out scale-95 opacity-0" id="editRecordModalContent">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-semibold text-custom-purple">Editar Registro de Barreira</h2>
+      <button onclick="closeModal('editRecordModal')" class="text-medium-gray hover:text-dark-gray text-2xl">×</button>
+    </div>
+    <form id="editRecordForm">
+      <input type="hidden" id="editRecordId" name="recordId">
 
-<script src="${pageContext.request.contextPath}/assets/js/sidebar.js"></script>
+      <div class="mb-4">
+        <label for="editBarrierSpecification" class="block text-sm font-medium text-dark-gray mb-1">Nome/Especificação da Barreira</label>
+        <input type="text" id="editBarrierSpecification" name="barrierSpecification" class="form-input" required>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="editBarrierType" class="block text-sm font-medium text-dark-gray mb-1">Tipo de Barreira</label>
+          <select id="editBarrierType" name="barrierType" class="form-input" required>
+            <option value="ARQUITETONICA">Arquitetônica</option>
+            <option value="ACCESS">Acessos</option>
+            <option value="IE_CIRCULATION">Circulação Interna/Externa</option>
+            <option value="FURNITURE">Mobiliário</option>
+            <option value="RESTROOMS">Sanitários</option>
+            <option value="SIGNAGE">Sinalização</option>
+            <option value="EQUIPMENT">Equipamentos</option>
+            <option value="PARKING">Estacionamentos</option>
+            <option value="COMMUNICATION">Comunicação</option>
+          </select>
+        </div>
+        <div>
+          <label for="editBarrierCriticality" class="block text-sm font-medium text-dark-gray mb-1">Criticidade</label>
+          <select id="editBarrierCriticality" name="barrierCriticality" class="form-input" required>
+            <option value="HIGH">Alta</option>
+            <option value="MODERATE">Moderada</option>
+            <option value="LOW">Baixa</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="editBarrierStatus" class="block text-sm font-medium text-dark-gray mb-1">Status</label>
+        <select id="editBarrierStatus" name="barrierStatus" class="form-input" required disabled>
+          <option value="UNDER_ANALYSIS">Em Análise</option>
+          <option value="CORRECTING">Corrigindo</option>
+          <option value="RESOLVED">Resolvido</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="editLocation" class="block text-sm font-medium text-dark-gray mb-1">Localização Específica</label>
+        <input type="text" id="editLocation" name="location" class="form-input">
+      </div>
+
+      <div class="mb-6">
+        <label for="editResolutionSuggestion" class="block text-sm font-medium text-dark-gray mb-1">Sugestão de Resolução</label>
+        <textarea id="editResolutionSuggestion" name="resolutionSuggestion" rows="3" class="form-input"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-4">
+        <button type="button" onclick="closeModal('editRecordModal')" class="px-6 py-2 text-sm font-medium text-medium-gray bg-gray-100 hover:bg-gray-200 rounded-lg">Cancelar</button>
+        <button type="submit" class="px-6 py-2 text-sm font-medium text-white bg-custom-purple hover:bg-custom-purple-hover rounded-lg">Salvar Alterações</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script>
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
+  const contextPath = '<%= request.getContextPath() %>';
 </script>
+<script src="../assets/js/registriesManager.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/sidebar.js"></script>
 </body>
 </html>

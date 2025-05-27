@@ -60,7 +60,6 @@ public class ReporterDAO extends UserDAO {
     }
 
     public Reporter getReporterByUsername(Username usernameEntry){
-        Reporter reporter = null;
         String sql = "SELECT r.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE username = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)){
@@ -78,6 +77,27 @@ public class ReporterDAO extends UserDAO {
         } catch (SQLException e){
             SQLErrorLog.reportSqlException(e);
             throw new DataAccessException("Error: failed to get user by username!");
+        }
+    }
+
+    public Reporter getReporterById(int id){
+        String sql = "SELECT r.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE r.id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1, id);
+
+            statement.executeQuery();
+
+            try (ResultSet resultSet = statement.getResultSet()){
+                boolean exists = resultSet.next();
+
+                if (!exists) throw new DataAccessException("Error: id not found!");
+
+                return instantiator.instantiateReporter(resultSet);
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get user by id!");
         }
     }
 }

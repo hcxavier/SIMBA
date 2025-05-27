@@ -2,15 +2,18 @@ package br.com.simba.model.dao;
 
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Picture;
+import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 
 import java.sql.*;
 
 public class PictureDAO {
     private Connection connection;
+    private Instantiator instantiator;
 
     public PictureDAO(Connection connection){
         this.connection = connection;
+        instantiator = new Instantiator(connection);
     }
 
     public void insert(Picture picture){
@@ -32,6 +35,25 @@ public class PictureDAO {
         } catch (SQLException e){
             SQLErrorLog.reportSqlException(e);
             throw new DataAccessException("Error: failed to insert picture!");
+        }
+    }
+
+    public Picture getPictureById(int id){
+        String sql = "SELECT * FROM pictures WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1, id);
+            statement.executeQuery();
+            try (ResultSet result = statement.getResultSet()){
+                boolean exists = result.next();
+
+                if (!exists) throw new DataAccessException("Error: picture not found!");
+
+                return instantiator.instantiatePicture(result);
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get picture by id!");
         }
     }
 }

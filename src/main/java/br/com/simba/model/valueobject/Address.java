@@ -17,7 +17,6 @@ public class Address {
     private static final Pattern NEIGHBORHOOD_PATTERN = Pattern.compile("^[\\p{L}\\s\\d-]*$");
     private static final Pattern CITY_PATTERN = Pattern.compile("^[\\p{L}\\s-]*$");
     private static final Pattern STATE_PATTERN = Pattern.compile("^[\\p{L}\\s]*$");
-    private static final Pattern CEP_PATTERN = Pattern.compile("^[\\d]{5}-[\\d]{3}$");
 
     public Address(String street, int number, String neighborhood, String city, String stateAbbr) {
         verifyAddress(street, number, neighborhood, city, stateAbbr);

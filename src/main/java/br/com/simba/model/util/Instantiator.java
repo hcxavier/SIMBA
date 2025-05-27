@@ -1,16 +1,20 @@
 package br.com.simba.model.util;
 
 import br.com.simba.model.dao.DBConnection;
+import br.com.simba.model.dao.PictureDAO;
+import br.com.simba.model.dao.ReporterDAO;
 import br.com.simba.model.dao.SchoolDAO;
-import br.com.simba.model.entities.Manager;
-import br.com.simba.model.entities.Reporter;
-import br.com.simba.model.entities.School;
-import br.com.simba.model.entities.User;
+import br.com.simba.model.entities.*;
+import br.com.simba.model.enums.BarrierCategory;
+import br.com.simba.model.enums.BarrierCriticality;
+import br.com.simba.model.enums.BarrierStatus;
 import br.com.simba.model.valueobject.*;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +102,44 @@ public class Instantiator {
 
             return new School(id, name, street, addressNumber, neighborhood, city, state, phone, cnpj);
         } catch (SQLException e) {
+            SQLErrorLog.reportSqlException(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Picture instantiatePicture(ResultSet result){
+        try {
+            int id = result.getInt("id");
+            String imagePath = result.getString("picture_path");
+            LocalDate uploadDate = LocalDate.parse(result.getString("upload_date"));
+
+            return new Picture(id, imagePath, uploadDate);
+
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Registry instantiateRegistry(ResultSet result){
+        PictureDAO pictureDAO = new PictureDAO(connection);
+        SchoolDAO schoolDAO = new SchoolDAO(connection);
+        ReporterDAO reporterDAO = new ReporterDAO(connection);
+        try {
+            int id = result.getInt("id");
+            String barrierSpecification = result.getString("barrier_specification");
+            String location = result.getString("resolution_suggestion");
+            String resolutionSuggestion = result.getString("resolution_suggestion");
+            BarrierStatus barrierStatus = BarrierStatus.valueOf(result.getString("barrier_status"));
+            BarrierCriticality barrierCriticality = BarrierCriticality.valueOf(result.getString("barrier_criticality"));
+            BarrierCategory barrierCategory = BarrierCategory.valueOf(result.getString("barrier_type"));
+            LocalDate barrierIdentificationDate = LocalDate.parse(result.getString("barrier_identification_date"));
+            Picture picture = pictureDAO.getPictureById(result.getInt("picture_id"));
+            School school = schoolDAO.getSchoolById(result.getInt("school_id"));
+            Reporter reporter = reporterDAO.getReporterById(result.getInt("reporter_id"));
+
+            return new Registry(id, barrierCriticality, picture, school, location, barrierSpecification, resolutionSuggestion, barrierCategory, barrierIdentificationDate, reporter, barrierStatus);
+        } catch (SQLException e){
             SQLErrorLog.reportSqlException(e);
             throw new RuntimeException(e);
         }
