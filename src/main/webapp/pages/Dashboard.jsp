@@ -10,6 +10,91 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <jsp:include page="../partials/tailwind-config.html" flush="true"/>
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+        .date-input-container .input-icon {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            pointer-events: none;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .sidebar-toggle-button {
+                display: block;
+            }
+            .sidebar-nav-container.hidden-mobile {
+                display: none;
+            }
+            .sidebar-nav-container.open-mobile {
+                display: block;
+            }
+        }
+        @media (min-width: 769px) {
+            .sidebar-toggle-button {
+                display: none;
+            }
+            .sidebar-nav-container.hidden-mobile {
+                display: block;
+            }
+        }
+
+        .form-input {
+            display: block;
+            width: 100%;
+            background-color: #F9FAFB;
+            margin-top: 0.25rem;
+            border-radius: 0.5rem;
+            border-width: 1px;
+            border-color: #D1D5DB;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            color: #212121;
+            transition-property: box-shadow;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        .form-input::placeholder {
+            color: rgba(107, 114, 128, 0.7);
+        }
+        .form-input:focus {
+            border-color: #3F88C5;
+            outline: none;
+            --tw-ring-color: rgba(63, 136, 197, 0.4);
+            box-shadow: 0 0 0 2px var(--tw-ring-color);
+        }
+    </style>
 </head>
 <body class="bg-light-gray-bg text-dark-gray antialiased">
 
