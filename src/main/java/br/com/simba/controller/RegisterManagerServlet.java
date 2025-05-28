@@ -1,15 +1,12 @@
 package br.com.simba.controller;
 
-import br.com.simba.exceptions.*;
 import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.SchoolDAO;
-import br.com.simba.model.dao.UserDAO;
 import br.com.simba.model.entities.Manager;
 import br.com.simba.model.entities.School;
 import br.com.simba.model.service.RegisterValidator;
 import br.com.simba.model.valueobject.*;
-import com.google.gson.Gson;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,22 +14,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.xml.validation.Validator;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import java.sql.Connection;
 
 @WebServlet("/register/manager")
 public class RegisterManagerServlet extends HttpServlet{
     @Override
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         DBConnection dbConnection = new PostgresConnection();
+        Connection connection = dbConnection.getConnection();
         SchoolDAO schoolDAO = new SchoolDAO(dbConnection.getConnection());
         RegisterValidator validate = new RegisterValidator();
         RequestDispatcher dispatcher;
         String requestUserType = request.getParameter("ocupation");
         String requestFullname = String.format("%s %s", request.getParameter("name"), request.getParameter("surname"));
-        Siape requestSiape = validate.validateSiape(request.getParameter("siape"), request);
+        CPF requestCPF = validate.validateCPF(request.getParameter("cpf"), request);
 
         Email requestEmail = validate.validateEmail(request.getParameter("email"), request);
 
@@ -54,23 +50,21 @@ public class RegisterManagerServlet extends HttpServlet{
 
         Address requestAddress = validate.validateAddress(requestStreet, requestNumber, requestNeighborhood, requestCity, requestState, request);
 
-        if (!validate.anyNull(requestEmail, requestUsername, requestPassword, requestAddress, requestSiape, requestSchool)){
-            if (requestSiape == null){
-                request.setAttribute("registrationFailed", "REGISTRATION_FAILED");
-                dispatcher = request.getRequestDispatcher("/pages/RegisterManager.jsp");
-                dispatcher.forward(request, response);
-            }
-
-            Manager manager = new Manager(requestUsername, requestFullname, requestAddress.getStreet(), requestAddress.getNumber(), requestAddress.getNeighborhood(),
-                    requestAddress.getCity(), requestAddress.getStateAbbr(), requestEmail, requestPassword, requestSiape, requestSchool);
-            manager.addToDatabase(dbConnection.getConnection());
-            System.out.printf("Teacher [%s] registered successfully.%n", requestFullname);
-            request.getSession().setAttribute("success", "SUCCESS");
-
-            dispatcher = request.getRequestDispatcher("/pages/Login.jsp");
+        if (validate.anyNull(requestEmail, requestUsername, requestPassword, requestAddress, requestCPF, requestSchool)){
+            request.setAttribute("registrationFailed", "REGISTRATION_FAILED");
+            dispatcher = request.getRequestDispatcher("/pages/RegisterManager.jsp");
             dispatcher.forward(request, response);
             return;
         }
+
+        Manager manager = new Manager(requestUsername, requestFullname, requestAddress.getStreet(), requestAddress.getNumber(), requestAddress.getNeighborhood(),
+                requestAddress.getCity(), requestAddress.getStateAbbr(), requestEmail, requestPassword, requestCPF, requestSchool);
+        manager.addToDatabase(connection);
+        System.out.printf("Teacher [%s] registered successfully.%n", requestFullname);
+        request.getSession().setAttribute("success", "SUCCESS");
+
+        dispatcher = request.getRequestDispatcher("/pages/Login.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override

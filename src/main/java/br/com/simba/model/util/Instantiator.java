@@ -1,6 +1,5 @@
 package br.com.simba.model.util;
 
-import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PictureDAO;
 import br.com.simba.model.dao.ReporterDAO;
 import br.com.simba.model.dao.SchoolDAO;
@@ -10,7 +9,6 @@ import br.com.simba.model.enums.BarrierCriticality;
 import br.com.simba.model.enums.BarrierStatus;
 import br.com.simba.model.valueobject.*;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,10 +76,10 @@ public class Instantiator {
             Email email = new Email(result.getString("email"));
             Username username = new Username(result.getString("username"));
             Password password = Password.fromHash(result.getString("hashed_password"));
-            Siape siape = new Siape(result.getString("siape"));
+            CPF CPF = new CPF(result.getString("siape"));
             School school = schoolDAO.getSchoolById(result.getInt("school_id"));
 
-            return new Manager(id, username, name, street, addressNumber, neighborhood, city, state, email, password, siape, school);
+            return new Manager(id, username, name, street, addressNumber, neighborhood, city, state, email, password, CPF, school);
         } catch (SQLException e) {
             SQLErrorLog.reportSqlException(e);
             throw new RuntimeException(e);

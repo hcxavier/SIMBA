@@ -30,7 +30,7 @@ CREATE TABLE schools (
 );
 
 CREATE TABLE managers (
-                          siape VARCHAR(20) PRIMARY KEY,
+                          CPF VARCHAR(20) PRIMARY KEY,
                           user_id INTEGER REFERENCES users(id),
                           school_id INTEGER NOT NULL,
                           CONSTRAINT fk_school_id FOREIGN KEY (school_id) REFERENCES schools(id),
@@ -70,7 +70,7 @@ CREATE TABLE reports (
                          observation VARCHAR(100),
                          conclusion VARCHAR(100),
                          registry_id INTEGER NOT NULL REFERENCES registries(id),
-                         manager_id VARCHAR(20) NOT NULL REFERENCES managers(siape)
+                         manager_id VARCHAR(20) NOT NULL REFERENCES managers(CPF)
 );
 
 

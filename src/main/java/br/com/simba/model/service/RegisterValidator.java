@@ -5,16 +5,11 @@ import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.entities.School;
-import br.com.simba.model.entities.User;
-import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.*;
 import br.com.simba.model.dao.UserDAO;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class RegisterValidator {
@@ -28,6 +23,11 @@ public class RegisterValidator {
     }
 
     public Email validateEmail(String email, HttpServletRequest request){
+        if (!isEmailAvailable(new Email(email))){
+            request.setAttribute("invalidEmail", "Email já está em uso");
+            return null;
+        }
+
         if (email.isEmpty()){
             request.setAttribute("invalidEmail", "Campo de email vazio!");
             return null;
@@ -44,6 +44,15 @@ public class RegisterValidator {
     private boolean isUsernameAvailable(Username username) {
         try {
             userDAO.getUserByUsername(username);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    private boolean isEmailAvailable(Email email) {
+        try {
+            userDAO.getUserByEmail(email);
             return false;
         } catch (Exception e) {
             return true;
@@ -105,16 +114,16 @@ public class RegisterValidator {
         }
     }
 
-    public Siape validateSiape(String siape, HttpServletRequest request){
-        if (siape.isEmpty()){
-            request.setAttribute("invalidSiape", "Campo do siape vazio!");
+    public CPF validateCPF(String cpf, HttpServletRequest request){
+        if (cpf.isEmpty()){
+            request.setAttribute("invalidCPF", "Campo do CPF vazio!");
             return null;
         }
 
         try {
-            return new Siape(siape);
-        } catch (InvalidSiapeException e){
-            request.setAttribute("invalidSiape", "Siape inválido!");
+            return new CPF(cpf);
+        } catch (InvalidCPFException e){
+            request.setAttribute("invalidCPF", "CPF inválido!");
             return null;
         }
     }
@@ -124,13 +133,13 @@ public class RegisterValidator {
         try {
             return schoolDAO.getSchoolByName(request.getParameter("schoolName"));
         } catch (DataAccessException e){
-            request.setAttribute("invalidSiape", "Siape inválido!");
+            request.setAttribute("invalidCPF", "CPF inválido!");
             return null;
         }
     }
 
-    public boolean siapeIsNull(Siape siape){
-        if (siape == null) return true;
+    public boolean cpfIsNull(CPF CPF){
+        if (CPF == null) return true;
 
         return false;
     }
@@ -141,8 +150,8 @@ public class RegisterValidator {
         return false;
     }
 
-    public boolean anyNull(Email email, Username username, Password password, Address address, Siape siape, School school){
-        if (email == null || username == null || password == null || address == null || siape == null || school == null || address.getNumber() == -1) return true;
+    public boolean anyNull(Email email, Username username, Password password, Address address, CPF CPF, School school){
+        if (email == null || username == null || password == null || address == null || CPF == null || school == null || address.getNumber() == -1) return true;
 
         return false;
     }

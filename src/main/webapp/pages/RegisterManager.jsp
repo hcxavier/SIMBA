@@ -215,13 +215,13 @@
                 </div>
 
                 <div class="mb-5">
-                    <label for="siape" class="block mb-1 text-sm font-medium text-medium-gray">SIAPE</label>
-                    <input type="text" id="siape" name="siape" placeholder="Seu SIAPE" class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
+                    <label for="cpf" class="block mb-1 text-sm font-medium text-medium-gray">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="Seu CPF" class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
                     <%
-                        String invalidSiape = (String)request.getAttribute("invalidSiape");
-                        if (invalidSiape != null && !invalidSiape.isEmpty()) {
+                        String invalidCPF = (String)request.getAttribute("invalidCPF");
+                        if (invalidCPF != null && !invalidCPF.isEmpty()) {
                     %>
-                    <p class="text-error-red text-xs mt-1 font-medium"><%= invalidSiape %></p>
+                    <p class="text-error-red text-xs mt-1 font-medium"><%= invalidCPF %></p>
                     <%
                         }
                     %>

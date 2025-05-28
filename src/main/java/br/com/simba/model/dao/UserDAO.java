@@ -99,4 +99,25 @@ public class UserDAO {
             throw new DataAccessException("Error: failed to get user by username!");
         }
     }
+
+    public User getUserByEmail(Email email){
+        String sql = String.format("SELECT %s FROM users WHERE email = ?", COLUMNS);
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, email.toString());
+
+            statement.executeQuery();
+
+            try (ResultSet resultSet = statement.getResultSet()){
+                boolean exists = resultSet.next();
+
+                if (!exists) throw new DataAccessException("Error: email not found!");
+
+                return instantiator.instantiateUser(resultSet);
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get user by email!");
+        }
+    }
 }

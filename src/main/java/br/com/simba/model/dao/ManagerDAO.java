@@ -4,11 +4,8 @@ import java.sql.*;
 
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Manager;
-import br.com.simba.model.entities.Reporter;
-import br.com.simba.model.entities.User;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
-import br.com.simba.model.valueobject.Siape;
 import br.com.simba.model.valueobject.Username;
 
 public class ManagerDAO extends UserDAO {
@@ -20,7 +17,7 @@ public class ManagerDAO extends UserDAO {
 
     public void insert(Manager manager){
         String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password) VALUES (?,?,?,?,?,?,?,?,?)";
-        String insertManager = "INSERT INTO managers (siape, user_id, school_id) VALUES (?, ?, ?)";
+        String insertManager = "INSERT INTO managers (CPF, user_id, school_id) VALUES (?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, manager.getName());
@@ -48,7 +45,7 @@ public class ManagerDAO extends UserDAO {
         }
 
         try (PreparedStatement statement = connection.prepareStatement(insertManager)){
-            statement.setString(1, manager.getSiape());
+            statement.setString(1, manager.getCPF());
             statement.setInt(2, manager.getId());
             statement.setInt(3, manager.getSchoolId());
 
@@ -62,7 +59,7 @@ public class ManagerDAO extends UserDAO {
     }
 
     public Manager getManagerByUsername(Username usernameEntry){
-        String sql = "SELECT m.siape, u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id WHERE username = ?";
+        String sql = "SELECT m.CPF, u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id WHERE username = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, usernameEntry.toString());
