@@ -9,13 +9,13 @@ public class Manager extends User {
     private School school;
 
     public Manager(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, CPF CPF, School school) {
-        super(username, name, street, number, neighborhood, city, stateAbbr, email, password);
+        super(username, name, street, number, neighborhood, city, stateAbbr, email, password, "manager");
         this.CPF = CPF;
         this.school = school;
     }
 
     public Manager(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, CPF CPF, School school) {
-        super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password);
+        super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, "manager");
         this.CPF = CPF;
     }
 

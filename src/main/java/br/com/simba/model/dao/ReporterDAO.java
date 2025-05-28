@@ -18,7 +18,7 @@ public class ReporterDAO extends UserDAO {
     }
 
     public void insert(Reporter reporter){
-        String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password) VALUES (?,?,?,?,?,?,?,?,?)";
+        String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password, user_type) VALUES (?,?,?,?,?,?,?,?,?, ?)";
         String insertReporter = "INSERT INTO reporters (user_id) VALUES (?)";
 
         try (PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
@@ -31,6 +31,7 @@ public class ReporterDAO extends UserDAO {
             statement.setString(7, reporter.getEmail());
             statement.setString(8, reporter.getUsername());
             statement.setString(9, reporter.getHashedPassword());
+            statement.setString(10, "reporter");
 
             int affectedRowsUsers = statement.executeUpdate();
 

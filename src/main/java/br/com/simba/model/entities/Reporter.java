@@ -9,11 +9,11 @@ import java.sql.Connection;
 
 public class Reporter extends User{
     public Reporter(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
-        super(username, name, street, number, neighborhood, city, stateAbbr, email, password);
+        super(username, name, street, number, neighborhood, city, stateAbbr, email, password, "reporter");
     }
 
     public Reporter(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
-        super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password);
+        super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, "reporter");
     }
 
     public void addToDatabase(Connection connection){

@@ -4,6 +4,7 @@ CREATE TABLE users (
                        street VARCHAR(100)NOT NULL,
                        address_number VARCHAR(10) NOT NULL,
                        neighborhood VARCHAR(50) NOT NULL,
+                       user_type CHAR(8) NOT NULL,
                        city VARCHAR(100) NOT NULL,
                        state_abbr CHAR(2) NOT NULL,
                        email VARCHAR(80) NOT NULL UNIQUE,

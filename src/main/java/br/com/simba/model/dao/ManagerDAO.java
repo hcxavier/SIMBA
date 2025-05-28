@@ -16,7 +16,7 @@ public class ManagerDAO extends UserDAO {
     }
 
     public void insert(Manager manager){
-        String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password) VALUES (?,?,?,?,?,?,?,?,?)";
+        String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password, user_type) VALUES (?,?,?,?,?,?,?,?,?,?)";
         String insertManager = "INSERT INTO managers (CPF, user_id, school_id) VALUES (?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
@@ -29,6 +29,7 @@ public class ManagerDAO extends UserDAO {
             statement.setString(7, manager.getEmail());
             statement.setString(8, manager.getUsername());
             statement.setString(9, manager.getHashedPassword());
+            statement.setString(10, "manager");
 
             int affectedRowsUsers = statement.executeUpdate();
 

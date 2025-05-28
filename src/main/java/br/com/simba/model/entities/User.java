@@ -15,24 +15,27 @@ public class User {
     private Address address;
     private Email email;
     private Password password;
+    private String userType;
     private List<Record> records = new ArrayList<>();
 
-    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
+    public User(Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, String userType) {
         this.username = username;
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.email = email;
         this.password = password;
+        this.userType = userType;
         this.records = new ArrayList<>();
     }
 
-    public User(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password) {
+    public User(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, String userType) {
         this.username = username;
         this.name = name;
         this.address = new Address(street, number, neighborhood, city, stateAbbr);
         this.email = email;
         this.password = password;
         this.records = new ArrayList<>();
+        this.userType = userType;
         this.id = id;
     }
 
@@ -76,8 +79,8 @@ public class User {
         return password.getHash();
     }
 
-    public List<Record> getRecords() {
-        return records;
+    public String getUserType(){
+        return userType;
     }
 
     public int getId() {

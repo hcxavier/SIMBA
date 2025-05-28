@@ -35,8 +35,9 @@ public class Instantiator {
             Email email = new Email(result.getString("email"));
             Username username = new Username(result.getString("username"));
             Password password = Password.fromHash(result.getString("hashed_password"));
+            String userType = result.getString("user_type");
 
-            return new User(id, username, name, street, addressNumber, neighborhood, city, state, email, password);
+            return new User(id, username, name, street, addressNumber, neighborhood, city, state, email, password, userType);
         } catch (SQLException e) {
             SQLErrorLog.reportSqlException(e);
             throw new RuntimeException(e);

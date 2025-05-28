@@ -15,7 +15,7 @@ import br.com.simba.model.valueobject.Password;
 import br.com.simba.model.valueobject.Username;
 
 public class UserDAO {
-    private final String COLUMNS = "id, full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password";
+    private final String COLUMNS = "id, full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password, user_type";
     protected final Connection connection;
     private final Instantiator instantiator;
 
