@@ -1,5 +1,5 @@
-<aside class="sidebar w-full md:w-72 bg-white p-6 shadow-custom-lg fixed md:sticky top-0 left-0 h-auto md:h-full overflow-y-auto z-20">
-    <div class="flex items-center justify-between mb-8">
+<aside id="sidebar" class="w-full md:w-72 bg-white p-6 shadow-custom-lg fixed md:sticky top-0 left-0 h-screen md:h-full overflow-y-auto z-20 transition-transform duration-300 ease-in-out md:translate-x-0 -translate-x-full print:hidden">
+    <div class="flex items-center justify-between mb-4">
         <div class="flex justify-start ml-2">
             <a href="/index">
                 <svg class="h-10 sm:h-8 fill-black hover:fill-custom-purple-light" viewBox="0 0 259 87" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -11,37 +11,42 @@
                     <path d="M214 47.1719C214.078 47.1676 214.156 47.1641 214.235 47.1615C214.313 47.1589 214.392 47.1572 214.47 47.1564C214.549 47.1555 214.627 47.1556 214.706 47.1566C214.784 47.1575 214.863 47.1593 214.941 47.162C215.019 47.1647 215.098 47.1682 215.176 47.1727C215.255 47.1772 215.333 47.1825 215.411 47.1887C215.489 47.1949 215.567 47.202 215.646 47.21C215.724 47.2179 215.802 47.2268 215.879 47.2365C215.957 47.2462 216.035 47.2568 216.113 47.2683C216.19 47.2797 216.268 47.292 216.345 47.3052C216.423 47.3184 216.5 47.3325 216.577 47.3475C216.654 47.3624 216.731 47.3782 216.808 47.3949C216.884 47.4115 216.961 47.429 217.037 47.4474C217.113 47.4658 217.189 47.485 217.265 47.5051C217.341 47.5252 217.417 47.5461 217.492 47.5679C217.568 47.5897 217.643 47.6123 217.718 47.6357C217.793 47.6592 217.867 47.6835 217.942 47.7086C218.016 47.7338 218.09 47.7597 218.164 47.7865C218.237 47.8134 218.311 47.841 218.384 47.8695C218.457 47.8979 218.53 47.9272 218.602 47.9573C218.675 47.9874 218.747 48.0183 218.819 48.05C218.891 48.0817 218.962 48.1142 219.033 48.1475C219.104 48.1808 219.175 48.2149 219.245 48.2498C219.316 48.2847 219.385 48.3204 219.455 48.3569C219.524 48.3934 219.593 48.4306 219.662 48.4686C219.731 48.5066 219.799 48.5454 219.867 48.5849C219.935 48.6245 220.002 48.6648 220.069 48.7058C220.136 48.7469 220.202 48.7887 220.268 48.8313C220.334 48.8738 220.4 48.9171 220.464 48.9611C220.529 49.0051 220.594 49.0499 220.658 49.0954C220.722 49.1408 220.785 49.187 220.848 49.2339C220.911 49.2808 220.974 49.3284 221.035 49.3767C223.59 51.3987 225.058 54.4165 225.424 57.6204C225.435 57.7139 225.445 57.8075 225.454 57.9011C225.462 57.9948 225.47 58.0886 225.476 58.1825C225.482 58.2764 225.488 58.3703 225.492 58.4643C225.496 58.5584 225.499 58.6524 225.5 58.7465C225.502 58.8406 225.503 58.9347 225.502 59.0287C225.502 59.1229 225.5 59.217 225.497 59.311C225.494 59.4051 225.49 59.4991 225.485 59.593C225.48 59.6869 225.473 59.7808 225.466 59.8746C225.458 59.9684 225.449 60.0621 225.44 60.1557C225.43 60.2492 225.419 60.3427 225.406 60.436C225.394 60.5293 225.381 60.6225 225.367 60.7155C225.352 60.8084 225.337 60.9012 225.32 60.9938C225.303 61.0864 225.285 61.1788 225.266 61.2709C225.247 61.3631 225.227 61.455 225.206 61.5466C225.184 61.6383 225.162 61.7297 225.138 61.8208C225.115 61.9119 225.09 62.0027 225.064 62.0932C225.039 62.1837 225.012 62.2739 224.984 62.3637C224.956 62.4535 224.927 62.543 224.896 62.6321C224.866 62.7213 224.835 62.81 224.802 62.8983C224.77 62.9866 224.737 63.0746 224.702 63.1621C224.668 63.2496 224.632 63.3367 224.595 63.4233C224.558 63.5099 224.521 63.5961 224.482 63.6819C224.443 63.7676 224.403 63.8528 224.362 63.9375C224.321 64.0222 224.279 64.1064 224.236 64.1901C224.193 64.2738 224.149 64.3569 224.104 64.4396C224.059 64.5221 224.013 64.6042 223.966 64.6856C223.919 64.7671 223.871 64.8479 223.821 64.9283C223.772 65.0085 223.722 65.0882 223.671 65.1672C223.62 65.2462 223.568 65.3247 223.515 65.4024C223.462 65.4802 223.408 65.5573 223.353 65.6337C223.298 65.7101 223.243 65.7858 223.186 65.8609C223.129 65.9359 223.071 66.0103 223.013 66.0839C221.008 68.59 218.53 69.9368 215.342 70.301C212.566 70.4435 209.943 69.636 207.806 67.8285C205.356 65.756 204.026 62.7614 203.78 59.5952C203.773 59.4983 203.766 59.4012 203.761 59.3041C203.756 59.207 203.752 59.1099 203.749 59.0127C203.746 58.9155 203.745 58.8183 203.744 58.7211C203.744 58.6238 203.745 58.5266 203.747 58.4294C203.748 58.3322 203.752 58.235 203.756 58.1378C203.76 58.0407 203.766 57.9436 203.772 57.8467C203.779 57.7497 203.787 57.6527 203.796 57.5559C203.805 57.4591 203.815 57.3625 203.826 57.2659C203.838 57.1693 203.85 57.0729 203.864 56.9766C203.878 56.8804 203.893 56.7843 203.909 56.6884C203.925 56.5925 203.942 56.4968 203.96 56.4013C203.979 56.3059 203.998 56.2106 204.019 56.1156C204.04 56.0206 204.062 55.9259 204.085 55.8314C204.108 55.737 204.132 55.6428 204.157 55.5489C204.183 55.4551 204.209 55.3615 204.237 55.2683C204.264 55.1751 204.293 55.0822 204.323 54.9896C204.353 54.8971 204.384 54.8049 204.416 54.7131C204.448 54.6214 204.481 54.53 204.516 54.4391C204.55 54.3481 204.585 54.2576 204.622 54.1674C204.658 54.0773 204.696 53.9877 204.735 53.8985C204.773 53.8093 204.813 53.7206 204.854 53.6324C204.895 53.5442 204.937 53.4565 204.98 53.3692C205.023 53.2821 205.067 53.1954 205.112 53.1093C205.157 53.0232 205.204 52.9376 205.251 52.8526C205.298 52.7676 205.346 52.6832 205.396 52.5994C205.445 52.5156 205.495 52.4324 205.546 52.3498C205.598 52.2672 205.65 52.1852 205.703 52.1039C205.757 52.0226 205.811 51.9419 205.866 51.8619C205.921 51.7819 205.978 51.7026 206.035 51.624C206.092 51.5454 206.15 51.4674 206.209 51.3902C206.268 51.313 206.328 51.2365 206.389 51.1608C206.45 51.085 206.512 51.01 206.575 50.9358C208.493 48.704 211.07 47.4011 214 47.1719ZM215.325 66.7005C217.429 66.3561 219.173 65.365 220.419 63.6204C221.73 61.7843 222.188 59.4676 221.81 57.2553C221.444 55.1162 220.402 53.1482 218.608 51.8766C217.244 50.9098 215.473 50.4152 213.806 50.6225C211.725 50.9781 210.042 52.0286 208.816 53.7569C207.47 55.6549 206.978 58.1086 207.375 60.389C207.728 62.4183 208.757 64.3138 210.465 65.5111C211.919 66.5306 213.572 66.8727 215.325 66.7005Z"/>
                 </svg>
             </a>
-
         </div>
-        <button class="sidebar-toggle-button md:hidden text-custom-purple text-xl">
-            <i class="fas fa-bars"></i>
+        <button id="sidebarToggleClose" class="md:hidden text-custom-purple text-xl">
+            <i class="fas fa-times"></i> <!-- Ícone para fechar no mobile -->
         </button>
     </div>
 
-    <nav class="sidebar-nav-container hidden-mobile space-y-3">
-        <a onclick="navigateToSection('home'); closeMobileSidebar();" href="/dashboard" id="home" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 bg-custom-purple text-white font-semibold">
+    <nav id="sidebarNav" class="space-y-3">
+        <a onclick="navigateToSection('home'); closeMobileSidebar();" href="/dashboard" id="home" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 bg-custom-purple text-white font-semibold">
             <i class="fas fa-home fa-fw text-base"></i> Página inicial
         </a>
-        <a onclick="navigateToSection('barrier'); closeMobileSidebar();" id="barrier" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('barrier'); closeMobileSidebar();" id="barrier" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-plus-circle fa-fw text-base"></i> Registrar nova barreira
         </a>
-        <a onclick="navigateToSection('search'); closeMobileSidebar();" href="/dashboard/search-schools" id="search" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('search'); closeMobileSidebar();" href="/dashboard/search-schools" id="search" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-search fa-fw text-base"></i> Pesquisar escolas
         </a>
-        <a onclick="navigateToSection('records'); closeMobileSidebar();" href="/dashboard/my-registries" id="records" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('records'); closeMobileSidebar();" href="/dashboard/my-registries" id="records" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-clipboard-list fa-fw text-base"></i> Gerenciar meus registros
         </a>
-        <a onclick="navigateToSection('forum'); closeMobileSidebar();" href="/dashboard/forum" id="forum" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('forum'); closeMobileSidebar();" href="/dashboard/forum" id="forum" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-comments fa-fw text-base"></i> Fórum de discussões
         </a>
-        <a onclick="navigateToSection('profile'); closeMobileSidebar();" href="/dashboard/profile" id="profile" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('profile'); closeMobileSidebar();" href="/dashboard/profile" id="profile" class="group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-user-circle fa-fw text-base"></i> Perfil
         </a>
-        <a href="#" id="logout" class="nav-link group flex items-center gap-3 px-4 py-3 mt-auto rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-red-100 hover:text-red-600">
+        <a href="#" id="logout" class="group flex items-center gap-3 px-4 py-3 mt-auto rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-red-100 hover:text-red-600">
             <i class="fas fa-sign-out-alt fa-fw text-base"></i> Sair
         </a>
     </nav>
 </aside>
+
+<!-- Botão para abrir a sidebar em mobile (coloque fora da sidebar, talvez no header do conteúdo principal) -->
+<button id="sidebarToggleOpen" class="md:hidden fixed top-4 left-4 z-30 text-custom-purple text-xl bg-white p-2 rounded-md shadow-md print:hidden">
+    <i class="fas fa-bars"></i>
+</button>
+
 
 <div id="registerBarrierModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300 ease-in-out opacity-0">
     <section class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300 ease-in-out">
@@ -54,17 +59,18 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-5">
-                <div class="mb-5 relative">
+                <div class="relative"> <!-- Adicionado relative para o posicionamento absoluto da lista de sugestões -->
                     <label for="school" class="block mb-1 text-sm font-medium text-medium-gray">Nome da escola</label>
                     <input type="text" name="schoolName" id="school" placeholder="Digite o nome da escola" autocomplete="off"
-                           class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
+                           class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 transition-colors duration-150 ease-in-out" />
                     <ul id="suggestion"
                         class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-60 overflow-y-auto hidden">
                     </ul>
                 </div>
                 <div>
                     <label for="barrierCategorySelect" class="block mb-1 text-sm font-medium text-medium-gray">Categoria da barreira</label>
-                    <select id="barrierCategorySelect" name="barrierCategory" class="form-input" required>
+                    <select id="barrierCategorySelect" name="barrierCategory"
+                            class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 transition-colors duration-150 ease-in-out" required>
                         <option disabled selected value="">Selecione a categoria</option>
                         <option value="ACCESS">Acessos</option>
                         <option value="IE_CIRCULATION">Circulação interna/externa</option>
@@ -80,56 +86,56 @@
 
             <div class="mb-5">
                 <label for="specificLocationInput" class="block mb-1 text-sm font-medium text-medium-gray">Localização específica</label>
-                <input type="text" id="specificLocationInput" name="specificLocation" placeholder="Ex: Entrada principal, corredor do 2° andar..." class="form-input" required/>
+                <input type="text" id="specificLocationInput" name="specificLocation" placeholder="Ex: Entrada principal, corredor do 2° andar..."
+                       class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray placeholder-gray-400/70 focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 transition-colors duration-150 ease-in-out" required/>
             </div>
 
             <div class="mb-5">
                 <label for="problemDetailsTextarea" class="block mb-1 text-sm font-medium text-medium-gray">Explicação Detalhada do Problema</label>
-                <textarea id="problemDetailsTextarea" name="problemDetails" rows="4" class="form-input resize-none" placeholder="Descreva a barreira encontrada..." required></textarea>
+                <textarea id="problemDetailsTextarea" name="problemDetails" rows="4" placeholder="Descreva a barreira encontrada..."
+                          class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray placeholder-gray-400/70 focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 resize-none transition-colors duration-150 ease-in-out" required></textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-5">
                 <div>
                     <label for="urgencyLevelSelect" class="block mb-1 text-sm font-medium text-medium-gray">Nível de urgência</label>
-                    <select id="urgencyLevelSelect" name="urgencyLevel" class="form-input" required>
+                    <select id="urgencyLevelSelect" name="urgencyLevel"
+                            class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 transition-colors duration-150 ease-in-out" required>
                         <option disabled selected value="">Selecione o nível</option>
                         <option value="HIGH">Alta</option>
                         <option value="MODERATE">Média</option>
                         <option value="LOW">Baixa</option>
                     </select>
                 </div>
-                <div class="relative date-input-container">
+                <div class="relative"> <!-- Adicionado relative para o ícone -->
                     <label for="identificationDateInput" class="block mb-1 text-sm font-medium text-medium-gray">Data de identificação</label>
-                    <input type="date" id="identificationDateInput" name="identificationDate" class="form-input" required/>
-                    <i class="fas fa-calendar input-icon"></i>
+                    <input type="date" id="identificationDateInput" name="identificationDate"
+                           class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 transition-colors duration-150 ease-in-out pr-10" required/>
+                    <!-- Ajuste no mt-0.5 para alinhar melhor com o input -->
                 </div>
             </div>
 
-            <!-- MODIFIED IMAGE UPLOAD AREA -->
             <div class="mb-6">
                 <label class="block mb-1 text-sm font-medium text-medium-gray">Anexar imagem (opcional)</label>
                 <label for="imageUploadInput" id="imageUploadLabel" class="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-border-gray border-dashed rounded-lg cursor-pointer hover:border-custom-blue bg-input-bg/50">
                     <div id="imageUploadContent" class="space-y-1 text-center w-full">
-                        <!-- Initial prompt content -->
                         <i class="fas fa-cloud-upload-alt fa-2x text-medium-gray"></i>
                         <div class="flex text-sm text-medium-gray justify-center">
-                            <span class="relative cursor-pointer bg-white rounded-md font-medium text-custom-purple hover:text-custom-purple-hover">
+                            <span class="relative cursor-pointer rounded-md font-medium text-custom-purple hover:text-custom-purple-hover">
                                 Carregar um arquivo
                             </span>
                             <p class="pl-1">ou arraste e solte</p>
                         </div>
                         <p class="text-xs text-medium-gray">PNG, JPG, GIF até 10MB</p>
                     </div>
-                    <!-- Hidden file input, associated by the label's 'for' attribute -->
                     <input id="imageUploadInput" name="imageUpload" type="file" class="sr-only" accept="image/*">
                 </label>
             </div>
-            <!-- END OF MODIFIED IMAGE UPLOAD AREA -->
-
 
             <div class="mb-8">
                 <label for="solutionSuggestionTextarea" class="block mb-1 text-sm font-medium text-medium-gray">Sugestão de solução (opcional)</label>
-                <textarea id="solutionSuggestionTextarea" name="solutionSuggestion" rows="3" class="form-input resize-none" placeholder="Se tiver alguma sugestão de como resolver..."></textarea>
+                <textarea id="solutionSuggestionTextarea" name="solutionSuggestion" rows="3" placeholder="Se tiver alguma sugestão de como resolver..."
+                          class="block w-full bg-input-bg mt-1 rounded-lg border border-border-gray px-4 py-3 text-dark-gray placeholder-gray-400/70 focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40 resize-none transition-colors duration-150 ease-in-out"></textarea>
             </div>
 
             <div class="flex items-center justify-end gap-4">
@@ -143,3 +149,26 @@
         </form>
     </section>
 </div>
+
+<!-- O CSS para scrollbar e fonte global (opcional se já estiver no seu CSS principal) -->
+<style>
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Inter', sans-serif; /* Garante que a fonte seja aplicada se não estiver no reset */
+    }
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #F3F4F6; /* light-gray-bg */
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #D1D5DB; /* border-gray */
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #9CA3AF; /* Um cinza um pouco mais escuro, como gray-400 */
+    }
+</style>

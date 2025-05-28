@@ -72,7 +72,7 @@ public class SearchRegistriesServlet extends HttpServlet {
                     records = registryHandle.getRegistriesByNameAndUrgency(searchTerm, BarrierCriticality.LOW);
                     break;
                 case "status_pending":
-                    records = registryHandle.getRegistriesByNameAndStatus(searchTerm, BarrierStatus.CORRECTING); // ou EM_ANALISE, dependendo do seu enum
+                    records = registryHandle.getRegistriesByNameAndStatus(searchTerm, BarrierStatus.UNDER_ANALYSIS);
                     break;
                 case "status_resolved":
                     records = registryHandle.getRegistriesByNameAndStatus(searchTerm, BarrierStatus.RESOLVED);
@@ -164,7 +164,6 @@ public class SearchRegistriesServlet extends HttpServlet {
                 try {
                     formattedDate = dateToFormat.format(dateFormatter);
                 } catch (Exception ex) {
-                    // Logar discretamente ou tratar se a formatação falhar inesperadamente
                     System.err.println("Error formatting date " + dateToFormat + " for record ID " + record.getId() + ": " + ex.getMessage());
                 }
             }
@@ -172,7 +171,6 @@ public class SearchRegistriesServlet extends HttpServlet {
             json.append("}");
 
             if (i < records.size() - 1) {
-                // Verifica se o próximo item não será um 'null' filtrado para evitar vírgula extra no final
                 boolean nextIsNull = (i + 1 < records.size() && records.get(i + 1) == null && (i + 2 >= records.size() || records.get(i+2) != null) );
                 boolean allNextAreNull = true;
                 if (i + 1 < records.size()) {
@@ -183,7 +181,7 @@ public class SearchRegistriesServlet extends HttpServlet {
                         }
                     }
                 } else {
-                    allNextAreNull = false; // Não há próximos, então não precisa de vírgula
+                    allNextAreNull = false;
                 }
 
 
@@ -192,7 +190,7 @@ public class SearchRegistriesServlet extends HttpServlet {
                 }
             }
         }
-        // Remover vírgula extra no final se o último elemento foi 'null'
+
         if (json.length() > 1 && json.charAt(json.length() -1) == ',') {
             json.deleteCharAt(json.length() -1);
         }

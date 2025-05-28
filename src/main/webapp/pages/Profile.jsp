@@ -322,6 +322,7 @@
         });
     });
 </script>
+<script src="../assets/js/sidebar.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/sidebar.js"></script>
 </body>
 </html>
