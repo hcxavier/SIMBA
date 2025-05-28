@@ -8,45 +8,10 @@
     <title>SIMBA - Meu Perfil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <jsp:include page="../partials/tailwind-config.html" flush="true"/>
-    <style>
-        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #F3F4F6; }
-        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
-        @media (max-width: 768px) {
-            .sidebar { width: 100%; height: auto; position: relative; box-shadow: none; }
-            .main-content { margin-left: 0; width: 100%; }
-            .sidebar-toggle-button { display: block; }
-            .sidebar-nav-container.hidden-mobile { display: none; }
-            .sidebar-nav-container.open-mobile { display: block; }
-        }
-        @media (min-width: 769px) {
-            .sidebar-toggle-button { display: none; }
-            .sidebar-nav-container.hidden-mobile { display: block; }
-        }
-        .form-input {
-            display: block; width: 100%; background-color: #F9FAFB;
-            margin-top: 0.25rem;
-            border-radius: 0.5rem;
-            border-width: 1px; border-color: #D1D5DB;
-            padding: 0.75rem 1rem;
-            color: #212121;
-            transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            line-height: 1.5;
-        }
-        .form-input::placeholder { color: rgba(107, 114, 128, 0.7); }
-        .form-input:focus {
-            border-color: #3F88C5;
-            outline: none;
-            --tw-ring-color: rgba(63, 136, 197, 0.4);
-            box-shadow: 0 0 0 2px var(--tw-ring-color);
-        }
-    </style>
 </head>
-<body class="bg-light-gray-bg text-dark-gray antialiased">
+<body class="bg-light-gray-bg text-dark-gray antialiased font-sans">
 
 <div class="flex flex-col md:flex-row h-screen">
     <jsp:include page="../partials/sidebar.html" flush="true"/>
@@ -63,129 +28,143 @@
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
                 </button>
                 <div id="userAvatarHeader" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
-                    U
+                    A
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-custom-lg p-6 sm:p-8 mb-10">
-            <div class="flex flex-col items-center sm:flex-row sm:items-start mb-8 pb-6 border-b border-border-gray">
-                <div class="relative mb-6 sm:mb-0 sm:mr-8">
-                    <img id="profileAvatarPreview" src="https://via.placeholder.com/128/7D5799/FFFFFF?text=U" alt="Avatar do Usuário" class="w-32 h-32 rounded-full object-cover border-4 border-custom-purple">
-                    <label for="avatarUpload" id="avatarUploadLabel" class="absolute -bottom-1 -right-1 bg-custom-blue text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-custom-blue-hover transition-colors shadow-md hidden">
-                        <i class="fas fa-camera"></i>
-                    </label>
-                    <input type="file" id="avatarUpload" class="hidden" accept="image/*">
-                </div>
-                <div class="text-center sm:text-left mt-2 sm:mt-0">
-                    <h2 id="profileNameDisplayTop" class="text-2xl mt-4 md:text-3xl font-semibold text-custom-purple">Nome do Usuário</h2>
-                    <p id="profileEmailDisplayTop" class="text-medium-gray mt-1 text-sm md:text-base">email.do.usuario@example.com</p>
-                </div>
-                <div class="mt-6 sm:mt-0 sm:ml-auto">
-                    <button id="editProfileButton" class="bg-custom-blue hover:bg-custom-blue-hover mt-4 text-white font-medium py-2.5 px-5 rounded-lg transition-colors flex items-center text-sm shadow-sm">
-                        <i class="fas fa-pencil-alt mr-2"></i> Editar Perfil
-                    </button>
+        <div class="bg-white rounded-2xl shadow-custom-lg overflow-hidden mb-8">
+            <div class="bg-custom-purple p-8">
+                <div class="flex flex-col items-center sm:flex-row sm:items-center">
+                    <div class="relative mb-6 sm:mb-0 sm:mr-8">
+                        <div id="profileAvatarInitials" class="w-40 h-40 rounded-full flex items-center justify-center border-4 border-white shadow-xl bg-custom-purple text-white text-5xl font-semibold hidden">
+                            A
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left text-white">
+                        <h2 id="profileNameDisplayTop" class="text-3xl sm:text-4xl font-bold mb-2">Nome do Usuário</h2>
+                        <p id="profileEmailDisplayTop" class="text-purple-100 text-lg mb-4 opacity-90">email.do.usuario@example.com</p>
+                        <div class="flex items-center justify-center sm:justify-start">
+                            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-4 py-2">
+                                <span class="text-sm font-semibold">anajulia99</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 sm:mt-0 sm:ml-auto">
+                        <button id="editProfileButton" class="bg-custom-blue hover:bg-custom-blue-hover text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <i class="fas fa-pencil-alt mr-3"></i> Editar Perfil
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <form id="profileForm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
-                    <div>
-                        <label for="fullName" class="block text-sm font-medium text-custom-blue">Nome Completo</label>
-                        <p id="displayName" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="fullName" name="fullName" class="form-input hidden" placeholder="Seu nome completo">
+            <div class="p-8">
+                <form id="profileForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <label for="fullName" class="block text-sm font-semibold text-custom-purple mb-3">Nome Completo</label>
+                            <div id="displayName" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="fullName" name="fullName" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Seu nome completo">
+                        </div>
+
+                        <div>
+                            <label for="username" class="block text-sm font-semibold text-custom-purple mb-3">Apelido de Acesso</label>
+                            <div id="displayUsername" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="username" name="username" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Seu apelido de acesso">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-custom-purple mb-3">Email</label>
+                            <div id="displayEmail" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="email" id="email" name="email" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="seu.email@example.com">
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-semibold text-custom-purple mb-3">Telefone</label>
+                            <div id="displayPhone" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="tel" id="phone" name="phone" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="(XX) XXXXX-XXXX">
+                        </div>
+
+                        <div>
+                            <label for="street" class="block text-sm font-semibold text-custom-purple mb-3">Rua</label>
+                            <div id="displayStreet" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="street" name="street" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Sua rua">
+                        </div>
+
+                        <div>
+                            <label for="addressNumber" class="block text-sm font-semibold text-custom-purple mb-3">N° da Casa</label>
+                            <div id="displayAddressNumber" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="addressNumber" name="addressNumber" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Número da casa">
+                        </div>
+
+                        <div>
+                            <label for="neighborhood" class="block text-sm font-semibold text-custom-purple mb-3">Bairro</label>
+                            <div id="displayNeighborhood" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="neighborhood" name="neighborhood" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Seu bairro">
+                        </div>
+
+                        <div>
+                            <label for="city" class="block text-sm font-semibold text-custom-purple mb-3">Cidade</label>
+                            <div id="displayCity" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="city" name="city" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Sua cidade">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="state" class="block text-sm font-semibold text-custom-purple mb-3">Estado</label>
+                            <div id="displayState" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
+                            <input type="text" id="state" name="state" class="hidden w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Seu estado">
+                        </div>
                     </div>
 
-                    <div>
-                        <label for="username" class="block text-sm font-medium text-custom-blue">Apelido de Acesso</label>
-                        <p id="displayUsername" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="username" name="username" class="form-input hidden" placeholder="Seu apelido de acesso">
+                    <div id="profileFormControls" class="flex flex-col sm:flex-row justify-end gap-4 pt-8 border-t border-border-gray hidden">
+                        <button type="button" id="cancelEditButton" class="bg-gray-200 hover:bg-gray-300 text-dark-gray font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="saveProfileButton" class="bg-custom-purple hover:bg-custom-purple-hover text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            Salvar Alterações
+                        </button>
                     </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-custom-blue">Email</label>
-                        <p id="displayEmail" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="email" id="email" name="email" class="form-input hidden" placeholder="seu.email@example.com">
-                    </div>
-
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-custom-blue">Telefone</label>
-                        <p id="displayPhone" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="tel" id="phone" name="phone" class="form-input hidden" placeholder="(XX) XXXXX-XXXX">
-                    </div>
-
-                    <div>
-                        <label for="street" class="block text-sm font-medium text-custom-blue">Rua</label>
-                        <p id="displayStreet" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="street" name="street" class="form-input hidden" placeholder="Sua rua">
-                    </div>
-
-                    <div>
-                        <label for="addressNumber" class="block text-sm font-medium text-custom-blue">N° da Casa</label>
-                        <p id="displayAddressNumber" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="addressNumber" name="addressNumber" class="form-input hidden" placeholder="Seu número de endereço">
-                    </div>
-
-                    <div>
-                        <label for="neighborhood" class="block text-sm font-medium text-custom-blue">Bairro</label>
-                        <p id="displayNeighborhood" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="neighborhood" name="neighborhood" class="form-input hidden" placeholder="Seu Bairro">
-                    </div>
-
-                    <div>
-                        <label for="city" class="block text-sm font-medium text-custom-blue">Cidade</label>
-                        <p id="displayCity" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="city" name="city" class="form-input hidden" placeholder="Sua cidade">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label for="state" class="block text-sm font-medium text-custom-blue">Estado</label>
-                        <p id="displayState" class="mt-1 text-dark-gray text-base py-3 min-h-[calc(1.5em+0.75rem*2+2px)] leading-normal break-words"></p>
-                        <input type="text" id="state" name="state" class="form-input hidden" placeholder="Seu estado">
-                    </div>
-                </div>
-
-                <div id="profileFormControls" class="flex justify-end pt-6 border-t border-border-gray hidden">
-                    <button type="button" id="cancelEditButton" class="mr-3 bg-gray-200 hover:bg-gray-300 text-dark-gray font-medium py-2.5 px-6 rounded-lg transition-colors">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="saveProfileButton" class="bg-custom-purple hover:bg-custom-purple-hover text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
-                        Salvar Alterações
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-custom-lg p-6 sm:p-8 mb-10">
-            <h2 class="text-xl font-semibold text-dark-gray mb-6 border-b border-border-gray pb-3">Segurança</h2>
+        <div class="bg-white rounded-2xl shadow-custom-lg p-8 mb-8">
+            <div class="bg-custom-purple rounded-xl p-6 mb-6 text-white">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-shield-alt mr-3"></i>
+                    Segurança da Conta
+                </h2>
+                <p class="opacity-90 mt-2">Mantenha sua conta segura alterando sua senha regularmente</p>
+            </div>
+
             <form id="passwordForm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="md:col-span-2">
-                        <label for="currentPassword" class="block text-sm font-medium text-medium-gray">Senha Atual</label>
-                        <input type="password" id="currentPassword" name="currentPassword" class="form-input" placeholder="Sua senha atual" required>
+                        <label for="currentPassword" class="block text-sm font-semibold text-custom-purple mb-3">Senha Atual</label>
+                        <input type="password" id="currentPassword" name="currentPassword" class="w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Digite sua senha atual" required>
                     </div>
                     <div>
-                        <label for="newPassword" class="block text-sm font-medium text-medium-gray">Nova Senha</label>
-                        <input type="password" id="newPassword" name="newPassword" class="form-input" placeholder="Mínimo 8 caracteres" required>
+                        <label for="newPassword" class="block text-sm font-semibold text-custom-purple mb-3">Nova Senha</label>
+                        <input type="password" id="newPassword" name="newPassword" class="w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Mínimo 8 caracteres" required>
                     </div>
                     <div>
-                        <label for="confirmNewPassword" class="block text-sm font-medium text-medium-gray">Confirmar Nova Senha</label>
-                        <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-input" placeholder="Repita a nova senha" required>
+                        <label for="confirmNewPassword" class="block text-sm font-semibold text-custom-purple mb-3">Confirmar Nova Senha</label>
+                        <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="w-full bg-input-bg border-2 border-border-gray focus:border-custom-purple focus:ring-4 focus:ring-custom-purple focus:ring-opacity-20 rounded-xl px-4 py-4 text-dark-gray font-medium transition-all duration-300 outline-none" placeholder="Repita a nova senha" required>
                     </div>
                 </div>
-                <div class="flex justify-end mt-6">
-                    <button type="button" id="cancelPasswordChange" class="mr-3 bg-gray-200 hover:bg-gray-300 text-dark-gray font-medium py-2.5 px-6 rounded-lg transition-colors">
+                <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+                    <button type="button" id="cancelPasswordChange" class="bg-gray-200 hover:bg-gray-300 text-dark-gray font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5">
                         Limpar
                     </button>
-                    <button type="submit" class="bg-custom-blue hover:bg-custom-blue-hover text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
+                    <button type="submit" class="bg-custom-blue hover:bg-custom-blue-hover text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                         Alterar Senha
                     </button>
                 </div>
             </form>
         </div>
 
-        <footer class="text-center text-xs text-medium-gray mt-10 py-6 border-t border-border-gray">
-            © <span id="currentYear"></span> SIMBA. Todos os direitos reservados.
+        <footer class="text-center text-medium-gray mt-12 py-8 border-t border-border-gray">
+            <p class="text-sm">© <span id="currentYear"></span> SIMBA. Todos os direitos reservados.</p>
         </footer>
     </main>
 </div>
@@ -210,7 +189,6 @@
                 state: "RJ",
                 city: "Rio de Janeiro Capital",
                 phone: "(21) 99876-5432",
-                avatarUrl: "https://via.placeholder.com/128/7D5799/FFFFFF?text=A",
                 userInitial: "A"
             };
         }
@@ -218,7 +196,6 @@
 
         const profileNameDisplayTop = document.getElementById('profileNameDisplayTop');
         const profileEmailDisplayTop = document.getElementById('profileEmailDisplayTop');
-        const userAvatarHeader = document.getElementById('userAvatarHeader');
 
         const dataFields = [
             { pId: 'displayName', inputId: 'fullName', key: 'fullName' },
@@ -238,9 +215,7 @@
             dataKey: field.key
         }));
 
-        const avatarUploadInput = document.getElementById('avatarUpload');
         const avatarUploadLabel = document.getElementById('avatarUploadLabel');
-        const profileAvatarPreview = document.getElementById('profileAvatarPreview');
 
         const editProfileButton = document.getElementById('editProfileButton');
         const profileFormControls = document.getElementById('profileFormControls');
@@ -249,7 +224,6 @@
         function updateDisplayData(data) {
             if (profileNameDisplayTop) profileNameDisplayTop.textContent = data.fullName || "Nome não informado";
             if (profileEmailDisplayTop) profileEmailDisplayTop.textContent = data.email || "Email não informado";
-            if (userAvatarHeader) userAvatarHeader.textContent = data.userInitial || (data.fullName ? data.fullName.charAt(0).toUpperCase() : "U");
 
             fieldElements.forEach(item => {
                 if (item.pElement) {
@@ -257,7 +231,6 @@
                 }
             });
 
-            if (profileAvatarPreview && data.avatarUrl) profileAvatarPreview.src = data.avatarUrl;
         }
 
         function populateInputFields(data) {
@@ -266,7 +239,6 @@
                     item.inputElement.value = data[item.dataKey] || "";
                 }
             });
-            if (avatarUploadInput) avatarUploadInput.value = "";
         }
 
         function setEditMode(isEditing) {
@@ -283,12 +255,10 @@
             });
 
             if (isEditing) {
-                avatarUploadLabel?.classList.remove('hidden');
                 editProfileButton?.classList.add('hidden');
                 profileFormControls?.classList.remove('hidden');
                 populateInputFields(originalData);
             } else {
-                avatarUploadLabel?.classList.add('hidden');
                 editProfileButton?.classList.remove('hidden');
                 profileFormControls?.classList.add('hidden');
                 updateDisplayData(originalData);
@@ -301,16 +271,11 @@
         editProfileButton?.addEventListener('click', () => setEditMode(true));
 
         document.getElementById('cancelEditButton')?.addEventListener('click', () => {
-            if (originalData.avatarUrl !== profileAvatarPreview.src && !avatarUploadInput.files[0]) {
-                profileAvatarPreview.src = originalData.avatarUrl;
-            }
             setEditMode(false);
         });
 
-
         profileForm?.addEventListener('submit', function(e) {
             e.preventDefault();
-            const newAvatarFile = avatarUploadInput.files[0];
             const updatedData = {};
             const formDataBackend = new FormData();
 
@@ -321,26 +286,11 @@
                 }
             });
 
-            if (newAvatarFile) {
-                formDataBackend.append('avatar', newAvatarFile);
-            }
-
             originalData = {...originalData, ...updatedData};
             originalData.userInitial = originalData.fullName ? originalData.fullName.charAt(0).toUpperCase() : "U";
 
-            if (newAvatarFile) {
-                originalData.avatarUrl = profileAvatarPreview.src;
-            }
-
             alert('Informações do perfil salvas (simulação)!');
             setEditMode(false);
-        });
-
-        avatarUploadInput?.addEventListener('change', function(event) {
-            const [file] = event.target.files;
-            if (file) {
-                profileAvatarPreview.src = URL.createObjectURL(file);
-            }
         });
 
         const passwordForm = document.getElementById('passwordForm');
