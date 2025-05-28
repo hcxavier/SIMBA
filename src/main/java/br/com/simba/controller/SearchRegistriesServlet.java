@@ -5,6 +5,7 @@ import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.entities.Registry;
 import br.com.simba.model.enums.BarrierCriticality;
 import br.com.simba.model.enums.BarrierStatus;
+import br.com.simba.model.service.RedirectUser;
 import br.com.simba.model.service.RegistryHandle;
 
 import jakarta.servlet.ServletException;
@@ -28,6 +29,9 @@ public class SearchRegistriesServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        RedirectUser redirectUser = new RedirectUser();
+        if(redirectUser.userNullRedirectToLogin(session, response)) return;
+
         String username = session.getAttribute("user").toString();
         DBConnection dbConnection = new PostgresConnection();
         response.setContentType("application/json");

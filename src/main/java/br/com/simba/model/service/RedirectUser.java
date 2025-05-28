@@ -31,14 +31,14 @@ public class RedirectUser {
         }
     }
 
-    public void userNullRedirectToLogin(HttpSession session, HttpServletResponse response) {
-        if (session.getAttribute("user") != null) return;
+    public boolean userNullRedirectToLogin(HttpSession session, HttpServletResponse response) {
+        if (session.getAttribute("user") != null) return false;
 
         try {
             response.sendRedirect("/login");
+            return true;
         } catch (IOException e){
             throw new IllegalArgumentException("Error: failed to redirect to login page");
         }
-
     }
 }
