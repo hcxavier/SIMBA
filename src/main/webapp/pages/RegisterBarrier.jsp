@@ -129,6 +129,8 @@
   </main>
 </div>
 
+<script src="../assets/js/sidebar.js"></script>
+
 <script>
   const contextPath = "<%= request.getContextPath() %>";
 </script>

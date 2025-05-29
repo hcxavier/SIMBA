@@ -185,10 +185,8 @@
   </div>
 </div>
 
-<script>
-  const contextPath = '<%= request.getContextPath() %>';
-</script>
+<script src="../assets/js/sidebar.js"></script>
+<script> const contextPath = '<%= request.getContextPath() %>'; </script>
 <script src="../assets/js/registriesManager.js"></script>
-<script src="<%= request.getContextPath() %>/assets/js/registerBarrier.js"></script>
 </body>
 </html>

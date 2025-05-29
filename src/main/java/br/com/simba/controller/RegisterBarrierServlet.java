@@ -5,6 +5,7 @@ import br.com.simba.model.dao.*;
 import br.com.simba.model.entities.*;
 import br.com.simba.model.enums.BarrierCategory;
 import br.com.simba.model.enums.BarrierCriticality;
+import br.com.simba.model.service.RedirectUser;
 import br.com.simba.model.service.RegisterValidator;
 import br.com.simba.model.valueobject.Username;
 import jakarta.servlet.RequestDispatcher;
@@ -291,6 +292,9 @@ public class RegisterBarrierServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        RedirectUser redirectUser = new RedirectUser();
+        if(redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegisterBarrier.jsp");
         dispatcher.forward(request, response);
     }

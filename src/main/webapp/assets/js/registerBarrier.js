@@ -1,50 +1,3 @@
-const activeLinkClasses = ['bg-custom-purple', 'text-white', 'font-semibold'];
-const inactiveLinkClasses = ['text-medium-gray', 'hover:bg-custom-purple-light', 'hover:text-white'];
-
-function setActiveSidebarLink(targetId) {
-    const allNavLinks = document.querySelectorAll('.sidebar .nav-link');
-    allNavLinks.forEach(link => {
-        link.classList.remove(...activeLinkClasses);
-        link.classList.add(...inactiveLinkClasses);
-    });
-    const activeLink = document.getElementById(targetId);
-    if (activeLink) {
-        activeLink.classList.add(...activeLinkClasses);
-        activeLink.classList.remove(...inactiveLinkClasses);
-    }
-}
-
-const sidebarToggleButton = document.querySelector('.sidebar-toggle-button');
-const sidebarNavContainer = document.querySelector('.sidebar-nav-container');
-const sidebarElement = document.querySelector('.sidebar');
-
-if (sidebarToggleButton && sidebarNavContainer && sidebarElement) {
-    sidebarToggleButton.addEventListener('click', () => {
-        sidebarNavContainer.classList.toggle('hidden-mobile');
-        sidebarNavContainer.classList.toggle('open-mobile');
-        const isOpen = sidebarNavContainer.classList.contains('open-mobile');
-        sidebarElement.classList.toggle('h-screen', isOpen);
-        sidebarElement.classList.toggle('shadow-custom-lg', isOpen);
-    });
-}
-
-function closeMobileSidebar() {
-    if (window.innerWidth < 768 && sidebarNavContainer && sidebarNavContainer.classList.contains('open-mobile')) {
-        sidebarNavContainer.classList.remove('open-mobile');
-        sidebarNavContainer.classList.add('hidden-mobile');
-        sidebarElement.classList.remove('h-screen', 'shadow-custom-lg');
-    }
-}
-
-if (sidebarNavContainer) {
-    const navLinksInSidebar = sidebarNavContainer.querySelectorAll('a.nav-link');
-    navLinksInSidebar.forEach(link => {
-        link.addEventListener('click', (event) => {
-            closeMobileSidebar();
-        });
-    });
-}
-
 function handleFormSubmit(event) {
     event.preventDefault();
 
@@ -121,19 +74,12 @@ function handleFormSubmit(event) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const activeLinkId = 'navRegisterBarrierLink';
-    setActiveSidebarLink(activeLinkId);
-
-    const currentYearElement = document.getElementById('currentYear');
-    if (currentYearElement) {
-        currentYearElement.textContent = new Date().getFullYear();
-    }
-
     const registerBarrierForm = document.getElementById('registerBarrierForm');
     if (registerBarrierForm) {
         registerBarrierForm.addEventListener('submit', handleFormSubmit);
     }
 
+    // Lógica de upload de imagem (permanece, pois é específica desta página)
     const imageUploadInput = document.getElementById('imageUploadInput');
     const imageUploadContent = document.getElementById('imageUploadContent');
     let originalImageUploadHTML = '';
@@ -182,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (typeof contextPath === 'undefined') {
+                console.error('contextPath não está definido. Necessário para a busca de escolas.');
                 suggestionList.innerHTML = '<li class="px-4 py-2 text-red-500">Erro: Configuração pendente.</li>';
                 suggestionList.classList.remove('hidden');
                 return;
@@ -217,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch(error => {
+                    console.error('Erro ao buscar escolas:', error);
                     suggestionList.innerHTML = '<li class="px-4 py-2 text-red-500">Erro ao buscar escolas.</li>';
                     suggestionList.classList.remove('hidden');
                 });
