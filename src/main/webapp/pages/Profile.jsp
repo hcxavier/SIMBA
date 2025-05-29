@@ -407,7 +407,7 @@
         });
     });
 </script>
-<script src="../assets/js/sidebar.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/sidebar.js"></script>
+<script src="../assets/js/registerBarrier.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/registerBarrier.js"></script>
 </body>
 </html>

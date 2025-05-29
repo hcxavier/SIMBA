@@ -21,7 +21,7 @@
         <a onclick="navigateToSection('home'); closeMobileSidebar();" href="/dashboard" id="home" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 bg-custom-purple text-white font-semibold">
             <i class="fas fa-home fa-fw text-base"></i> Página inicial
         </a>
-        <a onclick="navigateToSection('barrier'); closeMobileSidebar();" id="barrier" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
+        <a onclick="navigateToSection('barrier'); closeMobileSidebar();" href="/dashboard/register-barrier" id="barrier" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
             <i class="fas fa-plus-circle fa-fw text-base"></i> Registrar nova barreira
         </a>
         <a onclick="navigateToSection('search'); closeMobileSidebar();" href="/dashboard/search-schools" id="search" class="nav-link group flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 text-medium-gray hover:bg-custom-purple-light hover:text-white">
@@ -41,104 +41,3 @@
         </a>
     </nav>
 </aside>
-
-<div id="registerBarrierModal" class="hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300 ease-in-out opacity-0">
-    <section class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300 ease-in-out">
-        <form id="registerBarrierForm" action="/dashboard/register-barrier" method="POST" onsubmit="event.preventDefault(); handleFormSubmit();">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold text-custom-purple">Registrar Nova Barreira</h2>
-                <button type="button" onclick="closeModal('registerBarrierModal')" class="text-medium-gray hover:text-dark-gray text-xl">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-5">
-                <div class="mb-5 relative">
-                    <label for="school" class="block mb-1 text-sm font-medium text-medium-gray">Nome da escola</label>
-                    <input type="text" name="schoolName" id="school" placeholder="Digite o nome da escola" autocomplete="off"
-                           class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
-                    <ul id="suggestion"
-                        class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-60 overflow-y-auto hidden">
-                    </ul>
-                </div>
-                <div>
-                    <label for="barrierCategorySelect" class="block mb-1 text-sm font-medium text-medium-gray">Categoria da barreira</label>
-                    <select id="barrierCategorySelect" name="barrierCategory" class="form-input" required>
-                        <option disabled selected value="">Selecione a categoria</option>
-                        <option value="ACCESS">Acessos</option>
-                        <option value="INTERNAL_EXTERNAL_CIRCULATION">Circulação interna/externa</option>
-                        <option value="FURNITURE">Mobiliário</option>
-                        <option value="RESTROOMS">Sanitários</option>
-                        <option value="SIGNAGE">Sinalização</option>
-                        <option value="EQUIPMENT">Equipamentos</option>
-                        <option value="PARKING">Estacionamento</option>
-                        <option value="COMMUNICATION">Comunicação</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <label for="specificLocationInput" class="block mb-1 text-sm font-medium text-medium-gray">Localização específica</label>
-                <input type="text" id="specificLocationInput" name="specificLocation" placeholder="Ex: Entrada principal, corredor do 2° andar..." class="form-input" required/>
-            </div>
-
-            <div class="mb-5">
-                <label for="problemDetailsTextarea" class="block mb-1 text-sm font-medium text-medium-gray">Explicação Detalhada do Problema</label>
-                <textarea id="problemDetailsTextarea" name="problemDetails" rows="4" class="form-input resize-none" placeholder="Descreva a barreira encontrada..." required></textarea>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-5">
-                <div>
-                    <label for="urgencyLevelSelect" class="block mb-1 text-sm font-medium text-medium-gray">Nível de urgência</label>
-                    <select id="urgencyLevelSelect" name="urgencyLevel" class="form-input" required>
-                        <option disabled selected value="">Selecione o nível</option>
-                        <option value="HIGH">Alta</option>
-                        <option value="MODERATE">Média</option>
-                        <option value="LOW">Baixa</option>
-                    </select>
-                </div>
-                <div class="relative date-input-container">
-                    <label for="identificationDateInput" class="block mb-1 text-sm font-medium text-medium-gray">Data de identificação</label>
-                    <input type="date" id="identificationDateInput" name="identificationDate" class="form-input" required/>
-                    <i class="fas fa-calendar input-icon"></i>
-                </div>
-            </div>
-
-            <!-- MODIFIED IMAGE UPLOAD AREA -->
-            <div class="mb-6">
-                <label class="block mb-1 text-sm font-medium text-medium-gray">Anexar imagem (opcional)</label>
-                <label for="imageUploadInput" id="imageUploadLabel" class="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-border-gray border-dashed rounded-lg cursor-pointer hover:border-custom-blue bg-input-bg/50">
-                    <div id="imageUploadContent" class="space-y-1 text-center w-full">
-                        <!-- Initial prompt content -->
-                        <i class="fas fa-cloud-upload-alt fa-2x text-medium-gray"></i>
-                        <div class="flex text-sm text-medium-gray justify-center">
-                            <span class="relative cursor-pointer bg-white rounded-md font-medium text-custom-purple hover:text-custom-purple-hover">
-                                Carregar um arquivo
-                            </span>
-                            <p class="pl-1">ou arraste e solte</p>
-                        </div>
-                        <p class="text-xs text-medium-gray">PNG, JPG, GIF até 10MB</p>
-                    </div>
-                    <!-- Hidden file input, associated by the label's 'for' attribute -->
-                    <input id="imageUploadInput" name="imageUpload" type="file" class="sr-only" accept="image/*">
-                </label>
-            </div>
-            <!-- END OF MODIFIED IMAGE UPLOAD AREA -->
-
-
-            <div class="mb-8">
-                <label for="solutionSuggestionTextarea" class="block mb-1 text-sm font-medium text-medium-gray">Sugestão de solução (opcional)</label>
-                <textarea id="solutionSuggestionTextarea" name="solutionSuggestion" rows="3" class="form-input resize-none" placeholder="Se tiver alguma sugestão de como resolver..."></textarea>
-            </div>
-
-            <div class="flex items-center justify-end gap-4">
-                <button type="button" onclick="closeModal('registerBarrierModal')" class="px-6 py-3 text-sm font-medium text-medium-gray capitalize transition-colors duration-300 transform rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50">
-                    Cancelar
-                </button>
-                <button type="submit" class="px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-custom-purple rounded-lg hover:bg-custom-purple-hover focus:outline-none focus:ring-2 focus:ring-custom-purple focus:ring-opacity-50 shadow-md hover:shadow-lg">
-                    Registrar Barreira
-                </button>
-            </div>
-        </form>
-    </section>
-</div>

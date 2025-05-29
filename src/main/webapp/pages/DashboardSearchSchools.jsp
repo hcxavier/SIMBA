@@ -98,7 +98,7 @@
 </div>
 
 <script>const contextPath = '${pageContext.request.contextPath}';</script>
-<script src="../assets/js/sidebar.js"></script>
+<script src="../assets/js/registerBarrier.js"></script>
 
 <script src="../assets/js/dashboardSearchSchools.js"></script>
 </body>

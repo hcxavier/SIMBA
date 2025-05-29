@@ -80,9 +80,11 @@
             <option value="status_pending">Status: Em Análise</option>
             <option value="status_resolved">Status: Resolvido</option>
           </select>
-          <div onclick="openModal('registerBarrierModal')" class="w-full cursor-pointer sm:w-auto bg-custom-purple hover:bg-custom-purple-hover text-white font-medium py-3 px-6 rounded-lg transition duration-150 ease-in-out text-center whitespace-nowrap">
-            <i class="fas fa-plus mr-2"></i>CRIAR NOVO REGISTRO
-          </div>
+          <a href="/dashboard/register-barrier">
+            <div class="w-full cursor-pointer sm:w-auto bg-custom-purple hover:bg-custom-purple-hover text-white font-medium py-3 px-6 rounded-lg transition duration-150 ease-in-out text-center whitespace-nowrap">
+              <i class="fas fa-plus mr-2"></i>CRIAR NOVO REGISTRO
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -187,6 +189,6 @@
   const contextPath = '<%= request.getContextPath() %>';
 </script>
 <script src="../assets/js/registriesManager.js"></script>
-<script src="<%= request.getContextPath() %>/assets/js/sidebar.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/registerBarrier.js"></script>
 </body>
 </html>

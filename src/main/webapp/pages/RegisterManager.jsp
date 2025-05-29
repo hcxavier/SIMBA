@@ -256,7 +256,7 @@
 
         if (value.length < 2) {
             list.innerHTML = '';
-            list.classList.add('hidden'); // Esconde a lista
+            list.classList.add('hidden');
             return;
         }
 

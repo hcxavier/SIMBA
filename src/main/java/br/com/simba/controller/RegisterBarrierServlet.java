@@ -7,6 +7,7 @@ import br.com.simba.model.enums.BarrierCategory;
 import br.com.simba.model.enums.BarrierCriticality;
 import br.com.simba.model.service.RegisterValidator;
 import br.com.simba.model.valueobject.Username;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -287,5 +288,10 @@ public class RegisterBarrierServlet extends HttpServlet {
                 out.flush();
             }
         }
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegisterBarrier.jsp");
+        dispatcher.forward(request, response);
     }
 }

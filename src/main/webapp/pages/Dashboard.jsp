@@ -195,7 +195,9 @@
                 </div>
                 <h2 class="text-lg font-semibold text-dark-gray mb-1">Registrar Nova Barreira</h2>
                 <p class="text-sm text-medium-gray mb-3">Adicione uma barreira arquitetônica que você identificou.</p>
-                <button onclick="openModal('registerBarrierModal')" class="mt-auto text-sm font-medium text-custom-purple hover:text-custom-purple-hover hover:underline">Registrar agora <i class="fas fa-arrow-right ml-1"></i></button>
+                <a href="/dashboard/register-barrier">
+                    <button onclick="openModal('registerBarrierModal')" class="mt-auto text-sm font-medium text-custom-purple hover:text-custom-purple-hover hover:underline">Registrar agora <i class="fas fa-arrow-right ml-1"></i></button>
+                </a>
             </div>
             <div class="bg-white rounded-2xl shadow-custom-lg p-6 flex flex-col items-start">
                 <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-custom-blue text-white mb-4">
@@ -224,6 +226,6 @@
 
 <script>const contextPath = '${pageContext.request.contextPath}';</script>
 
-<script src="../assets/js/sidebar.js"></script>
+<script src="../assets/js/registerBarrier.js"></script>
 </body>
 </html>

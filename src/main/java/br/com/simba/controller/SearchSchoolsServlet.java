@@ -22,6 +22,9 @@ public class SearchSchoolsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DBConnection dbConnection = new PostgresConnection();
         String schoolNameQuery = request.getParameter("q");
+
+        System.out.println("DEBUG [Servlet]: SearchSchoolsServlet foi chamado!");
+        System.out.println("DEBUG [Servlet]: Parâmetro 'q' recebido: " + request.getParameter("q"));
         SchoolHandle schoolHandle = new SchoolHandle(dbConnection.getConnection());
         List<School> schools = schoolHandle.getSchoolsByName(schoolNameQuery);
 
