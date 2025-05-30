@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const tableBody = document.getElementById('recordsTableBody');
     const paginationControls = document.getElementById('paginationControls');
 
-    const userAvatar = document.getElementById('userAvatar');
+    /*const userAvatar = document.getElementById('userAvatar');
     const userName = "";
     if (userName && userName.trim() !== "") {
         const initials = userName.split(' ').map(name => name[0]).slice(0, 2).join('').toUpperCase();
         userAvatar.textContent = initials;
     } else {
         userAvatar.textContent = 'U';
-    }
+    }*/
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
