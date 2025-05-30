@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
+        /* session.setAttribute("user", username);*/
         User user = userDAO.getUserByUsername(new Username(username));
         session.setAttribute("user", user);
         redirectUser.redirectLogin(new Username(username), response);
