@@ -4,6 +4,7 @@ import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
 //import br.com.simba.model.service.LoginValidator;
+import br.com.simba.model.entities.User;
 import br.com.simba.model.service.LoginValidator;
 import br.com.simba.model.service.RedirectUser;
 import br.com.simba.model.valueobject.Username;
@@ -37,8 +38,8 @@ public class LoginServlet extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
-
-        session.setAttribute("user", username);
+        User user = userDAO.getUserByUsername(new Username(username));
+        session.setAttribute("user", user);
         redirectUser.redirectLogin(new Username(username), response);
     }
 
