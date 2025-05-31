@@ -77,7 +77,7 @@ public class Instantiator {
             Email email = new Email(result.getString("email"));
             Username username = new Username(result.getString("username"));
             Password password = Password.fromHash(result.getString("hashed_password"));
-            CPF CPF = new CPF(result.getString("siape"));
+            CPF CPF = new CPF(result.getString("cpf"));
             School school = schoolDAO.getSchoolById(result.getInt("school_id"));
 
             return new Manager(id, username, name, street, addressNumber, neighborhood, city, state, email, password, CPF, school);
@@ -127,7 +127,7 @@ public class Instantiator {
         try {
             int id = result.getInt("id");
             String barrierSpecification = result.getString("barrier_specification");
-            String location = result.getString("resolution_suggestion");
+            String location = result.getString("location");
             String resolutionSuggestion = result.getString("resolution_suggestion");
             BarrierStatus barrierStatus = BarrierStatus.valueOf(result.getString("barrier_status"));
             BarrierCriticality barrierCriticality = BarrierCriticality.valueOf(result.getString("barrier_criticality"));

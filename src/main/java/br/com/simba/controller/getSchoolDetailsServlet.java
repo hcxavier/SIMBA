@@ -1,0 +1,217 @@
+package br.com.simba.controller;
+
+import br.com.simba.model.dao.ManagerDAO;
+import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.SchoolDAO;
+import br.com.simba.model.dao.RegistryDAO;
+import br.com.simba.model.entities.Registry;
+import br.com.simba.model.entities.Manager;
+import br.com.simba.model.entities.School;
+
+// Ajuste o caminho do pacote se seus Enums estiverem em outro lugar
+import br.com.simba.model.enums.BarrierCriticality;
+import br.com.simba.model.enums.BarrierStatus;
+import br.com.simba.model.enums.BarrierCategory;
+
+
+// Importações para Gson e TypeAdapters
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
+
+// Importações padrão do Servlet
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@WebServlet("/getSchoolDetailsServlet")
+public class getSchoolDetailsServlet extends HttpServlet {
+
+    private Gson gson; // Instância Gson configurada no init
+
+    // --- TypeAdapter para LocalDate ---
+    private static class LocalDateSerializer implements JsonSerializer<LocalDate> {
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+        @Override
+        public JsonElement serialize(LocalDate src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            return (src == null) ? null : new JsonPrimitive(FORMATTER.format(src));
+        }
+    }
+
+    // --- TypeAdapter para Pattern ---
+    private static class PatternSerializer implements JsonSerializer<Pattern> {
+        @Override
+        public JsonElement serialize(Pattern src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            return (src == null) ? null : new JsonPrimitive(src.pattern());
+        }
+    }
+
+    // --- Serializer para BarrierCriticality ---
+    private static class BarrierCriticalitySerializer implements JsonSerializer<BarrierCriticality> {
+        @Override
+        public JsonElement serialize(BarrierCriticality src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            // Certifique-se de que seu Enum BarrierCriticality tenha o método getDescricao()
+            return (src == null) ? null : new JsonPrimitive(src.getDisplayName());
+        }
+    }
+
+    // --- Serializer para BarrierStatus ---
+    private static class BarrierStatusSerializer implements JsonSerializer<BarrierStatus> {
+        @Override
+        public JsonElement serialize(BarrierStatus src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            // Certifique-se de que seu Enum BarrierStatus tenha o método getDescricao()
+            return (src == null) ? null : new JsonPrimitive(src.getDisplayName());
+        }
+    }
+
+    // --- Serializer para BarrierType ---
+    private static class BarrierTypeSerializer implements JsonSerializer<BarrierCategory> {
+        @Override
+        public JsonElement serialize(BarrierCategory src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            // Certifique-se de que seu Enum BarrierType tenha o método getDescricao()
+            return (src == null) ? null : new JsonPrimitive(src.getDisplayName());
+        }
+    }
+
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        // Registra os serializers para tipos específicos
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.registerTypeAdapter(Pattern.class, new PatternSerializer());
+
+        // Registra os serializers para os Enums
+        // Certifique-se que as classes Enum (BarrierCriticality.class, etc.) estão corretas
+        gsonBuilder.registerTypeAdapter(BarrierCriticality.class, new BarrierCriticalitySerializer());
+        gsonBuilder.registerTypeAdapter(BarrierStatus.class, new BarrierStatusSerializer());
+        gsonBuilder.registerTypeAdapter(BarrierCategory.class, new BarrierTypeSerializer());
+
+        // Outras configurações do GsonBuilder (opcional)
+        // gsonBuilder.setPrettyPrinting(); // Para JSON formatado (bom para debug)
+        // gsonBuilder.serializeNulls();    // Para incluir campos nulos no JSON
+
+        this.gson = gsonBuilder.create(); // Cria a instância Gson final
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        Map<String, Object> responseJson = new HashMap<>();
+
+        String idParam = request.getParameter("id");
+
+        if (idParam == null || idParam.trim().isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseJson.put("error", "O parâmetro 'id' da escola é obrigatório.");
+            out.print(this.gson.toJson(responseJson));
+            out.flush();
+            return;
+        }
+
+        int schoolId;
+        try {
+            schoolId = Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseJson.put("error", "O parâmetro 'id' da escola deve ser um número inteiro válido.");
+            out.print(this.gson.toJson(responseJson));
+            out.flush();
+            return;
+        }
+
+        System.out.println("Servlet: Buscando detalhes para a escola com ID: " + schoolId);
+
+        try (Connection connection = new PostgresConnection().getConnection()) {
+
+            if (connection == null) {
+                System.err.println("Falha ao obter conexão com o banco de dados.");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                responseJson.put("error", "Erro interno do servidor: não foi possível conectar ao banco de dados.");
+                out.print(this.gson.toJson(responseJson));
+                out.flush();
+                return;
+            }
+
+            SchoolDAO schoolDAO = new SchoolDAO(connection);
+            ManagerDAO managerDAO = new ManagerDAO(connection);
+            RegistryDAO registryDAO = new RegistryDAO(connection);
+
+            School school = schoolDAO.getSchoolById(schoolId);
+            Manager manager = null;
+            List<Registry> barriers = null;
+
+            if (school != null) {
+                try {
+                    manager = managerDAO.getManagerBySchoolName(school.getName());
+                } catch (Exception e) {
+                    System.err.println("Alerta: Gestor não encontrado para a escola '" + school.getName() + "' ou erro ao buscar: " + e.getMessage());
+                }
+                barriers = registryDAO.listRegistriesBySchoolId(schoolId);
+            }
+
+            if (school != null) {
+                System.out.println("Escola encontrada: " + school.getName());
+                if (manager != null) {
+                    System.out.println("Gestor encontrado: " + manager.getName());
+                } else {
+                    System.out.println("Gestor não encontrado para a escola: " + school.getName());
+                }
+                if (barriers != null) {
+                    System.out.println("Barreiras encontradas: " + barriers.size());
+                } else {
+                    System.out.println("Nenhuma barreira encontrada ou lista de barreiras é nula para a escola: " + school.getName());
+                }
+
+                Map<String, Object> dataForClient = new HashMap<>();
+                dataForClient.put("school", school);
+                dataForClient.put("managerName", (manager != null) ? manager.getName() : "Não informado");
+                dataForClient.put("barriers", barriers);
+
+                out.print(this.gson.toJson(dataForClient));
+            } else {
+                System.out.println("Escola com ID " + schoolId + " não encontrada.");
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                responseJson.put("error", "Escola com ID " + schoolId + " não encontrada.");
+                out.print(this.gson.toJson(responseJson));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro de SQL ao processar detalhes da escola para ID " + schoolId + ": " + e.getMessage());
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            responseJson.put("error", "Erro interno do servidor ao consultar o banco de dados.");
+            out.print(this.gson.toJson(responseJson));
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar detalhes da escola para ID " + schoolId + ": " + e.getMessage());
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            responseJson.put("error", "Ocorreu um erro inesperado no servidor.");
+            out.print(this.gson.toJson(responseJson));
+        } finally {
+            if (out != null) {
+                out.flush();
+            }
+        }
+    }
+}

@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                     schools.forEach(school => {
-                        const detailUrl = contextPath + '/dashboard/school-details?id=' + (school.id || '');
+                        const detailUrl = contextPath + '/dashboard' + '/school-details?id=' + (school.id || '');
                         const schoolCardHTML = `
                 <div class="bg-white rounded-xl shadow-custom-lg overflow-hidden flex flex-col animate-fade-in">
                       <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">

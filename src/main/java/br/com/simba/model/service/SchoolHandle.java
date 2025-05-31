@@ -2,10 +2,17 @@ package br.com.simba.model.service;
 
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.entities.School;
+import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SchoolHandle {
     private final Connection connection;
@@ -50,4 +57,5 @@ public class SchoolHandle {
     public int getAmountSchools(){
         return schools != null ? schools.size() : 0;
     }
+
 }

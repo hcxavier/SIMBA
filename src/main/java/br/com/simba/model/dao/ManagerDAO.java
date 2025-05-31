@@ -4,6 +4,7 @@ import java.sql.*;
 
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Manager;
+import br.com.simba.model.entities.School;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.Username;
@@ -77,6 +78,27 @@ public class ManagerDAO extends UserDAO {
         } catch (SQLException e){
             SQLErrorLog.reportSqlException(e);
             throw new DataAccessException("Error: failed to get user by username!");
+        }
+    }
+
+    public Manager getManagerBySchoolName(String schoolName){
+        String sql = "SELECT m.CPF, u.id, m.school_id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id JOIN schools s ON m.school_id = s.id WHERE school_name = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, schoolName);
+
+            statement.executeQuery();
+
+            try (ResultSet resultSet = statement.getResultSet()){
+                boolean exists = resultSet.next();
+
+                if (!exists) throw new DataAccessException("Error: manager not found!");
+
+                return instantiator.instantiateManager(resultSet);
+            }
+        } catch (SQLException e){
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to get manager by school_name!");
         }
     }
 }

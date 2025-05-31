@@ -221,4 +221,22 @@ public class RegistryDAO {
             throw new DataAccessException("Error: failed to update registry!");
         }
     }
+
+    public List<Registry> listRegistriesBySchoolId(int schoolId) {
+        String sql = String.format("SELECT %s FROM registries rg WHERE rg.school_id = ? ORDER BY rg.barrier_identification_date DESC", COLUMNS);
+        List<Registry> registries = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, schoolId);
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    registries.add(instantiator.instantiateRegistry(result));
+                }
+            }
+        } catch (SQLException e) {
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Error: failed to list registries by school ID!");
+        }
+        return registries;
+    }
 }

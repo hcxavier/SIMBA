@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="true" %>
 
 <!doctype html>
 <html lang="pt-br">
@@ -49,7 +50,6 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-custom-lg overflow-hidden mb-10">
-            <!-- Header -->
             <div class="p-6 sm:p-8 border-b border-gray-100">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-semibold text-custom-blue">Informações da Escola</h2>
@@ -101,15 +101,6 @@
                                         <p id="schoolCityState" class="text-dark-gray font-semibold">...</p>
                                     </div>
                                 </div>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-custom-blue/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                                        <i class="fas fa-mail-bulk text-custom-blue text-xs"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-xs font-medium text-medium-gray uppercase tracking-wide">CEP</p>
-                                        <p id="schoolZipCode" class="text-dark-gray font-semibold">...</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -130,15 +121,6 @@
                                         <p id="schoolPhone" class="text-dark-gray font-semibold">...</p>
                                     </div>
                                 </div>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-custom-purple/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                                        <i class="fas fa-envelope text-custom-purple text-xs"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-xs font-medium text-medium-gray uppercase tracking-wide">Email</p>
-                                        <p id="schoolEmail" class="text-dark-gray font-semibold break-all">...</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -153,7 +135,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-xs font-medium text-medium-gray uppercase tracking-wide">Gestor(a)</p>
-                                    <p id="schoolDirector" class="text-dark-gray font-semibold text-lg">...</p>
+                                    <p id="schoolManager" class="text-dark-gray font-semibold text-lg">...</p>
                                     <p class="text-green-600 text-sm font-medium">Responsável pela instituição</p>
                                 </div>
                             </div>
@@ -180,7 +162,7 @@
                         <th scope="col" class="px-6 py-3 font-semibold">Localização</th>
                         <th scope="col" class="px-6 py-3 font-semibold">Urgência</th>
                         <th scope="col" class="px-6 py-3 font-semibold">Status</th>
-                        <th scope="col" class="px-6 py-3 font-semibold">Data Reg.</th>
+                        <th scope="col" class="px-6 py-3 font-semibold">Data</th>
                         <th scope="col" class="px-6 py-3 font-semibold">Ações</th>
                     </tr>
                     </thead>
@@ -200,117 +182,9 @@
     </main>
 </div>
 
-<script type="text/javascript">
-    const jsonData = {
-        school: {
-            name: "Escola Estadual Professor João Silva",
-            inep: "12345678",
-            address: "Rua das Flores, 123 - Centro",
-            city: "São Paulo",
-            state: "SP",
-            zipCode: "01234-567",
-            phone: "(11) 3456-7890",
-            email: "contato@escolajoaosilva.edu.br",
-            directorName: "Maria Santos Oliveira",
-            studentCount: "850"
-        },
-        barriers: []
-    };
-</script>
+<script> const path = "<%= request.getContextPath() == null ? "" : request.getContextPath() %>"; </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function populateSchoolDetails(school) {
-            document.getElementById('addBarrierLink').href = `/dashboard/register-barrier?schoolId=${school.id}`;
-
-            document.getElementById('schoolName').textContent = school.name || 'N/A';
-            document.getElementById('schoolAddress').textContent = school.address || 'N/A';
-            document.getElementById('schoolCityState').textContent = `${school.city || 'N/A'} / ${school.state || 'N/A'}`;
-            document.getElementById('schoolZipCode').textContent = school.zipCode || 'N/A';
-            document.getElementById('schoolPhone').textContent = school.phone || 'N/A';
-            document.getElementById('schoolEmail').textContent = school.email || 'N/A';
-            document.getElementById('schoolDirector').textContent = school.directorName || 'N/A';
-            document.getElementById('schoolStudentCount').textContent = school.studentCount !== undefined ? school.studentCount : 'N/A';
-        }
-
-        function createBadge(text, type) {
-            let bgColor, textColor;
-            switch (type) {
-                case 'urgency-alta':    bgColor = 'bg-red-100'; textColor = 'text-red-700'; break;
-                case 'urgency-media':   bgColor = 'bg-yellow-100'; textColor = 'text-yellow-700'; break;
-                case 'urgency-baixa':   bgColor = 'bg-blue-100'; textColor = 'text-blue-700'; break;
-                case 'status-analise':  bgColor = 'bg-orange-100'; textColor = 'text-orange-700'; break;
-                case 'status-resolvida':bgColor = 'bg-green-100'; textColor = 'text-green-700'; break;
-                case 'status-pendente':
-                default:                bgColor = 'bg-gray-100'; textColor = 'text-gray-700'; break;
-            }
-            return `<span class="px-2 py-1 text-xs font-medium ${textColor} ${bgColor} rounded-full">${text}</span>`;
-        }
-
-        function populateBarriersTable(barriers) {
-            const tableBody = document.getElementById('barriersTableBody');
-            const noBarriersMsg = document.getElementById('noBarriersMessage');
-            const tableContainer = document.getElementById('barriersTableContainer');
-            tableBody.innerHTML = '';
-
-            if (!barriers || barriers.length === 0) {
-                tableContainer.classList.add('hidden');
-                noBarriersMsg.classList.remove('hidden');
-                return;
-            }
-
-            tableContainer.classList.remove('hidden');
-            noBarriersMsg.classList.add('hidden');
-
-            barriers.forEach(barrier => {
-                const row = tableBody.insertRow();
-                row.className = 'bg-white border-b border-border-gray hover:bg-gray-50';
-
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${barrier.description || 'N/A'}</td>`;
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${barrier.type || 'N/A'}</td>`;
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${barrier.location || 'N/A'}</td>`;
-
-                let urgencyBadge = 'N/A';
-                if (barrier.urgency) {
-                    if (barrier.urgency.toLowerCase() === 'alta') urgencyBadge = createBadge('Alta', 'urgency-alta');
-                    else if (barrier.urgency.toLowerCase() === 'média' || barrier.urgency.toLowerCase() === 'media') urgencyBadge = createBadge('Média', 'urgency-media');
-                    else if (barrier.urgency.toLowerCase() === 'baixa') urgencyBadge = createBadge('Baixa', 'urgency-baixa');
-                }
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${urgencyBadge}</td>`;
-
-                let statusBadge = 'N/A';
-                if (barrier.status) {
-                    if (barrier.status.toLowerCase() === 'em análise' || barrier.status.toLowerCase() === 'em analise') statusBadge = createBadge('Em análise', 'status-analise');
-                    else if (barrier.status.toLowerCase() === 'resolvida') statusBadge = createBadge('Resolvida', 'status-resolvida');
-                    else statusBadge = createBadge(barrier.status, 'status-pendente');
-                }
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${statusBadge}</td>`;
-                row.insertCell().outerHTML = `<td class="px-6 py-4">${barrier.reportedDate || 'N/A'}</td>`;
-
-                let actionsHtml = `<a href="/barreiras/detalhes?id=${barrier.id}" class="text-custom-blue hover:text-custom-blue-hover mr-3" title="Ver Detalhes"><i class="fas fa-eye"></i></a>`;
-                actionsHtml += `<a href="/barreiras/editar?id=${barrier.id}" class="text-custom-purple hover:text-custom-purple-hover mr-3" title="Editar Barreira"><i class="fas fa-edit"></i></a>`;
-                if (barrier.photoUrl) {
-                    actionsHtml += `<a href="${barrier.photoUrl}" target="_blank" class="text-teal-600 hover:text-teal-700" title="Ver Foto"><i class="fas fa-camera"></i></a>`;
-                }
-                row.insertCell().outerHTML = `<td class="px-6 py-4 whitespace-nowrap">${actionsHtml}</td>`;
-            });
-        }
-
-        if (jsonData && jsonData.school) {
-            populateSchoolDetails(jsonData.school);
-        }
-
-        if (jsonData && jsonData.barriers) {
-            populateBarriersTable(jsonData.barriers);
-        } else {
-            document.getElementById('barriersTableContainer').classList.add('hidden');
-            document.getElementById('noBarriersMessage').classList.remove('hidden');
-            document.getElementById('noBarriersMessage').textContent = 'Não foi possível carregar as barreiras.';
-        }
-
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-    });
-</script>
+<script src="../assets/js/schoolDetails.js"> </script>
 
 <script src="../assets/js/sidebar.js"></script>
 </body>
