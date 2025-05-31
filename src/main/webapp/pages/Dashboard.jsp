@@ -1,3 +1,4 @@
+<%@ page import="br.com.simba.model.entities.User" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!doctype html>
@@ -37,7 +38,7 @@
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
                 </button>
                 <div id="userAvatar" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
-                    S </div>
+                    <%= ((User) session.getAttribute("user")).getName().charAt(0) %> </div>
             </div>
         </div>
 
