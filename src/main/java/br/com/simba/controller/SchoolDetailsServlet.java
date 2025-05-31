@@ -4,6 +4,7 @@ import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.entities.School;
+import br.com.simba.model.service.RedirectUser;
 import br.com.simba.model.service.SchoolHandle;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,9 @@ import java.sql.Connection;
 @WebServlet("/dashboard/school-details")
 public class SchoolDetailsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RedirectUser redirectUser = new RedirectUser();
+        if (redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/SchoolDetails.jsp");
         dispatcher.forward(request, response);
     }

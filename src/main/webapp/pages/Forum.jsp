@@ -65,7 +65,18 @@
 <body class="bg-light-gray-bg text-dark-gray antialiased">
 
 <div class="flex flex-col md:flex-row h-screen">
+    <%
+        User user = (User)session.getAttribute("user");
+        if (user.getUserType().equals("reporter")){
+    %>
     <jsp:include page="../partials/sidebar.html" flush="true"/>
+    <%
+    } else {
+    %>
+    <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+    <%
+        }
+    %>
 
     <main class="main-content flex-1 flex flex-col p-6 sm:p-8 md:p-10 overflow-y-auto">
         <div class="flex-grow">

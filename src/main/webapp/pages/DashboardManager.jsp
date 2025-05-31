@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <jsp:include page="../partials/tailwind-config.html" flush="true"/>
+
 </head>
 <body class="bg-light-gray-bg text-dark-gray antialiased font-['Inter'] subpixel-antialiased">
 
@@ -24,7 +26,18 @@
 %>
 
 <div class="flex flex-col md:flex-row h-screen">
-  <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+  <%
+    User user = (User)session.getAttribute("user");
+    if (user.getUserType().equals("reporter")){
+  %>
+      <jsp:include page="../partials/sidebar.html" flush="true"/>
+  <%
+  } else {
+  %>
+      <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+  <%
+    }
+  %>
 
   <main class="main-content flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">

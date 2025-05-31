@@ -13,9 +13,8 @@ import java.io.IOException;
 @WebServlet("/dashboard/logout")
 public class LogoutServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index");
         HttpSession session = request.getSession();
         session.setAttribute("user", null);
-        dispatcher.forward(request, response);
+        response.sendRedirect("/index");
     }
 }

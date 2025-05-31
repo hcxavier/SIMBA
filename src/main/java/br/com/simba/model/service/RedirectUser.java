@@ -44,7 +44,6 @@ public class RedirectUser {
 
     public boolean validateUserType(HttpSession session, String targetType, HttpServletResponse response){
         User user = (User) session.getAttribute("user");
-        System.out.println("\n\n\n\nTipo do Usuário: " + user.getUserType() + "\n\n\n\n\n");
 
         if (user.getUserType().trim().equals(targetType.trim())) return true;
 

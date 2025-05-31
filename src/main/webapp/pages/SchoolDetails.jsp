@@ -1,3 +1,4 @@
+<%@ page import="br.com.simba.model.entities.User" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="true" %>
 
@@ -15,7 +16,18 @@
 <body class="bg-light-gray-bg text-dark-gray antialiased font-['Inter'] subpixel-antialiased">
 
 <div class="flex flex-col md:flex-row h-screen">
+    <%
+        User user = (User)session.getAttribute("user");
+        if (user.getUserType().equals("reporter")){
+    %>
     <jsp:include page="../partials/sidebar.html" flush="true"/>
+    <%
+    } else {
+    %>
+    <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+    <%
+        }
+    %>
 
     <main class="main-content flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
@@ -44,7 +56,7 @@
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
                 </button>
                 <div id="userAvatar" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
-                    U
+                    <%= ((User) session.getAttribute("user")).getName().charAt(0) %>
                 </div>
             </div>
         </div>

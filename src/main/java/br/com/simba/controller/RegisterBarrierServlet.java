@@ -295,6 +295,7 @@ public class RegisterBarrierServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         RedirectUser redirectUser = new RedirectUser();
         if(redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;
+        if(!redirectUser.validateUserType(request.getSession(), "reporter", response)) return;
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegisterBarrier.jsp");
         dispatcher.forward(request, response);
