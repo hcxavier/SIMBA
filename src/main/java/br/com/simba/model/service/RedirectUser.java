@@ -25,7 +25,7 @@ public class RedirectUser {
                 return;
             };
 
-            response.sendRedirect("/pages/nbr-9050");
+            response.sendRedirect("/dashboard/manager");
         } catch (IOException e){
             throw new NullPointerException("Error: failed to redirect user to /dashboard or /pages/nbr-9050 page!");
         }
@@ -38,7 +38,21 @@ public class RedirectUser {
             response.sendRedirect("/login");
             return true;
         } catch (IOException e){
-            throw new IllegalArgumentException("Error: failed to redirect to login page");
+            throw new IllegalArgumentException("Error: failed to redirect to login page!");
+        }
+    }
+
+    public boolean validateUserType(HttpSession session, String targetType, HttpServletResponse response){
+        User user = (User) session.getAttribute("user");
+        System.out.println("\n\n\n\nTipo do Usuário: " + user.getUserType() + "\n\n\n\n\n");
+
+        if (user.getUserType().trim().equals(targetType.trim())) return true;
+
+        try {
+            response.sendRedirect("/index");
+            return false;
+        } catch (IOException e){
+            throw new IllegalArgumentException("Error: failed to redirect to index page!");
         }
     }
 }
