@@ -100,7 +100,8 @@ public class RegisterBarrierServlet extends HttpServlet {
                 conn.rollback();
                 return;
             }
-            String userUsername = (String) session.getAttribute("user");
+            User user = (User) session.getAttribute("user");
+            String userUsername = user.getUsername();
             System.out.println("INFO doPost: Session user: " + userUsername);
 
             String schoolNameParam = request.getParameter("schoolName");

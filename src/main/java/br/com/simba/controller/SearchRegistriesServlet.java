@@ -3,6 +3,7 @@ package br.com.simba.controller;
 import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.entities.Registry;
+import br.com.simba.model.entities.User;
 import br.com.simba.model.enums.BarrierCriticality;
 import br.com.simba.model.enums.BarrierStatus;
 import br.com.simba.model.service.RedirectUser;
@@ -32,7 +33,8 @@ public class SearchRegistriesServlet extends HttpServlet {
         RedirectUser redirectUser = new RedirectUser();
         if(redirectUser.userNullRedirectToLogin(session, response)) return;
 
-        String username = session.getAttribute("user").toString();
+        User user = (User) session.getAttribute("user");
+        String userUsername = user.getUsername();
         DBConnection dbConnection = new PostgresConnection();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -60,7 +62,7 @@ public class SearchRegistriesServlet extends HttpServlet {
                 return;
             }
 
-            RegistryHandle registryHandle = new RegistryHandle(conn, username);
+            RegistryHandle registryHandle = new RegistryHandle(conn, userUsername);
 
             switch (sortOrder) {
                 case "recent":
