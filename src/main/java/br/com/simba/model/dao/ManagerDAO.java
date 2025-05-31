@@ -61,7 +61,7 @@ public class ManagerDAO extends UserDAO {
     }
 
     public Manager getManagerByUsername(Username usernameEntry){
-        String sql = "SELECT m.CPF, u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id WHERE username = ?";
+        String sql = "SELECT m.CPF, m.school_id, u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id WHERE username = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, usernameEntry.toString());

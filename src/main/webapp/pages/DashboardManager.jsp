@@ -124,7 +124,7 @@
         </div>
         <h2 class="text-lg font-semibold text-dark-gray mb-1">Gerenciar Registros da Escola</h2>
         <p class="text-sm text-medium-gray mb-3">Acesse e gerencie os registros de barreiras arquitetônicas de sua escola.</p>
-        <a href="/dashboard/manage-school-records">
+        <a href="/dashboard/school-registries-manager">
           <button class="mt-auto text-sm font-medium text-custom-purple hover:text-custom-purple-hover hover:underline">Gerenciar agora <i class="fas fa-arrow-right ml-1"></i></button>
         </a>
       </div>

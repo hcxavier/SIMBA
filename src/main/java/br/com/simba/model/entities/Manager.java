@@ -17,6 +17,7 @@ public class Manager extends User {
     public Manager(int id, Username username, String name, String street, int number , String neighborhood, String city, String stateAbbr, Email email, Password password, CPF CPF, School school) {
         super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, "manager");
         this.CPF = CPF;
+        this.school = school;
     }
 
     public void addToDatabase(Connection connection){

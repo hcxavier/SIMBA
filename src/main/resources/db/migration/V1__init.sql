@@ -53,6 +53,7 @@ CREATE TABLE registries (
                          barrier_criticality VARCHAR(8),
                          barrier_type VARCHAR(15),
                          barrier_identification_date DATE,
+                         observations_text TEXT,
                          picture_id INTEGER REFERENCES pictures(id),
                          school_id INTEGER REFERENCES schools(id),
                          reporter_id INTEGER REFERENCES reporters(id)
