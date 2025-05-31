@@ -3,6 +3,7 @@ package br.com.simba.model.dao;
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Registry;
 import br.com.simba.model.entities.School;
+import br.com.simba.model.enums.BarrierStatus;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 
@@ -238,5 +239,47 @@ public class RegistryDAO {
             throw new DataAccessException("Error: failed to list registries by school ID!");
         }
         return registries;
+    }
+
+    public String getObservationsTextByRegistryId(int registryId) throws SQLException {
+        String sql = "SELECT observations_text FROM registries WHERE id = ?";
+
+        try (java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, registryId);
+
+            try (java.sql.ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    String obsText = rs.getString("observations_text");
+                    return obsText;
+                }
+                return null;
+            }
+        }
+    }
+
+    public void updateObservationsText(int registryId, String observationsText) throws SQLException {
+        String sql = "UPDATE registries SET observations_text = ? WHERE id = ?";
+
+        try (java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, observationsText);
+            statement.setInt(2, registryId);
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) throw new SQLException("Falha ao atualizar observações, nenhuma linha afetada. ID da barreira: " + registryId);
+        }
+    }
+
+    public void updateBarrierStatus(int registryId, BarrierStatus newStatus) throws SQLException {
+        String sql = "UPDATE registries SET barrier_status = ? WHERE id = ?";
+
+        try (java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newStatus.name());
+            statement.setInt(2, registryId);
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) throw new SQLException("Falha ao atualizar status, nenhuma linha afetada. ID da barreira: " + registryId);
+        }
     }
 }

@@ -4,7 +4,6 @@ import java.sql.*;
 
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Manager;
-import br.com.simba.model.entities.School;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.Username;
