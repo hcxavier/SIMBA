@@ -15,11 +15,11 @@
                     colors: {
                         'custom-blue': '#3F88C5',
                         'custom-blue-hover': '#86b4da',
-                        'custom-purple': '#7D5799', // Added from the first document for consistency if needed
+                        'custom-purple': '#7D5799',
                         'custom-purple-light': '#ca89fb',
                         'custom-purple-guideline': '#6a4c93',
                         'dark-gray': '#212121',
-                        'light-gray-bg': '#f0f4f8', // For backgrounds or subtle elements
+                        'light-gray-bg': '#f0f4f8',
                         'border-gray-subtle': '#bababa',
                     },
                     fontFamily: {
@@ -33,34 +33,33 @@
         }
     </script>
     <style>
-        /* Additional style for smooth accordion transition */
         .accordion-content {
             transition: max-height 0.3s ease-out, padding 0.3s ease-out;
             max-height: 0;
             overflow: hidden;
         }
         .accordion-content.active {
-            max-height: 500px; /* Adjust as needed for your content length */
-            padding-top: 0.5rem; /* 8px */
-            padding-bottom: 1rem; /* 16px */
+            max-height: 500px;
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-light-gray-bg">
+<body class="font-sans text-gray-800">
 
 <jsp:include page="../partials/header.html" flush="true" />
 
 <main class="pt-20 md:pt-24 pb-16">
     <div class="container mx-auto px-4">
         <header class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-custom-purple-guideline">Perguntas Frequentes (FAQ)</h1>
-            <p class="text-gray-600 mt-2">Encontre respostas para as dúvidas mais comuns sobre o SIMBA e acessibilidade.</p>
+            <h1 class="text-3xl md:text-5xl font-bold text-custom-purple-guideline">Perguntas Frequentes (FAQ)</h1>
+            <p class="text-gray-600 mt-2 text-xl">Encontre respostas para as dúvidas mais comuns sobre o SIMBA e acessibilidade.</p>
         </header>
 
         <div class="max-w-3xl mx-auto space-y-4">
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>O que é o SIMBA?</span>
+                    <span class="text-xl">O que é o SIMBA?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -70,9 +69,9 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>Como posso denunciar uma barreira arquitetônica usando o SIMBA?</span>
+                    <span class="text-xl">Como posso denunciar uma barreira arquitetônica usando o SIMBA?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -82,9 +81,9 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>Quais tipos de barreiras arquitetônicas posso reportar?</span>
+                    <span class="text-xl">Quais tipos de barreiras arquitetônicas posso reportar?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -94,9 +93,9 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>O SIMBA é gratuito?</span>
+                    <span class="text-xl">O SIMBA é gratuito?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -106,9 +105,9 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>O que é a NBR 9050 e qual sua relação com o SIMBA?</span>
+                    <span class="text-xl">O que é a NBR 9050 e qual sua relação com o SIMBA?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -118,9 +117,9 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <button class="accordion-toggle flex justify-between items-center w-full p-5 text-left font-semibold text-custom-blue hover:text-custom-blue-hover focus:outline-none transition-colors duration-300">
-                    <span>Como minha instituição pode se beneficiar do SIMBA?</span>
+                    <span class="text-xl">Como minha instituição pode se beneficiar do SIMBA?</span>
                     <svg class="accordion-icon w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -133,8 +132,8 @@
         </div>
 
         <div class="mt-16 text-center">
-            <p class="text-gray-700 text-lg">Ainda tem dúvidas?</p>
-            <a href="/contato" class="mt-4 inline-block bg-custom-purple hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+            <p class="text-gray-700 text-xl">Ainda tem dúvidas?</p>
+            <a href="/contato" class="mt-4 inline-block bg-custom-purple hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-xl transition duration-300 ease-in-out transform hover:scale-105 text-xl">
                 Entre em Contato
             </a>
         </div>
@@ -145,7 +144,6 @@
 <jsp:include page="../partials/footer.html" flush="true" />
 
 <script>
-    // JavaScript for Accordion Functionality
     document.addEventListener('DOMContentLoaded', function () {
         const accordionToggles = document.querySelectorAll('.accordion-toggle');
 
@@ -154,7 +152,6 @@
                 const content = button.nextElementSibling;
                 const icon = button.querySelector('.accordion-icon');
 
-                // Close other open accordions
                 accordionToggles.forEach(otherButton => {
                     if (otherButton !== button) {
                         otherButton.nextElementSibling.classList.remove('active');
@@ -163,18 +160,8 @@
                     }
                 });
 
-                // Toggle current accordion
                 content.classList.toggle('active');
                 icon.classList.toggle('rotate-180');
-
-                if (content.classList.contains('active')) {
-                    // Temporarily set max-height to scrollHeight to get the actual height
-                    // then set it back to a fixed value or keep it dynamic if preferred.
-                    // For CSS transition, a fixed max-height is generally better.
-                    // The .active class in CSS now handles the max-height.
-                } else {
-                    // Handled by removing .active class
-                }
             });
         });
     });
