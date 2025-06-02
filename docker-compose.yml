@@ -42,5 +42,8 @@ services:
       DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FILES_DIR: /uploads
+    volumes:
+      - ./src/main/java/br/com/simba/uploads:/uploads
 volumes:
   pg_data:
