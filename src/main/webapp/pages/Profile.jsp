@@ -125,7 +125,7 @@
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
                 </button>
                 <div id="userAvatarHeader" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
-                    A
+                    <%= ((User) session.getAttribute("user")).getName().charAt(0) %>
                 </div>
             </div>
         </div>
@@ -139,11 +139,11 @@
                         </div>
                     </div>
                     <div class="text-center sm:text-left text-white">
-                        <h2 id="profileNameDisplayTop" class="text-3xl sm:text-4xl font-bold mb-2">Nome do Usuário</h2>
+                        <h2 id="profileNameDisplayTop" class="text-3xl sm:text-4xl font-bold mb-2"> @nometeste </h2>
                         <p id="profileEmailDisplayTop" class="text-purple-100 text-lg mb-4 opacity-90">email.do.usuario@example.com</p>
                         <div class="flex items-center justify-center sm:justify-start">
                             <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-4 py-2">
-                                <span class="text-sm font-semibold">anajulia99</span>
+                                <span class="text-sm font-semibold"> <%= ((User) session.getAttribute("user")).getUsername() %> </span>
                             </div>
                         </div>
                     </div>
@@ -277,14 +277,14 @@
             initialUserData = JSON.parse(userDataScript.textContent);
         } catch (e) {
             initialUserData = {
-                fullName: "Ana Júlia Silva",
-                username: "anajulia99",
-                email: "ana.julia@simba.org",
-                street: "Rua das Palmeiras Floridas, Prolongamento Norte",
-                addressNumber: "123-B",
-                neighborhood: "Jardim das Américas",
-                state: "RJ",
-                city: "Rio de Janeiro Capital",
+                fullName: "<%= ((User) session.getAttribute("user")).getName() %>",
+                username: "<%= ((User) session.getAttribute("user")).getUsername() %>",
+                email: "<%= ((User) session.getAttribute("user")).getEmail() %>",
+                street: "<%= ((User) session.getAttribute("user")).getStreet() %>",
+                addressNumber: "<%= ((User) session.getAttribute("user")).getAddressNumber() %>",
+                neighborhood: "<%= ((User) session.getAttribute("user")).getNeighborhood() %>",
+                state: "<%= ((User) session.getAttribute("user")).getStateAbbr() %>",
+                city: "<%= ((User) session.getAttribute("user")).getCity() %>",
                 phone: "(21) 99876-5432",
                 userInitial: "A"
             };
