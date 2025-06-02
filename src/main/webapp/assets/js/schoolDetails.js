@@ -185,7 +185,7 @@ function populateBarriersTable(barriers) {
         }
         row.insertCell().outerHTML = `<td class="px-6 py-4">${reportedDate}</td>`;
 
-        let actionsHtml = `<a href="${(typeof path !== 'undefined' ? path : '')}/barreiras/detalhes?id=${barrier.id}" class="text-custom-blue hover:text-custom-blue-hover mr-3" title="Ver Detalhes"><i class="fas fa-eye"></i></a>`;
+        let actionsHtml = `<a href="${(typeof path !== 'undefined' ? path : '')}/dashboard/registry?id=${barrier.id}" class="text-custom-blue hover:text-custom-blue-hover mr-3" title="Ver Detalhes"><i class="fas fa-eye"></i></a>`;
         row.insertCell().outerHTML = `<td class="px-6 py-4 whitespace-nowrap">${actionsHtml}</td>`;
     });
 }

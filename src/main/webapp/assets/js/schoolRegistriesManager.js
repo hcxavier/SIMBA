@@ -4,7 +4,7 @@ let barriersData = [];
 let filteredAndSortedBarriers = [];
 let currentFilterTerm = '';
 let currentSortBy = 'recent';
-const itemsPerPage = 5;
+const itemsPerPage = 8; // Aumentei um pouco, ajuste conforme preferir
 let currentPage = 1;
 
 const barrierStatusEnum = {
@@ -38,8 +38,9 @@ async function fetchDataAsync(url, options) {
             let errorMsg = `Erro HTTP: ${response.status}`;
             try {
                 const errorData = await response.json();
-                errorMsg = errorData.error || errorMsg;
+                errorMsg = errorData.error || errorData.message || errorMsg;
             } catch (e) {
+                // Não conseguiu parsear JSON de erro
             }
             throw new Error(errorMsg);
         }
@@ -51,8 +52,8 @@ async function fetchDataAsync(url, options) {
         }
     } catch (error) {
         console.error('Erro na requisição fetch:', error);
-        if (!(error.message.startsWith("Erro HTTP:"))) {
-            alert(`Erro na comunicação com o servidor: ${error.message}`);
+        if (!(error.message.startsWith("Erro HTTP:")) && typeof error.message === 'string' && !error.message.toLowerCase().includes("sucesso")) {
+            // alert(`Erro na comunicação com o servidor: ${error.message}`); // Opcional
         }
         throw error;
     }
@@ -63,33 +64,33 @@ async function fetchBarriersData() {
     tableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Carregando barreiras...</td></tr>';
     try {
         const data = await fetchDataAsync(servletURL);
-        barriersData = data.map(b => ({...b, type: b.type || "N/A", criticality: b.criticality || "N/A" }));
+        barriersData = data.map(b => ({
+            ...b,
+            id: b.id,
+            name: b.name || "Nome não disponível",
+            location: b.location || "Localização não disponível",
+            type: b.type || "UNKNOWN_TYPE",
+            criticality: b.criticality || "UNKNOWN_CRITICALITY",
+            status: b.status || "UNKNOWN_STATUS",
+            date: b.date || new Date().toISOString().split('T')[0],
+            observations: Array.isArray(b.observations) ? b.observations : []
+        }));
         applyFiltersAndSorting();
         if (barriersData.length === 0 && tableBody.innerHTML.includes("Carregando")) {
             tableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Nenhuma barreira encontrada para esta escola.</td></tr>';
         }
     } catch (error) {
+        console.error("Erro ao buscar dados das barreiras:", error);
         if (tableBody.innerHTML.includes("Carregando")) {
-            tableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Erro ao carregar barreiras. Tente novamente mais tarde.</td></tr>';
+            tableBody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-red-500">Erro ao carregar barreiras. Tente novamente mais tarde.</td></tr>`;
         }
     }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const userSchoolName = "Nome da Escola (Gestor)";
-    const sidebarSchoolNameElement = document.getElementById('sidebarSchoolName');
-    if (sidebarSchoolNameElement) {
-        sidebarSchoolNameElement.textContent = userSchoolName;
-    }
-
-    const userAvatarElement = document.getElementById('userAvatar');
-    if(userAvatarElement) {
-        const userName = "Gestor";
-        userAvatarElement.textContent = userName.charAt(0).toUpperCase();
-    }
-
+    // Bloco original de navegação ativa
     const currentPath = window.location.pathname.split('/').pop() || 'manage-barriers.jsp';
-    const navLinks = document.querySelectorAll('.sidebar-nav-container .nav-link');
+    const navLinks = document.querySelectorAll('.sidebar-nav-container .nav-link'); // Ajuste o seletor se necessário
     const activeClasses = ['bg-custom-purple', 'text-white', 'font-semibold'];
     const inactiveClasses = ['text-medium-gray', 'hover:bg-custom-purple-light', 'hover:text-white'];
 
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         link.classList.remove(...activeClasses);
         link.classList.add(...inactiveClasses);
         const linkPageName = link.getAttribute('href').split('/').pop();
-        if (linkPageName === currentPath || ( (currentPath === 'index.jsp' || currentPath === '') && link.id === 'manage-barriers')) {
+        if (linkPageName === currentPath || ( (currentPath === 'index.jsp' || currentPath === '') && link.id === 'manage-barriers')) { // Se o link de "Gerenciar Barreiras" tem ID "manage-barriers"
             link.classList.remove(...inactiveClasses);
             link.classList.add(...activeClasses);
         }
@@ -105,38 +106,45 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    const sidebar = document.querySelector('.sidebar');
-    const sidebarToggleButtonDesktop = document.querySelector('.sidebar-toggle-button.md\\:hidden');
-    const sidebarToggleButtonMobile = document.querySelector('main .sidebar-toggle-button');
+    // Bloco original de toggle da sidebar - MANTIDO COMO ESTAVA NO SEU ARQUIVO ORIGINAL
+    const sidebar = document.querySelector('.sidebar'); // Certifique-se que este seletor está correto para sua sidebar
+    const sidebarToggleButtonDesktop = document.querySelector('.sidebar-toggle-button.md\\:hidden'); // Toggle para desktop (quando a sidebar está escondida)
+    const sidebarToggleButtonMobile = document.querySelector('main .sidebar-toggle-button'); // Toggle dentro do main (geralmente para mobile)
 
     function toggleSidebar() {
         if (sidebar) {
-            sidebar.classList.toggle('hidden-mobile');
-            sidebar.classList.toggle('flex');
-            const icon = sidebarToggleButtonDesktop.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            sidebar.classList.toggle('hidden-mobile'); // Sua classe original para esconder em mobile
+            sidebar.classList.toggle('flex'); // Sua classe original para mostrar (provavelmente com display:flex)
+
+            // Lógica original do ícone, se aplicável aos dois botões ou ao principal
+            // Se os botões tiverem ícones diferentes, você pode precisar de uma lógica mais específica
+            const iconToToggle = sidebarToggleButtonDesktop?.querySelector('i') || sidebarToggleButtonMobile?.querySelector('i');
+            if (iconToToggle) {
+                iconToToggle.classList.toggle('fa-bars');
+                iconToToggle.classList.toggle('fa-times');
+            }
         }
     }
 
     if (sidebarToggleButtonDesktop) {
         sidebarToggleButtonDesktop.addEventListener('click', toggleSidebar);
     }
-    if (sidebarToggleButtonMobile) {
+    if (sidebarToggleButtonMobile) { // Se este botão também controla a mesma sidebar
         sidebarToggleButtonMobile.addEventListener('click', toggleSidebar);
     }
+    // FIM DO BLOCO ORIGINAL DE TOGGLE DA SIDEBAR
 
     fetchBarriersData();
     populateStatusSelect();
 });
 
 
-function getStatusClass(status) {
-    return `status-${status}`;
+function getStatusClass(statusKey) {
+    return `status-${statusKey}`;
 }
 
-function getCriticalityClass(criticality) {
-    return `status-${criticality}`;
+function getCriticalityClass(criticalityKey) {
+    return `status-${criticalityKey}`;
 }
 
 function renderTable() {
@@ -145,10 +153,13 @@ function renderTable() {
     const currentBarriers = getCurrentPageBarriers();
 
     if (currentBarriers.length === 0) {
-        if (barriersData.length > 0) {
-            tableBody.innerHTML = '<tr><td colspan="7" class="text-center p-4">Nenhuma barreira encontrada com os filtros atuais.</td></tr>';
-        } else if (document.getElementById('searchBarriersInput').value === '') {
+        let message = "Nenhuma barreira encontrada.";
+        if (barriersData.length > 0 && (currentFilterTerm || currentSortBy !== 'recent')) {
+            message = "Nenhuma barreira encontrada com os filtros/ordenação atuais.";
+        } else if (barriersData.length === 0 && !currentFilterTerm) {
+            message = "Nenhuma barreira cadastrada para esta escola.";
         }
+        tableBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">${message}</td></tr>`;
         renderPaginationControls();
         return;
     }
@@ -156,29 +167,40 @@ function renderTable() {
 
     currentBarriers.forEach(barrier => {
         const row = tableBody.insertRow();
-        const typeDisplay = barrierTypeEnum[barrier.type] || barrier.type.charAt(0).toUpperCase() + barrier.type.slice(1).toLowerCase().replace(/_/g, ' ');
+        const typeDisplay = barrierTypeEnum[barrier.type] || barrier.type;
         const criticalityDisplay = barrierCriticalityEnum[barrier.criticality] || barrier.criticality;
         const statusDisplay = barrierStatusEnum[barrier.status] || barrier.status;
+        const formattedDate = barrier.date ? new Date(barrier.date + 'T00:00:00Z').toLocaleDateString('pt-BR') : 'N/A'; // Adicionado 'Z' para UTC se a data não tiver timezone
 
         row.innerHTML = `
-        <td class="px-6 py-4">${barrier.name}</td>
-        <td class="px-6 py-4">${barrier.location}</td>
-        <td class="px-6 py-4">${typeDisplay}</td>
-        <td class="px-6 py-4"><span class="status-badge ${getCriticalityClass(barrier.criticality)}">${criticalityDisplay}</span></td>
-        <td class="px-6 py-4"><span class="status-badge ${getStatusClass(barrier.status)}">${statusDisplay}</span></td>
-        <td class="px-6 py-4">${new Date(barrier.date + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
-        <td class="px-6 py-4 text-center whitespace-nowrap">
-          <button onclick="openObservationModal(${barrier.id})" class="text-custom-blue hover:text-custom-blue-hover mr-2" title="Observações"><i class="fas fa-comment-dots"></i></button>
-          <button onclick="openStatusModal(${barrier.id}, '${barrier.status}')" class="text-custom-purple hover:text-custom-purple-hover mr-2" title="Alterar Status"><i class="fas fa-edit"></i></button>
-          <button onclick="requestBarrierPdfReport(${barrier.id})" class="text-green-600 hover:text-green-800" title="Gerar Relatório PDF"><i class="fas fa-file-pdf"></i></button>
-        </td>
-      `;
+            <td class="px-6 py-4 whitespace-nowrap">${barrier.name}</td>
+            <td class="px-6 py-4 whitespace-nowrap">${barrier.location}</td>
+            <td class="px-6 py-4 whitespace-nowrap">${typeDisplay}</td>
+            <td class="px-6 py-4"><span class="status-badge ${getCriticalityClass(barrier.criticality)}">${criticalityDisplay}</span></td>
+            <td class="px-6 py-4"><span class="status-badge ${getStatusClass(barrier.status)}">${statusDisplay}</span></td>
+            <td class="px-6 py-4 whitespace-nowrap">${formattedDate}</td>
+            <td class="px-6 py-4 text-center whitespace-nowrap">
+                <a href="${contextPath}/dashboard/registry?id=${barrier.id}" class="text-indigo-600 hover:text-indigo-800 mr-3" title="Ver Detalhes da Barreira">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <button onclick="openObservationModal(${barrier.id})" class="text-custom-blue hover:text-custom-blue-hover mr-3" title="Observações">
+                    <i class="fas fa-comment-dots"></i>
+                </button>
+                <button onclick="openStatusModal(${barrier.id}, '${barrier.status}')" class="text-custom-purple hover:text-custom-purple-hover mr-3" title="Alterar Status">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="requestBarrierPdfReport(${barrier.id})" class="text-green-600 hover:text-green-800" title="Gerar Relatório PDF">
+                    <i class="fas fa-file-pdf"></i>
+                </button>
+            </td>
+        `;
     });
     renderPaginationControls();
 }
 
 function populateStatusSelect() {
     const select = document.getElementById('barrierStatusSelect');
+    if (!select) return;
     select.innerHTML = '';
     for (const key in barrierStatusEnum) {
         const option = document.createElement('option');
@@ -194,7 +216,8 @@ function openModal(modalId) {
     if (modal && modalContent) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        setTimeout(() => {
+        setTimeout(() => { // Pequeno delay para a transição ser visível
+            modal.classList.remove('opacity-0'); // Para modal principal
             modalContent.classList.remove('scale-95', 'opacity-0');
             modalContent.classList.add('scale-100', 'opacity-100');
         }, 10);
@@ -205,12 +228,13 @@ function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     const modalContent = document.getElementById(modalId + 'Content');
     if (modal && modalContent) {
+        modal.classList.add('opacity-0'); // Para modal principal
         modalContent.classList.remove('scale-100', 'opacity-100');
         modalContent.classList.add('scale-95', 'opacity-0');
         setTimeout(() => {
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-        }, 300);
+        }, 300); // Tempo da transição CSS
     }
 }
 
@@ -225,8 +249,10 @@ window.openObservationModal = (barrierId) => {
     } else {
         barrier.observations.forEach(obs => {
             const p = document.createElement('p');
-            p.className = 'text-sm text-dark-gray mb-1 p-2 bg-white border-b';
+            // Se 'obs' for um objeto: p.textContent = obs.text; (ou o campo correto)
+            // Se 'obs' for string:
             p.textContent = obs;
+            p.className = 'text-sm text-dark-gray mb-1 p-2 bg-white border-b last:border-b-0';
             observationList.appendChild(p);
         });
     }
@@ -244,6 +270,11 @@ document.getElementById('addObservationForm').addEventListener('submit', async f
         return;
     }
 
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Adicionando...';
+
     const formData = new URLSearchParams();
     formData.append('action', 'addObservation');
     formData.append('barrierId', barrierId);
@@ -252,12 +283,18 @@ document.getElementById('addObservationForm').addEventListener('submit', async f
     try {
         const result = await fetchDataAsync(servletURL, {
             method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData
         });
-        alert(result.message || 'Observação adicionada com sucesso!');
+        const successMessage = (typeof result === 'object' && result.message) ? result.message : (typeof result === 'string' ? result : 'Observação adicionada com sucesso!');
+        alert(successMessage);
         closeModal('observationModal');
         fetchBarriersData();
     } catch (error) {
+        alert(`Erro ao adicionar observação: ${error.message}`);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
     }
 });
 
@@ -273,6 +310,11 @@ document.getElementById('changeStatusForm').addEventListener('submit', async fun
     const barrierId = document.getElementById('statusBarrierId').value;
     const newStatus = document.getElementById('barrierStatusSelect').value;
 
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Salvando...';
+
     const formData = new URLSearchParams();
     formData.append('action', 'changeStatus');
     formData.append('barrierId', barrierId);
@@ -281,17 +323,23 @@ document.getElementById('changeStatusForm').addEventListener('submit', async fun
     try {
         const result = await fetchDataAsync(servletURL, {
             method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: formData
         });
-        alert(result.message || 'Status alterado com sucesso!');
+        const successMessage = (typeof result === 'object' && result.message) ? result.message : (typeof result === 'string' ? result : 'Status alterado com sucesso!');
+        alert(successMessage);
         closeModal('statusModal');
         fetchBarriersData();
     } catch (error) {
+        alert(`Erro ao alterar status: ${error.message}`);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
     }
 });
 
 window.requestBarrierPdfReport = (barrierId) => {
-    const reportUrl = `${servletURL}?reportBarrierId=${barrierId}`;
+    const reportUrl = `${servletURL}?action=generateReport&reportBarrierId=${barrierId}`; // Adicionei action=generateReport
     window.open(reportUrl, '_blank');
 };
 
@@ -300,22 +348,28 @@ function applyFiltersAndSorting() {
     let result = [...barriersData];
 
     if (currentFilterTerm) {
+        const term = currentFilterTerm.toLowerCase();
         result = result.filter(barrier =>
-            (barrier.name && barrier.name.toLowerCase().includes(currentFilterTerm)) ||
-            (barrier.location && barrier.location.toLowerCase().includes(currentFilterTerm)) ||
-            (barrier.type && (barrierTypeEnum[barrier.type] || barrier.type).toLowerCase().includes(currentFilterTerm))
+            (barrier.name && barrier.name.toLowerCase().includes(term)) ||
+            (barrier.location && barrier.location.toLowerCase().includes(term)) ||
+            (barrierTypeEnum[barrier.type] && barrierTypeEnum[barrier.type].toLowerCase().includes(term)) ||
+            (barrier.type && barrier.type.toLowerCase().includes(term))
         );
     }
 
     if (currentSortBy === 'recent') result.sort((a,b) => new Date(b.date) - new Date(a.date));
-    if (currentSortBy === 'oldest') result.sort((a,b) => new Date(a.date) - new Date(b.date));
-
-    const criticalityOrder = { 'HIGH': 3, 'MODERATE': 2, 'LOW': 1 };
-    if (currentSortBy === 'criticality_high') result.sort((a,b) => (criticalityOrder[b.criticality] || 0) - (criticalityOrder[a.criticality] || 0) || new Date(b.date) - new Date(a.date));
-    if (currentSortBy === 'criticality_low') result.sort((a,b) => (criticalityOrder[a.criticality] || 0) - (criticalityOrder[b.criticality] || 0) || new Date(b.date) - new Date(a.date));
-
-    if (currentSortBy === 'status_under_analysis') result = result.filter(b => b.status === 'UNDER_ANALYSIS');
-    if (currentSortBy === 'status_resolved') result = result.filter(b => b.status === 'RESOLVED');
+    else if (currentSortBy === 'oldest') result.sort((a,b) => new Date(a.date) - new Date(b.date));
+    else if (currentSortBy === 'criticality_high') {
+        const criticalityOrder = { 'HIGH': 3, 'MODERATE': 2, 'LOW': 1, 'UNKNOWN_CRITICALITY': 0 };
+        result.sort((a,b) => (criticalityOrder[b.criticality] || 0) - (criticalityOrder[a.criticality] || 0) || new Date(b.date) - new Date(a.date));
+    } else if (currentSortBy === 'criticality_low') {
+        const criticalityOrder = { 'HIGH': 3, 'MODERATE': 2, 'LOW': 1, 'UNKNOWN_CRITICALITY': 0 };
+        result.sort((a,b) => (criticalityOrder[a.criticality] || 0) - (criticalityOrder[b.criticality] || 0) || new Date(b.date) - new Date(a.date));
+    } else if (currentSortBy === 'status_under_analysis') {
+        result = result.filter(b => b.status === 'UNDER_ANALYSIS').sort((a,b) => new Date(b.date) - new Date(a.date));
+    } else if (currentSortBy === 'status_resolved') {
+        result = result.filter(b => b.status === 'RESOLVED').sort((a,b) => new Date(b.date) - new Date(a.date));
+    }
 
     filteredAndSortedBarriers = result;
     currentPage = 1;
@@ -323,7 +377,7 @@ function applyFiltersAndSorting() {
 }
 
 document.getElementById('searchBarriersInput').addEventListener('input', function(e) {
-    currentFilterTerm = e.target.value.toLowerCase();
+    currentFilterTerm = e.target.value; // Não precisa de toLowerCase aqui
     applyFiltersAndSorting();
 });
 
@@ -345,44 +399,54 @@ function renderPaginationControls() {
 
     if (totalPages <= 1) return;
 
-    const createPageLink = (pageNumber, text, isActive = false, isDisabled = false) => {
+    const createPageLink = (pageNumberOrAction, text, isActive = false, isDisabled = false) => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = '#';
-        a.textContent = text;
-        a.className = `py-2 px-3 leading-tight border border-gray-300 ${
+        // Se for usar 'a' href="#" em vez de button, precisa de e.preventDefault()
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.className = `py-2 px-3 leading-tight border ${
             isActive
-                ? 'bg-custom-purple text-white hover:bg-custom-purple-hover'
-                : 'bg-white text-medium-gray hover:bg-gray-100 hover:text-dark-gray'
+                ? 'bg-custom-purple text-white border-custom-purple z-10'
+                : 'bg-white text-medium-gray border-gray-300 hover:bg-gray-100 hover:text-dark-gray'
         } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`;
 
-        if (!isDisabled) {
-            a.onclick = (e) => {
-                e.preventDefault();
-                if (pageNumber === 'prev') {
+        // Aplicar arredondamento seletivo para o grupo de botões
+        if (pageNumberOrAction === 'prev') button.classList.add('rounded-l-lg');
+        if (pageNumberOrAction === 'next') button.classList.add('rounded-r-lg');
+        if (typeof pageNumberOrAction === 'number' && totalPages === 1) button.classList.add('rounded-lg');
+
+
+        if (isDisabled) {
+            button.disabled = true;
+        } else {
+            button.onclick = (e) => {
+                e.preventDefault(); // Bom para botões que não submetem forms
+                if (pageNumberOrAction === 'prev') {
                     if(currentPage > 1) currentPage--;
-                } else if (pageNumber === 'next') {
+                } else if (pageNumberOrAction === 'next') {
                     if(currentPage < totalPages) currentPage++;
                 } else {
-                    currentPage = pageNumber;
+                    currentPage = pageNumberOrAction;
                 }
                 renderTable();
+                // Opcional: Focar no topo da tabela após mudança de página
+                // document.getElementById('barriersTableBody').scrollIntoView({ behavior: 'smooth' });
             };
         }
-        li.appendChild(a);
+        li.appendChild(button);
         return li;
     };
 
     paginationControls.appendChild(createPageLink('prev', 'Anterior', false, currentPage === 1));
 
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, currentPage + 2);
+    let startPage = Math.max(1, currentPage - 1); // Mostrar 1 página antes e 1 depois
+    let endPage = Math.min(totalPages, currentPage + 1); // Mostrar 1 página antes e 1 depois
 
-    if (currentPage <=3) {
-        endPage = Math.min(totalPages, 5);
+    if (currentPage === 1) { // Se na primeira página, mostrar até 3 páginas
+        endPage = Math.min(totalPages, 3);
     }
-    if (currentPage > totalPages - 3) {
-        startPage = Math.max(1, totalPages - 4);
+    if (currentPage === totalPages && totalPages > 2) { // Se na última página, mostrar as 3 últimas
+        startPage = Math.max(1, totalPages - 2);
     }
 
 
@@ -396,7 +460,7 @@ function renderPaginationControls() {
     }
 
     for (let i = startPage; i <= endPage; i++) {
-        paginationControls.appendChild(createPageLink(i, i, i === currentPage));
+        paginationControls.appendChild(createPageLink(i, i.toString(), i === currentPage));
     }
 
     if (endPage < totalPages) {
@@ -405,7 +469,7 @@ function renderPaginationControls() {
             li.innerHTML = `<span class="py-2 px-3 leading-tight border border-gray-300 bg-white text-medium-gray">...</span>`;
             paginationControls.appendChild(li);
         }
-        paginationControls.appendChild(createPageLink(totalPages, totalPages));
+        paginationControls.appendChild(createPageLink(totalPages, totalPages.toString()));
     }
 
     paginationControls.appendChild(createPageLink('next', 'Próxima', false, currentPage === totalPages));

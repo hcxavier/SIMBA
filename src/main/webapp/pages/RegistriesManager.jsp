@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List, br.com.simba.model.entities.Registry" %>
 <%@ page import="br.com.simba.model.entities.User" %>
 <!doctype html>
 <html lang="pt-BR">

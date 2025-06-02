@@ -32,32 +32,16 @@
     <main class="main-content flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
             <div>
-                <nav class="text-sm mb-2" aria-label="Breadcrumb">
-                    <ol class="list-none p-0 inline-flex">
-                        <li class="flex items-center">
-                            <a href="/dashboard" class="text-medium-gray hover:text-custom-purple">Dashboard</a>
-                            <i class="fas fa-chevron-right text-xs text-medium-gray mx-2"></i>
-                        </li>
-                        <li class="flex items-center">
-                            <a href="/escolas" class="text-medium-gray hover:text-custom-purple">Escolas</a>
-                            <i class="fas fa-chevron-right text-xs text-medium-gray mx-2"></i>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="text-dark-gray font-semibold">Detalhes da Escola</span>
-                        </li>
-                    </ol>
-                </nav>
                 <h1 class="text-3xl sm:text-4xl font-semibold text-custom-purple">Detalhes da Escola</h1>
                 <p class="text-medium-gray mt-1">Visualize informações completas da instituição e suas barreiras arquitetônicas registradas.</p>
             </div>
-            <div class="flex items-center gap-4 mt-4 sm:mt-0">
+            <div class="flex items-center gap-4">
                 <button class="text-medium-gray hover:text-custom-purple text-xl relative">
                     <i class="fas fa-bell"></i>
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
                 </button>
-                <div id="userAvatar" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
-                    <%= ((User) session.getAttribute("user")).getName().charAt(0) %>
-                </div>
+                <div class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
+                    <%= ((User) session.getAttribute("user")).getName().charAt(0) %> </div>
             </div>
         </div>
 
@@ -198,6 +182,5 @@
 
 <script src="../assets/js/schoolDetails.js"> </script>
 
-<script src="../assets/js/sidebar.js"></script>
 </body>
 </html>
