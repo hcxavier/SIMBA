@@ -120,4 +120,22 @@ public class UserDAO {
             throw new DataAccessException("Error: failed to get user by email!");
         }
     }
+
+    public void updatePassword(User user) {
+        String sql = "UPDATE users SET hashed_password = ? WHERE username = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, user.getHashedPassword());
+            statement.setString(2, user.getUsername());
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DataAccessException("Erro: nenhuma linha foi atualizada ao tentar trocar a senha.");
+            }
+        } catch (SQLException e) {
+            SQLErrorLog.reportSqlException(e);
+            throw new DataAccessException("Erro ao atualizar senha!", e);
+        }
+    }
+
 }

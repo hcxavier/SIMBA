@@ -86,4 +86,33 @@ public class User {
     public int getId() {
         return id;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String street, int number, String neighborhood, String city, String stateAbbr) {
+        this.address = new Address(street, number, neighborhood, city, stateAbbr);
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public void setUsername(Username username) {
+        this.username = username;
+    }
+
+
+    public Password getPassword() {
+        return password;
+    }
 }

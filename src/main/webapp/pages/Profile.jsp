@@ -156,8 +156,8 @@
             </div>
 
             <div class="p-8">
-                <form id="profileForm">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <form id="profileForm" method="post" action="/updateProfileServlet">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div>
                             <label for="fullName" class="block text-sm font-semibold text-custom-purple mb-3">Nome Completo</label>
                             <div id="displayName" class="bg-input-bg border border-border-gray rounded-xl p-4 text-dark-gray font-medium min-h-[56px] flex items-center"></div>
@@ -234,7 +234,8 @@
                 <p class="opacity-90 mt-2">Mantenha sua conta segura alterando sua senha regularmente</p>
             </div>
 
-            <form id="passwordForm">
+            <form id="passwordForm" action="/UpdatePasswordServlet" method="post">
+                <input type="hidden" name="username" value="<%= ((User) session.getAttribute("user")).getUsername() %>"/>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="md:col-span-2">
                         <label for="currentPassword" class="block text-sm font-semibold text-custom-purple mb-3">Senha Atual</label>
@@ -267,6 +268,7 @@
 </div>
 
 <script>const contextPath = '${pageContext.request.contextPath}';</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('currentYear').textContent = new Date().getFullYear();
@@ -277,6 +279,7 @@
             initialUserData = JSON.parse(userDataScript.textContent);
         } catch (e) {
             initialUserData = {
+                id: "<%= ((User) session.getAttribute("user")).getId() %>",
                 fullName: "<%= ((User) session.getAttribute("user")).getName() %>",
                 username: "<%= ((User) session.getAttribute("user")).getUsername() %>",
                 email: "<%= ((User) session.getAttribute("user")).getEmail() %>",
@@ -372,29 +375,41 @@
         });
 
         profileForm?.addEventListener('submit', function(e) {
-            e.preventDefault();
+
+            /*e.preventDefault();*/
+
             const updatedData = {};
+
             const formDataBackend = new FormData();
 
             fieldElements.forEach(item => {
+
                 if (item.inputElement) {
+
                     updatedData[item.dataKey] = item.inputElement.value;
+
                     formDataBackend.append(item.dataKey, item.inputElement.value);
+
                 }
             });
 
             originalData = {...originalData, ...updatedData};
+
             originalData.userInitial = originalData.fullName ? originalData.fullName.charAt(0).toUpperCase() : "U";
 
-            alert('Informações do perfil salvas (simulação)!');
+
+
+            alert('Informações do perfil salvas com sucesso!');
+
             setEditMode(false);
+
         });
 
         const passwordForm = document.getElementById('passwordForm');
         const cancelPasswordChangeBtn = document.getElementById('cancelPasswordChange');
 
         passwordForm?.addEventListener('submit', function(e) {
-            e.preventDefault();
+            /*e.preventDefault();*/
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmNewPassword = document.getElementById('confirmNewPassword').value;
@@ -410,8 +425,8 @@
             }
 
             console.log("Alterando senha (simulação):", { currentPassword, newPassword });
-            alert('Solicitação de alteração de senha enviada (simulação)!');
-            passwordForm.reset();
+            alert('Senha alterada com sucesso!');
+           /* passwordForm.reset();*/
         });
 
         cancelPasswordChangeBtn?.addEventListener('click', () => {
