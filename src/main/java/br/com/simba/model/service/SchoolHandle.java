@@ -22,7 +22,11 @@ public class SchoolHandle {
     public SchoolHandle(Connection connection){
         this.connection = connection;
         schoolDAO = new SchoolDAO(connection);
-        schools = schoolDAO.listAllSchools();
+        try {
+            schools = schoolDAO.listAllSchools();
+        } catch (Exception e) {
+            schools = null;
+        }
     }
 
     public List<School> getSchoolsByName(String name){

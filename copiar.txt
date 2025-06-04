@@ -1,0 +1,329 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+<%@ page import="br.com.simba.model.entities.Registry" %>
+<%@ page import="br.com.simba.model.enums.BarrierCriticality" %> <%-- Manter se BarrierCriticality for usado --%>
+<%@ page import="br.com.simba.model.enums.BarrierStatus" %> <%-- Importar para referência, mas acessaremos via objeto Registry --%>
+<%@ page import="br.com.simba.model.enums.BarrierCategory" %> <%-- Importar para referência, mas acessaremos via objeto Registry --%>
+<%@ page import="java.util.List" %>
+<%@ page import="br.com.simba.model.entities.User" %>
+
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMBA - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <jsp:include page="../partials/tailwind-config.html" flush="true"/>
+    <style>
+        body {
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-family: 'Inter', sans-serif;
+                }
+                ::-webkit-scrollbar {
+                    width: 8px;
+                    height: 8px;
+                }
+                ::-webkit-scrollbar-track {
+                    background: #F3F4F6;
+                }
+                ::-webkit-scrollbar-thumb {
+                    background: #D1D5DB;
+                    border-radius: 4px;
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #9CA3AF;
+                }
+                .date-input-container .input-icon {
+                    position: absolute;
+                    top: 50%;
+                    right: 0.75rem;
+                    transform: translateY(-50%);
+                    color: #9CA3AF;
+                    pointer-events: none;
+                }
+                @media (max-width: 768px) {
+                    .sidebar {
+                        width: 100%;
+                        height: auto;
+                        position: relative;
+                        box-shadow: none;
+                    }
+                    .main-content {
+                        margin-left: 0;
+                        width: 100%;
+                    }
+                    .sidebar-toggle-button {
+                        display: block;
+                    }
+                    .sidebar-nav-container.hidden-mobile {
+                        display: none;
+                    }
+                    .sidebar-nav-container.open-mobile {
+                        display: block;
+                    }
+                }
+                @media (min-width: 769px) {
+                    .sidebar-toggle-button {
+                        display: none;
+                    }
+                    .sidebar-nav-container.hidden-mobile {
+                        display: block;
+                    }
+                }
+
+                .form-input {
+                    display: block;
+                    width: 100%;
+                    background-color: #F9FAFB;
+                    margin-top: 0.25rem;
+                    border-radius: 0.5rem;
+                    border-width: 1px;
+                    border-color: #D1D5DB;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    padding-top: 0.75rem;
+                    padding-bottom: 0.75rem;
+                    color: #212121;
+                    transition-property: box-shadow;
+                    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                    transition-duration: 150ms;
+                }
+                .form-input::placeholder {
+                    color: rgba(107, 114, 128, 0.7);
+                }
+                .form-input:focus {
+                    border-color: #3F88C5;
+                    outline: none;
+                    --tw-ring-color: rgba(63, 136, 197, 0.4);
+                    box-shadow: 0 0 0 2px var(--tw-ring-color);
+                }
+    </style>
+</head>
+<body class="bg-light-gray-bg text-dark-gray antialiased">
+
+<%
+    Integer schoolAmount = (Integer) request.getAttribute("schoolAmount");
+    Integer registryAmount = (Integer) request.getAttribute("registryAmount");
+    Integer registryUnderAnalysisAmount = (Integer) request.getAttribute("registryUnderAnalysisAmount");
+    Integer registryResolvedAmount = (Integer) request.getAttribute("registryResolvedAmount");
+    // A lista listRegistries será acessada via JSTL
+%>
+
+<div class="flex flex-col md:flex-row h-screen">
+    <%
+        User user = (User)session.getAttribute("user");
+        if (user != null && "reporter".equals(user.getUserType())){ // Adicionada verificação de nulidade para user e uso de .equals
+    %>
+    <jsp:include page="../partials/sidebar.html" flush="true"/>
+    <%
+    } else if (user != null && "manager".equals(user.getUserType())) { // Assumindo que 'manager' é o outro tipo
+    %>
+    <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+    <%
+    } else {
+        // Opcional: incluir uma sidebar padrão ou mensagem de erro se o tipo de usuário não for reconhecido
+        // ou se o usuário for nulo.
+    }
+    %>
+
+    <main class="main-content flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
+            <div class="mb-4 sm:mb-0">
+                <h1 class="text-3xl sm:text-4xl font-semibold text-custom-purple">Bem-vindo(a)!</h1>
+                <p class="text-medium-gray mt-1">Veja as estatísticas das barreiras arquitetônicas já registradas.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="text-medium-gray hover:text-custom-purple text-xl relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
+                </button>
+                <div id="userAvatar" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
+                    <c:if test="${not empty sessionScope.user and not empty sessionScope.user.fullName}">
+                        ${sessionScope.user.fullName.substring(0,1)}
+                    </c:if>
+                    <c:if test="${empty sessionScope.user or empty sessionScope.user.fullName}">
+                        S <%-- Fallback --%>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6">
+                <h2 class="text-medium-gray text-sm font-medium mb-1">Total de barreiras</h2>
+                <p class="text-custom-purple font-bold text-3xl" id="totalBarriersStat"><%= registryAmount != null ? registryAmount : 0 %></p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6">
+                <h2 class="text-medium-gray text-sm font-medium mb-1">Barreiras em análise</h2>
+                <p class="text-orange-500 font-bold text-3xl" id="inAnalysisStat"><%= registryUnderAnalysisAmount != null ? registryUnderAnalysisAmount : 0 %></p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6">
+                <h2 class="text-medium-gray text-sm font-medium mb-1">Barreiras resolvidas</h2>
+                <p class="text-custom-blue font-bold text-3xl" id="resolvedStat"><%= registryResolvedAmount != null ? registryResolvedAmount : 0 %></p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6">
+                <h2 class="text-medium-gray text-sm font-medium mb-1">Escolas mapeadas</h2>
+                <p class="text-green-600 font-bold text-3xl" id="mappedSchoolsStat"><%= schoolAmount != null ? schoolAmount : 0 %></p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-custom-lg p-6 sm:p-8 mb-10">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-dark-gray">Barreiras Recentes</h2>
+                <a href="#" class="text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Ver todas</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-dark-gray">
+                    <thead class="text-xs text-medium-gray uppercase bg-gray-50 rounded-t-lg">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 font-semibold">Escola</th>
+                        <th scope="col" class="px-6 py-3 font-semibold">Tipo</th>
+                        <th scope="col" class="px-6 py-3 font-semibold">Urgência</th>
+                        <th scope="col" class="px-6 py-3 font-semibold">Status</th>
+                        <th scope="col" class="px-6 py-3 font-semibold">Data</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:if test="${empty listRegistries}">
+                        <tr class="bg-white border-b border-border-gray">
+                            <td colspan="5" class="px-6 py-4 text-center text-medium-gray">Nenhuma barreira registrada ainda.</td>
+                        </tr>
+                    </c:if>
+                    <c:forEach var="registry" items="${listRegistries}">
+                        <%-- Lógica para determinar classes de Urgência (Criticality) --%>
+                        <c:set var="urgencyClass" value=""/>
+                        <%-- Assumindo que BarrierCriticality também tem getDisplayName() e que você quer usá-lo.
+                             Se não, mantenha a lógica anterior para urgencyText. --%>
+                        <c:choose>
+                            <c:when test="${registry.barrierCriticality.toString() == 'HIGH' || registry.barrierCriticality.toString() == 'ALTA'}">
+                                <c:set var="urgencyClass" value="text-red-700 bg-red-100"/>
+                            </c:when>
+                            <c:when test="${registry.barrierCriticality.toString() == 'MEDIUM' || registry.barrierCriticality.toString() == 'MEDIA'}">
+                                <c:set var="urgencyClass" value="text-yellow-700 bg-yellow-100"/>
+                            </c:when>
+                            <c:when test="${registry.barrierCriticality.toString() == 'LOW' || registry.barrierCriticality.toString() == 'BAIXA'}">
+                                <c:set var="urgencyClass" value="text-blue-700 bg-blue-100"/>
+                            </c:when>
+                        </c:choose>
+
+                        <%-- Lógica para determinar classes de Status --%>
+                        <c:set var="statusClass" value=""/>
+                        <c:choose>
+                            <c:when test="${registry.barrierStatus.toString() == 'UNDER_ANALYSIS'}">
+                                <c:set var="statusClass" value="text-orange-700 bg-orange-100"/>
+                            </c:when>
+                            <c:when test="${registry.barrierStatus.toString() == 'CORRECTING'}"> <%-- Adicionado novo status --%>
+                                <c:set var="statusClass" value="text-purple-700 bg-purple-100"/> <%-- Exemplo de classe para CORRIGINDO --%>
+                            </c:when>
+                            <c:when test="${registry.barrierStatus.toString() == 'RESOLVED'}">
+                                <c:set var="statusClass" value="text-green-700 bg-green-100"/>
+                            </c:when>
+                            <c:when test="${registry.barrierStatus.toString() == 'PENDING'}">
+                                <c:set var="statusClass" value="text-gray-700 bg-gray-100"/>
+                            </c:when>
+                        </c:choose>
+
+                        <tr class="bg-white border-b border-border-gray hover:bg-gray-50">
+                            <td class="px-6 py-4">
+                                <c:choose>
+                                    <c:when test="${not empty registry.school && not empty registry.school.name}">
+                                        <c:out value="${registry.school.name}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        Escola ID: <c:out value="${registry.schoolId}"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <%-- Exibindo o displayName para o Tipo (BarrierCategory) --%>
+                            <td class="px-6 py-4">
+                                <c:if test="${not empty registry.barrierType}">
+                                    <c:out value="${registry.barrierType.displayName}"/>
+                                </c:if>
+                                <c:if test="${empty registry.barrierType}">
+                                    N/A
+                                </c:if>
+                            </td>
+                            <%-- Exibindo o displayName para Urgência (BarrierCriticality), se aplicável --%>
+                            <%-- Se BarrierCriticality não tiver getDisplayName, você precisará ajustar aqui --%>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${urgencyClass}">
+                                    <c:if test="${not empty registry.barrierCriticality.displayName}"> <%-- Assumindo que existe --%>
+                                        <c:out value="${registry.barrierCriticality.displayName}"/>
+                                    </c:if>
+                                    <c:if test="${empty registry.barrierCriticality.displayName}"> <%-- Fallback para toString() --%>
+                                         <c:out value="${registry.barrierCriticality}"/>
+                                    </c:if>
+                                </span>
+                            </td>
+                            <%-- Exibindo o displayName para Status (BarrierStatus) --%>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${statusClass}">
+                                    <c:if test="${not empty registry.barrierStatus.displayName}">
+                                        <c:out value="${registry.barrierStatus.displayName}"/>
+                                    </c:if>
+                                     <c:if test="${empty registry.barrierStatus.displayName}">
+                                        N/A
+                                    </c:if>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <c:if test="${not empty registry.barrierIdentificationDate}">
+                                    <fmt:formatDate value="${registry.barrierIdentificationDate}" pattern="dd/MM/yyyy"/>
+                                </c:if>
+                                <c:if test="${empty registry.barrierIdentificationDate}">
+                                     N/A
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6 flex flex-col items-start">
+                <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-custom-purple-light text-custom-purple mb-4">
+                    <i class="fas fa-edit fa-lg"></i>
+                </div>
+                <h2 class="text-lg font-semibold text-dark-gray mb-1">Registrar Nova Barreira</h2>
+                <p class="text-sm text-medium-gray mb-3">Adicione uma barreira arquitetônica que você identificou.</p>
+                <a href="${pageContext.request.contextPath}/dashboard/register-barrier">
+                    <button class="mt-auto text-sm font-medium text-custom-purple hover:text-custom-purple-hover hover:underline">Registrar agora <i class="fas fa-arrow-right ml-1"></i></button>
+                </a>
+            </div>
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6 flex flex-col items-start">
+                <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-custom-blue text-white mb-4">
+                    <i class="fas fa-comments fa-lg"></i>
+                </div>
+                <h2 class="text-lg font-semibold text-dark-gray mb-1">Fórum de Discussão</h2>
+                <p class="text-sm text-medium-gray mb-3">Participe de debates sobre soluções de acessibilidade.</p>
+                <a href="${pageContext.request.contextPath}/dashboard/forum" class="mt-auto text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Entrar no fórum <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            <div class="bg-white rounded-2xl shadow-custom-lg p-6 flex flex-col items-start">
+                <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-teal-100 text-teal-600 mb-4">
+                    <i class="fas fa-book-open fa-lg"></i>
+                </div>
+                <h2 class="text-lg font-semibold text-dark-gray mb-1">Material Educativo</h2>
+                <p class="text-sm text-medium-gray mb-3">Conheça a NBR 9050 e saiba mais sobre acessibilidade.</p>
+                <a href="${pageContext.request.contextPath}/pages/nbr-9050" class="mt-auto text-sm font-medium text-teal-600 hover:text-teal-700 hover:underline">Acessar material <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+        </div>
+        <footer class="text-center text-xs text-medium-gray mt-10 py-6 border-t border-border-gray">
+            © <span id="currentYear"></span> SIMBA. Todos os direitos reservados.
+        </footer>
+    </main>
+</div>
+
+<script>
+    const contextPath = '${pageContext.request.contextPath}';
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
+<script src="${pageContext.request.contextPath}/assets/js/sidebar.js"></script>
+</body>
+</html>

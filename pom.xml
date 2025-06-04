@@ -42,6 +42,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <itext.version>8.0.4</itext.version>
+        <!-- Adicionar propriedade para a versão da JSTL (opcional, mas boa prática) -->
+        <jstl.version>3.0.0</jstl.version>
+        <jstl.impl.version>3.0.1</jstl.impl.version>
     </properties>
 
     <dependencies>
@@ -70,44 +74,48 @@
             <version>2.13.1</version>
         </dependency>
 
+        <!-- Dependências do iText7 -->
         <dependency>
             <groupId>com.itextpdf</groupId>
-            <artifactId>itext7-core</artifactId>
-            <version>7.2.5</version>
-            <type>pom</type>
+            <artifactId>kernel</artifactId>
+            <version>${itext.version}</version>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>layout</artifactId>
-            <version>7.2.5</version>
+            <version>${itext.version}</version>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>io</artifactId>
-            <version>7.2.5</version>
+            <version>${itext.version}</version>
         </dependency>
 
+        <!-- === ADICIONAR DEPENDÊNCIAS DA JSTL AQUI === -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.32</version>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>${jstl.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>${jstl.impl.version}</version>
+        </dependency>
+        <!-- === FIM DAS DEPENDÊNCIAS DA JSTL === -->
+
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Adicione esta configuração do war plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version> <!-- Versão atualizada -->
+                <version>3.3.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!-- Outras configurações se necessário -->
                 </configuration>
             </plugin>
-
-            <!-- Mantenha seu plugin de dependências -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

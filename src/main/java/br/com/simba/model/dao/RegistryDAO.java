@@ -17,6 +17,7 @@ public class RegistryDAO {
     private final String COLUMNS = "rg.id, barrier_specification, resolution_suggestion, location, barrier_status, barrier_criticality, barrier_type, barrier_identification_date, picture_id, school_id, reporter_id";
     private final String FULL_COLUMNS_FOR_SINGLE_FETCH = "rg.id, rg.barrier_specification, rg.resolution_suggestion, rg.location, rg.barrier_status, rg.barrier_criticality, rg.barrier_type, rg.barrier_identification_date, rg.picture_id, rg.school_id, rg.reporter_id";
 
+
     public RegistryDAO(Connection connection){
         if (connection == null) throw new DataAccessException("Error: connection cannot be null!");
         this.connection = connection;
@@ -53,7 +54,7 @@ public class RegistryDAO {
     }
 
     public List<Registry> listAllRegistries(){
-        String sql = String.format("SELECT %s FROM registries rg;", COLUMNS);
+        String sql = String.format("SELECT %s FROM registries rg ORDER BY rg.barrier_identification_date DESC, rg.id DESC LIMIT 10;", COLUMNS);
         List<Registry> registries = new ArrayList<Registry>();
 
         try(PreparedStatement statement = connection.prepareStatement(sql)){

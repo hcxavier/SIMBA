@@ -1,0 +1,48 @@
+faça com que o status e o tipo sejam  traduzidos na exibição da tabela
+==========Dashboard========
+
+=========Status==============
+
+package br.com.simba.model.enums;
+
+public enum BarrierStatus {
+    UNDER_ANALYSIS("Em Análise"),
+    CORRECTING("Corrigindo"),
+    RESOLVED("Resolvido");
+
+    private final String displayName;
+
+    BarrierStatus(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+}
+
+===========Category============
+package br.com.simba.model.enums;
+
+public enum BarrierCategory {
+    ACCESS("Acessos"),
+    IE_CIRCULATION("Circulação Interna/Externa"),
+    FURNITURE("Mobiliário"),
+    RESTROOMS("Sanitários"),
+    SIGNAGE("Sinalização"),
+    EQUIPMENT("Equipamentos"),
+    PARKING("Estacionamentos"),
+    COMMUNICATION("Comunicação");
+
+    private final String displayName;
+
+    BarrierCategory(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+}
+
+

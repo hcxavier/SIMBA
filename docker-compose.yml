@@ -27,7 +27,7 @@ services:
       FLYWAY_USER: ${POSTGRES_USER}
       FLYWAY_PASSWORD: ${POSTGRES_PASSWORD}
       FLYWAY_BASELINE_ON_MIGRATE: "true"
-    command: migrate
+    command: repair
 
   app:
     build:
