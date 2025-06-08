@@ -1,10 +1,7 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
-import br.com.simba.model.dao.SchoolDAO;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.entities.School;
-import br.com.simba.model.service.RegisterValidator;
 import br.com.simba.model.service.SchoolHandle;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,12 +17,11 @@ import java.util.List;
 @WebServlet("/search-school")
 public class SearchSchoolsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        DBConnection dbConnection = new PostgresConnection();
         String schoolNameQuery = request.getParameter("q");
 
         System.out.println("DEBUG [Servlet]: SearchSchoolsServlet foi chamado!");
         System.out.println("DEBUG [Servlet]: Parâmetro 'q' recebido: " + request.getParameter("q"));
-        SchoolHandle schoolHandle = new SchoolHandle(dbConnection.getConnection());
+        SchoolHandle schoolHandle = new SchoolHandle();
         List<School> schools = schoolHandle.getSchoolsByName(schoolNameQuery);
 
         List<String> schoolNames = new ArrayList<>();

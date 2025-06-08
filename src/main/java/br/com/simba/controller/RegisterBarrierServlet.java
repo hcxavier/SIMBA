@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path; // Importar Path
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -77,29 +76,17 @@ public class RegisterBarrierServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Connection conn = null;
 
         try {
-            DBConnection dbConnection = new PostgresConnection();
-            conn = dbConnection.getConnection();
-            if (conn == null) {
-                System.err.println("ERROR doPost: Could not connect to the database.");
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("Erro interno: Falha na conexão com o banco de dados.");
-                out.flush();
-                return;
-            }
-            conn.setAutoCommit(false);
-
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("user") == null) {
                 System.out.println("WARN doPost: User not authenticated.");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 out.print("Erro: Usuário não autenticado. Faça login novamente.");
                 out.flush();
-                conn.rollback();
                 return;
             }
+
             User user = (User) session.getAttribute("user");
             String userUsername = user.getUsername();
             System.out.println("INFO doPost: Session user: " + userUsername);
@@ -123,7 +110,6 @@ public class RegisterBarrierServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 out.print("Erro: Todos os campos obrigatórios devem ser preenchidos.");
                 out.flush();
-                conn.rollback();
                 return;
             }
 
@@ -136,7 +122,6 @@ public class RegisterBarrierServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 out.print("Erro de validação: Verifique o nome da escola ou a data.");
                 out.flush();
-                conn.rollback();
                 return;
             }
             System.out.println("INFO doPost: School validated: " + school.getName() + ", Identification date: " + identificationDate);
@@ -152,7 +137,6 @@ public class RegisterBarrierServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 out.print("Erro: Categoria ou nível de urgência inválido.");
                 out.flush();
-                conn.rollback();
                 return;
             }
             System.out.println("INFO doPost: Category: " + barrierCategory + ", Criticality: " + barrierCriticality);
@@ -164,7 +148,6 @@ public class RegisterBarrierServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 out.print("Erro interno do servidor: Falha na configuração do diretório de upload.");
                 out.flush();
-                conn.rollback();
                 return;
             }
             System.out.println("INFO doPost: Upload path effectively used: " + uploadPath);
@@ -203,14 +186,13 @@ public class RegisterBarrierServlet extends HttpServlet {
                 System.out.println("INFO doPost: No image sent or empty file. Using default image.");
             }
 
-            PictureDAO pictureDAO = new PictureDAO(conn);
-            ReporterDAO reporterDAO = new ReporterDAO(conn);
-            RegistryDAO registryDAO = new RegistryDAO(conn);
+            PictureDAO pictureDAO = new PictureDAO();
+            ReporterDAO reporterDAO = new ReporterDAO();
+            RegistryDAO registryDAO = new RegistryDAO();
 
             Reporter reporter = reporterDAO.getReporterByUsername(new Username(userUsername));
             if (reporter == null) {
                 System.err.println("ERROR doPost: Reporter not found for user: " + userUsername);
-                conn.rollback();
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 out.print("Erro: Repórter associado ao usuário não encontrado.");
                 out.flush();
@@ -226,12 +208,10 @@ public class RegisterBarrierServlet extends HttpServlet {
             } catch (DataAccessException e) {
                 System.err.println("ERROR doPost: Failed to insert image data into database: " + e.getMessage());
                 e.printStackTrace();
-                conn.rollback();
                 throw new ServletException("Não foi possível salvar os dados da imagem no banco.", e);
             }
             if (picture.getId() == 0) {
                 System.err.println("ERROR doPost: Picture ID was not generated after insertion into database.");
-                conn.rollback();
                 throw new ServletException("Não foi possível salvar a imagem no banco (ID da Picture não gerado).");
             }
 
@@ -246,46 +226,26 @@ public class RegisterBarrierServlet extends HttpServlet {
             } catch (DataAccessException e) {
                 System.err.println("ERROR doPost: Failed to insert record data into database: " + e.getMessage());
                 e.printStackTrace();
-                conn.rollback();
                 throw new ServletException("Não foi possível registrar a barreira no banco.", e);
             }
 
             if (regSuccess) {
-                conn.commit();
                 System.out.println("INFO doPost: Transaction committed. Barrier registered successfully!");
                 response.setStatus(HttpServletResponse.SC_OK);
                 out.print("Barreira registrada com sucesso!");
             } else {
                 System.err.println("ERROR doPost: Failed to register barrier (regSuccess was false, but no exception from DAO).");
-                conn.rollback();
                 throw new ServletException("Não foi possível registrar a barreira (falha não especificada na inserção do registro).");
             }
 
         } catch (Exception e) {
             System.err.println("GENERAL ERROR doPost: " + e.getClass().getName() + " - " + e.getMessage());
             e.printStackTrace();
-            if (conn != null) {
-                try {
-                    System.err.println("INFO doPost: Attempting rollback due to general exception.");
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    System.err.println("ERROR doPost: Failed to rollback: " + ex.getMessage());
-                    ex.printStackTrace();
-                }
-            }
+            System.err.println("INFO doPost: Attempting rollback due to general exception.");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.print("Ocorreu um erro interno ao processar o registro: " + e.getMessage());
 
         } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                    System.out.println("INFO doPost: Database connection closed.");
-                } catch (SQLException e) {
-                    System.err.println("ERROR doPost: Failed to close database connection: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
             if (out != null) {
                 out.flush();
             }

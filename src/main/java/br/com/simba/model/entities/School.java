@@ -1,9 +1,5 @@
 package br.com.simba.model.entities;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.ManagerDAO;
-import br.com.simba.model.dao.PostgresConnection;
-import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.valueobject.Address;
 import br.com.simba.model.valueobject.CNPJ;
 import br.com.simba.model.valueobject.Phone;

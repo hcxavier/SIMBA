@@ -1,7 +1,5 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
 //import br.com.simba.model.service.LoginValidator;
 import br.com.simba.model.entities.User;
@@ -20,8 +18,7 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private DBConnection connection = new PostgresConnection();
-    private UserDAO userDAO = new UserDAO(connection.getConnection());
+    private UserDAO userDAO = new UserDAO();
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

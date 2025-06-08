@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO; // Adicionado import
 import br.com.simba.model.entities.Registry; // Adicionado import
 import br.com.simba.model.service.RedirectUser;
@@ -16,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List; // Adicionado import
-import java.util.ArrayList; // Adicionado import para inicialização segura
+
 
 @WebServlet("/dashboard/manager")
 public class DashboardManager extends HttpServlet {
@@ -26,10 +25,9 @@ public class DashboardManager extends HttpServlet {
         if(redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;
         if(!redirectUser.validateUserType(request.getSession(), "manager", response)) return;
 
-        DBConnection dbConnection = new PostgresConnection();
-        SchoolHandle schoolHandle = new SchoolHandle(dbConnection.getConnection());
-        RegistryHandle registryHandle = new RegistryHandle(dbConnection.getConnection());
-        RegistryDAO registryDAO = new RegistryDAO(dbConnection.getConnection()); // Instanciar RegistryDAO
+        SchoolHandle schoolHandle = new SchoolHandle();
+        RegistryHandle registryHandle = new RegistryHandle();
+        RegistryDAO registryDAO = new RegistryDAO();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/DashboardManager.jsp");
 
         request.setAttribute("schoolAmount", schoolHandle.getAmountSchools());
@@ -37,8 +35,7 @@ public class DashboardManager extends HttpServlet {
         request.setAttribute("registryUnderAnalysisAmount", registryHandle.getAmountRegistryByStatus("UNDER_ANALYSIS"));
         request.setAttribute("registryResolvedAmount", registryHandle.getAmountRegistryByStatus("RESOLVED"));
 
-        // Buscar e adicionar a lista de registros recentes
-        List<Registry> recentRegistries = registryDAO.listAllRegistries(); // Ou uma consulta específica para o manager, se necessário
+        List<Registry> recentRegistries = registryDAO.listAllRegistries();
         request.setAttribute("listRegistries", recentRegistries);
 
         dispatcher.forward(request, response);

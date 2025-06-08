@@ -5,20 +5,23 @@ import br.com.simba.model.entities.Picture;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class PictureDAO {
-    private Connection connection;
+    private final DataSource dataSource;
     private Instantiator instantiator;
 
-    public PictureDAO(Connection connection){
-        this.connection = connection;
-        instantiator = new Instantiator(connection);
+    public PictureDAO(){
+        dataSource = HikariCPDataSource.getDataSource();
+        instantiator = new Instantiator();
     }
 
     public void insert(Picture picture){
         String sql = "INSERT INTO pictures(picture_path, upload_date) VALUES(?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1, picture.getImagePath());
             statement.setObject(2, picture.getUploadDate());
 
@@ -41,7 +44,8 @@ public class PictureDAO {
     public Picture getPictureById(int id){
         String sql = "SELECT * FROM pictures WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1, id);
             statement.executeQuery();
             try (ResultSet result = statement.getResultSet()){

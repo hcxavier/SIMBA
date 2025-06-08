@@ -4,7 +4,7 @@ let barriersData = [];
 let filteredAndSortedBarriers = [];
 let currentFilterTerm = '';
 let currentSortBy = 'recent';
-const itemsPerPage = 8; // Aumentei um pouco, ajuste conforme preferir
+const itemsPerPage = 8;
 let currentPage = 1;
 
 const barrierStatusEnum = {
@@ -53,7 +53,7 @@ async function fetchDataAsync(url, options) {
     } catch (error) {
         console.error('Erro na requisição fetch:', error);
         if (!(error.message.startsWith("Erro HTTP:")) && typeof error.message === 'string' && !error.message.toLowerCase().includes("sucesso")) {
-            // alert(`Erro na comunicação com o servidor: ${error.message}`); // Opcional
+            alert(`Erro na comunicação com o servidor: ${error.message}`);
         }
         throw error;
     }
@@ -90,7 +90,7 @@ async function fetchBarriersData() {
 document.addEventListener("DOMContentLoaded", function() {
     // Bloco original de navegação ativa
     const currentPath = window.location.pathname.split('/').pop() || 'manage-barriers.jsp';
-    const navLinks = document.querySelectorAll('.sidebar-nav-container .nav-link'); // Ajuste o seletor se necessário
+    const navLinks = document.querySelectorAll('.sidebar-nav-container .nav-link');
     const activeClasses = ['bg-custom-purple', 'text-white', 'font-semibold'];
     const inactiveClasses = ['text-medium-gray', 'hover:bg-custom-purple-light', 'hover:text-white'];
 
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         link.classList.remove(...activeClasses);
         link.classList.add(...inactiveClasses);
         const linkPageName = link.getAttribute('href').split('/').pop();
-        if (linkPageName === currentPath || ( (currentPath === 'index.jsp' || currentPath === '') && link.id === 'manage-barriers')) { // Se o link de "Gerenciar Barreiras" tem ID "manage-barriers"
+        if (linkPageName === currentPath || ( (currentPath === 'index.jsp' || currentPath === '') && link.id === 'manage-barriers')) {
             link.classList.remove(...inactiveClasses);
             link.classList.add(...activeClasses);
         }
@@ -106,18 +106,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Bloco original de toggle da sidebar - MANTIDO COMO ESTAVA NO SEU ARQUIVO ORIGINAL
-    const sidebar = document.querySelector('.sidebar'); // Certifique-se que este seletor está correto para sua sidebar
-    const sidebarToggleButtonDesktop = document.querySelector('.sidebar-toggle-button.md\\:hidden'); // Toggle para desktop (quando a sidebar está escondida)
-    const sidebarToggleButtonMobile = document.querySelector('main .sidebar-toggle-button'); // Toggle dentro do main (geralmente para mobile)
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggleButtonDesktop = document.querySelector('.sidebar-toggle-button.md\\:hidden');
+    const sidebarToggleButtonMobile = document.querySelector('main .sidebar-toggle-button');
 
     function toggleSidebar() {
         if (sidebar) {
-            sidebar.classList.toggle('hidden-mobile'); // Sua classe original para esconder em mobile
-            sidebar.classList.toggle('flex'); // Sua classe original para mostrar (provavelmente com display:flex)
+            sidebar.classList.toggle('hidden-mobile');
+            sidebar.classList.toggle('flex');
 
-            // Lógica original do ícone, se aplicável aos dois botões ou ao principal
-            // Se os botões tiverem ícones diferentes, você pode precisar de uma lógica mais específica
             const iconToToggle = sidebarToggleButtonDesktop?.querySelector('i') || sidebarToggleButtonMobile?.querySelector('i');
             if (iconToToggle) {
                 iconToToggle.classList.toggle('fa-bars');
@@ -129,10 +126,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (sidebarToggleButtonDesktop) {
         sidebarToggleButtonDesktop.addEventListener('click', toggleSidebar);
     }
-    if (sidebarToggleButtonMobile) { // Se este botão também controla a mesma sidebar
+    if (sidebarToggleButtonMobile) {
         sidebarToggleButtonMobile.addEventListener('click', toggleSidebar);
     }
-    // FIM DO BLOCO ORIGINAL DE TOGGLE DA SIDEBAR
 
     fetchBarriersData();
     populateStatusSelect();
@@ -170,7 +166,7 @@ function renderTable() {
         const typeDisplay = barrierTypeEnum[barrier.type] || barrier.type;
         const criticalityDisplay = barrierCriticalityEnum[barrier.criticality] || barrier.criticality;
         const statusDisplay = barrierStatusEnum[barrier.status] || barrier.status;
-        const formattedDate = barrier.date ? new Date(barrier.date + 'T00:00:00Z').toLocaleDateString('pt-BR') : 'N/A'; // Adicionado 'Z' para UTC se a data não tiver timezone
+        const formattedDate = barrier.date ? new Date(barrier.date + 'T00:00:00Z').toLocaleDateString('pt-BR') : 'N/A';
 
         row.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">${barrier.name}</td>
@@ -216,7 +212,7 @@ function openModal(modalId) {
     if (modal && modalContent) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        setTimeout(() => { // Pequeno delay para a transição ser visível
+        setTimeout(() => {
             modal.classList.remove('opacity-0'); // Para modal principal
             modalContent.classList.remove('scale-95', 'opacity-0');
             modalContent.classList.add('scale-100', 'opacity-100');
@@ -234,7 +230,7 @@ function closeModal(modalId) {
         setTimeout(() => {
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-        }, 300); // Tempo da transição CSS
+        }, 300);
     }
 }
 
@@ -249,8 +245,6 @@ window.openObservationModal = (barrierId) => {
     } else {
         barrier.observations.forEach(obs => {
             const p = document.createElement('p');
-            // Se 'obs' for um objeto: p.textContent = obs.text; (ou o campo correto)
-            // Se 'obs' for string:
             p.textContent = obs;
             p.className = 'text-sm text-dark-gray mb-1 p-2 bg-white border-b last:border-b-0';
             observationList.appendChild(p);
@@ -339,7 +333,7 @@ document.getElementById('changeStatusForm').addEventListener('submit', async fun
 });
 
 window.requestBarrierPdfReport = (barrierId) => {
-    const reportUrl = `${servletURL}?action=generateReport&reportBarrierId=${barrierId}`; // Adicionei action=generateReport
+    const reportUrl = `${servletURL}?action=generateReport&reportBarrierId=${barrierId}`;
     window.open(reportUrl, '_blank');
 };
 
@@ -420,7 +414,7 @@ function renderPaginationControls() {
             button.disabled = true;
         } else {
             button.onclick = (e) => {
-                e.preventDefault(); // Bom para botões que não submetem forms
+                e.preventDefault();
                 if (pageNumberOrAction === 'prev') {
                     if(currentPage > 1) currentPage--;
                 } else if (pageNumberOrAction === 'next') {
@@ -429,8 +423,6 @@ function renderPaginationControls() {
                     currentPage = pageNumberOrAction;
                 }
                 renderTable();
-                // Opcional: Focar no topo da tabela após mudança de página
-                // document.getElementById('barriersTableBody').scrollIntoView({ behavior: 'smooth' });
             };
         }
         li.appendChild(button);
@@ -439,13 +431,13 @@ function renderPaginationControls() {
 
     paginationControls.appendChild(createPageLink('prev', 'Anterior', false, currentPage === 1));
 
-    let startPage = Math.max(1, currentPage - 1); // Mostrar 1 página antes e 1 depois
-    let endPage = Math.min(totalPages, currentPage + 1); // Mostrar 1 página antes e 1 depois
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
 
-    if (currentPage === 1) { // Se na primeira página, mostrar até 3 páginas
+    if (currentPage === 1) {
         endPage = Math.min(totalPages, 3);
     }
-    if (currentPage === totalPages && totalPages > 2) { // Se na última página, mostrar as 3 últimas
+    if (currentPage === totalPages && totalPages > 2) {
         startPage = Math.max(1, totalPages - 2);
     }
 

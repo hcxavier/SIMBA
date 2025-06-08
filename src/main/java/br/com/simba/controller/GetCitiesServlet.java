@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.StateDAO;
 import br.com.simba.model.util.SQLErrorLog;
 import com.google.gson.Gson;
@@ -21,41 +20,19 @@ import java.util.List;
 @WebServlet("/getCities")
 public class GetCitiesServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DBConnection dbConnection = new PostgresConnection();
         String stateAbbreviation = request.getParameter("state");
         List<String> cities = new ArrayList<>();
-        Connection conn = null;
 
         if (stateAbbreviation != null && !stateAbbreviation.isEmpty()) {
             try {
-                conn = dbConnection.getConnection();
-
-                if (conn == null) {
-                    throw new SQLException("Failed to establish database connection.");
-                }
-
-                StateDAO stateDAO = new StateDAO(conn);
+                StateDAO stateDAO = new StateDAO();
                 cities = stateDAO.getCitiesByState(stateAbbreviation);
 
-            } catch (SQLException e) {
-                SQLErrorLog.reportSqlException(e);
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Error: failed to search cities: " + e.getMessage());
-                return;
             } catch (Exception e) {
                 e.printStackTrace(System.err);
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Error: internal problem: " + e.getMessage());
                 return;
-            }
-            finally {
-                if (conn != null) {
-                    try {
-                        conn.close();
-                    } catch (SQLException e) {
-                        SQLErrorLog.reportSqlException(e);
-                    }
-                }
             }
         }
 

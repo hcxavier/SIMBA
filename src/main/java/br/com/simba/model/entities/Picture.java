@@ -1,11 +1,7 @@
 package br.com.simba.model.entities;
 
-import br.com.simba.model.dao.DBConnection;
 import br.com.simba.model.dao.PictureDAO;
-import br.com.simba.model.dao.PostgresConnection;
-import org.postgresql.jdbc.PgConnection;
 
-import java.sql.Connection;
 import java.time.LocalDate;
 
 public class Picture {
@@ -45,10 +41,8 @@ public class Picture {
     }
 
     public boolean addToDatabase(){
-        DBConnection dbConnection = new PostgresConnection();
-
-        try (Connection connection = dbConnection.getConnection()){
-            PictureDAO pictureDAO = new PictureDAO(connection);
+        try {
+            PictureDAO pictureDAO = new PictureDAO();
             pictureDAO.insert(this);
             return true;
         } catch (Exception e) {

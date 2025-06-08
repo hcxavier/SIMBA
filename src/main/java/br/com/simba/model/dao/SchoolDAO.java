@@ -11,20 +11,23 @@ import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.*;
 
+import javax.sql.DataSource;
+
 public class SchoolDAO {
-    private Connection connection;
+    private final DataSource dataSource;
     protected final Instantiator instantiator;
     private final String COLUMNS = "id, school_name, street, address_number, neighborhood, city, state_abbr, phone, cnpj";
 
-    public SchoolDAO(Connection connection) {
-        if (connection == null) throw new DataAccessException("Error: connection cannot be null!");
-        instantiator = new Instantiator(connection);
-        this.connection = connection;
+    public SchoolDAO() {
+        instantiator = new Instantiator();
+        dataSource = HikariCPDataSource.getDataSource();
     }
 
     public void insert(School school) {
         String sql = "INSERT INTO schools (school_name, street, address_number, neighborhood, city, state_abbr, phone, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, school.getName());
             statement.setString(2, school.getStreet());
             statement.setInt(3, school.getAddressNumber());
@@ -52,7 +55,8 @@ public class SchoolDAO {
     public void update(School school) {
         String sql = "UPDATE schools SET school_name = ?, street = ?, address_number = ?, neighborhood = ?, city = ?, state_abbr = ?, phone = ? WHERE cnpj = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, school.getName());
             statement.setString(2, school.getStreet());
             statement.setInt(3, school.getAddressNumber());
@@ -72,7 +76,9 @@ public class SchoolDAO {
 
     public void delete(int id) {
         String sql = "DELETE FROM schools WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -87,7 +93,8 @@ public class SchoolDAO {
     public void changeCNPJ(CNPJ oldCNPJ, CNPJ newCNPJ){
         String sql = "UPDATE schools SET cnpj = ? WHERE cnpj = ?";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, newCNPJ.toString());
             statement.setString(2, oldCNPJ.toString());
 
@@ -103,7 +110,8 @@ public class SchoolDAO {
     public School getSchoolByName(String name){
         String sql = "SELECT * FROM schools WHERE school_name = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, name);
 
             statement.executeQuery();
@@ -125,7 +133,8 @@ public class SchoolDAO {
     public School getSchoolById(int id){
         String sql = "SELECT * FROM schools WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1, id);
 
             statement.executeQuery();
@@ -147,7 +156,8 @@ public class SchoolDAO {
     public int getIdByCNPJ(CNPJ cnpj){
         String sql = "SELECT id FROM schools WHERE cnpj = ?";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, cnpj.toString());
             statement.executeQuery();
 
@@ -167,7 +177,8 @@ public class SchoolDAO {
         String sql = String.format("SELECT %s FROM schools;", COLUMNS);
         List<School> schools = new ArrayList<School>();
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.executeQuery();
 
             try(ResultSet result = statement.getResultSet()){
@@ -186,7 +197,8 @@ public class SchoolDAO {
         String sql = String.format("SELECT %s FROM schools WHERE school_name LIKE ?", COLUMNS);
         List<School> schools = new ArrayList<School>();
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, "%" + name + "%");
             statement.executeQuery();
 

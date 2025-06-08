@@ -1,7 +1,5 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
 import br.com.simba.model.entities.User;
 import br.com.simba.model.util.PasswordUtils;
@@ -17,8 +15,7 @@ import java.io.IOException;
 
 @WebServlet("/UpdatePasswordServlet")
 public class UpdatePasswordServlet extends HttpServlet {
-    private DBConnection connection = new PostgresConnection();
-    private UserDAO userDAO = new UserDAO(connection.getConnection());
+    private UserDAO userDAO = new UserDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

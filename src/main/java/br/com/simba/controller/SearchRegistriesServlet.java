@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.entities.Registry;
 import br.com.simba.model.entities.User;
 import br.com.simba.model.enums.BarrierCriticality;
@@ -35,7 +34,6 @@ public class SearchRegistriesServlet extends HttpServlet {
 
         User user = (User) session.getAttribute("user");
         String userUsername = user.getUsername();
-        DBConnection dbConnection = new PostgresConnection();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -50,19 +48,10 @@ public class SearchRegistriesServlet extends HttpServlet {
         }
 
         List<Registry> records = new ArrayList<>();
-        Connection conn = null;
 
         try {
-            conn = dbConnection.getConnection();
 
-            if (conn == null) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"error\":\"Database connection failed\"}");
-                out.flush();
-                return;
-            }
-
-            RegistryHandle registryHandle = new RegistryHandle(conn, userUsername);
+            RegistryHandle registryHandle = new RegistryHandle(userUsername);
 
             switch (sortOrder) {
                 case "recent":
@@ -96,17 +85,6 @@ public class SearchRegistriesServlet extends HttpServlet {
             e.printStackTrace(System.err);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.print("{\"error\":\"Error processing request: " + escapeJson(e.getMessage()) + "\"}");
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(System.err); // Logar erro ao fechar conexão
-                }
-            }
-            if (out != null) {
-                out.flush();
-            }
         }
     }
 

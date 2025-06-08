@@ -1,25 +1,18 @@
 package br.com.simba.model.service;
 
 import br.com.simba.exceptions.*;
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.entities.School;
 import br.com.simba.model.valueobject.*;
 import br.com.simba.model.dao.UserDAO;
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.sql.Connection;
 import java.time.LocalDate;
 
 public class RegisterValidator {
     private UserDAO userDAO;
-    private Connection connection;
 
     public RegisterValidator(){
-        DBConnection dbConnection = new PostgresConnection();
-        connection = dbConnection.getConnection();
-        userDAO = new UserDAO(connection);
+        userDAO = new UserDAO();
     }
 
     public Email validateEmail(String email, HttpServletRequest request){
@@ -129,7 +122,7 @@ public class RegisterValidator {
     }
 
     public School validateSchoolName(String schoolName, HttpServletRequest request){
-        SchoolDAO schoolDAO = new SchoolDAO(connection);
+        SchoolDAO schoolDAO = new SchoolDAO();
         try {
             return schoolDAO.getSchoolByName(request.getParameter("schoolName"));
         } catch (DataAccessException e){

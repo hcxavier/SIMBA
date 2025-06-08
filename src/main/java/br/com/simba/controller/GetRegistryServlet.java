@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Registry;
 import java.io.IOException;
@@ -23,8 +22,6 @@ public class GetRegistryServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         StringBuilder jsonResponse = new StringBuilder();
-        DBConnection dbConnection = new PostgresConnection();
-        Connection conn = null;
 
         String recordIdParam = request.getParameter("id");
         if (recordIdParam == null || recordIdParam.trim().isEmpty()) {
@@ -45,20 +42,11 @@ public class GetRegistryServlet extends HttpServlet {
         }
 
         try {
-            conn = dbConnection.getConnection();
-            if (conn == null) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print("{\"error\":\"Falha ao conectar ao banco de dados.\"}");
-                out.flush();
-                return;
-            }
-
-            RegistryDAO registryDAO = new RegistryDAO(conn);
+            RegistryDAO registryDAO = new RegistryDAO();
             Registry record = registryDAO.findById(recordId);
 
             if (record == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                // JSON CORRETO PARA ERRO
                 jsonResponse.append("{\"error\":\"Registro não encontrado.\"}");
             } else {
                 jsonResponse.append("{");
@@ -89,17 +77,6 @@ public class GetRegistryServlet extends HttpServlet {
             e.printStackTrace(System.err);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.print("{\"error\":\"Erro ao buscar registro: " + escapeJson(e.getMessage()) + "\"}");
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(System.err);
-                }
-            }
-            if (out != null) {
-                out.flush();
-            }
         }
     }
 

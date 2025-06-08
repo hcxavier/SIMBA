@@ -1,19 +1,15 @@
 package br.com.simba.model.service;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
 import br.com.simba.model.entities.User;
 import br.com.simba.model.valueobject.Username;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
 public class RedirectUser {
-    DBConnection dbConnection = new PostgresConnection();
-    UserDAO userDAO = new UserDAO(dbConnection.getConnection());
+    UserDAO userDAO = new UserDAO();
 
 
     public void redirectLogin(Username username, HttpServletResponse response) {

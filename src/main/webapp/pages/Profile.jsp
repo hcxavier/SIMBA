@@ -372,8 +372,6 @@
 
         profileForm?.addEventListener('submit', function(e) {
 
-            /*e.preventDefault();*/
-
             const updatedData = {};
 
             const formDataBackend = new FormData();
@@ -422,7 +420,6 @@
 
             console.log("Alterando senha (simulação):", { currentPassword, newPassword });
             alert('Senha alterada com sucesso!');
-           /* passwordForm.reset();*/
         });
 
         cancelPasswordChangeBtn?.addEventListener('click', () => {

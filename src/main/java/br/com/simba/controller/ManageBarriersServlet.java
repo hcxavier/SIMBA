@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Manager;
 import br.com.simba.model.entities.Registry;
@@ -54,11 +53,10 @@ public class ManageBarriersServlet extends HttpServlet {
         }
 
         String reportBarrierIdStr = request.getParameter("reportBarrierId");
-        DBConnection dbConnection = new PostgresConnection();
 
-        try (Connection connection = dbConnection.getConnection()){
-            RegistryHandle registryHandle = new RegistryHandle(connection);
-            Manager manager = managerHandle.getManagerFromSessionUser(sessionUser, connection);
+        try {
+            RegistryHandle registryHandle = new RegistryHandle();
+            Manager manager = managerHandle.getManagerFromSessionUser(sessionUser);
 
             if (manager == null) {
                 if (request.getParameter("reportBarrierId") != null){
@@ -91,7 +89,7 @@ public class ManageBarriersServlet extends HttpServlet {
                 PrintWriter out = response.getWriter();
 
                 int schoolId = manager.getSchoolId();
-                RegistryDAO registryDAO = new RegistryDAO(connection);
+                RegistryDAO registryDAO = new RegistryDAO();
                 List<Registry> barriers = registryDAO.listRegistriesBySchoolId(schoolId);
 
                 StringBuilder jsonBuilder = new StringBuilder("[");
@@ -173,7 +171,6 @@ public class ManageBarriersServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        DBConnection dbConnection = new PostgresConnection();
         ManagerHandle managerHandle = new ManagerHandle();
 
         String action = request.getParameter("action");
@@ -188,9 +185,9 @@ public class ManageBarriersServlet extends HttpServlet {
             return;
         }
 
-        try (Connection connection = dbConnection.getConnection()) {
-            RegistryHandle registryHandle = new RegistryHandle(connection);
-            Manager manager = managerHandle.getManagerFromSessionUser(sessionUser, connection);
+        try {
+            RegistryHandle registryHandle = new RegistryHandle();
+            Manager manager = managerHandle.getManagerFromSessionUser(sessionUser);
 
             if (manager == null) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);

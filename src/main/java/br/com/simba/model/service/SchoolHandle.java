@@ -8,20 +8,17 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SchoolHandle {
-    private final Connection connection;
     private List<School> schools;
     private SchoolDAO schoolDAO;
 
-    public SchoolHandle(Connection connection){
-        this.connection = connection;
-        schoolDAO = new SchoolDAO(connection);
+    public SchoolHandle(){
+        schoolDAO = new SchoolDAO();
         try {
             schools = schoolDAO.listAllSchools();
         } catch (Exception e) {

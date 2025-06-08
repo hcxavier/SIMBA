@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Registry;
 import br.com.simba.model.service.RedirectUser;
@@ -13,7 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import java.io.IOException;
@@ -22,10 +21,9 @@ import java.io.IOException;
 public class DashboardServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DBConnection dbConnection = new PostgresConnection();
-        SchoolHandle schoolHandle = new SchoolHandle(dbConnection.getConnection());
-        RegistryHandle registryHandle = new RegistryHandle(dbConnection.getConnection());
-        RegistryDAO registryDAO = new RegistryDAO(dbConnection.getConnection());
+        SchoolHandle schoolHandle = new SchoolHandle();
+        RegistryHandle registryHandle = new RegistryHandle();
+        RegistryDAO registryDAO = new RegistryDAO();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/Dashboard.jsp");
         RedirectUser redirectUser = new RedirectUser();
         if (redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;

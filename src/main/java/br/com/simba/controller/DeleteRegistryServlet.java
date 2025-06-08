@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 
 import br.com.simba.model.util.SQLErrorLog;
@@ -19,7 +18,6 @@ import java.sql.SQLException;
 public class DeleteRegistryServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DBConnection dbConnection = new PostgresConnection();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -46,50 +44,15 @@ public class DeleteRegistryServlet extends HttpServlet {
             return;
         }
 
-        Connection conn = null;
         boolean deleted = false;
         String errorMessage = null;
 
         try {
-            conn = dbConnection.getConnection();
-            if (conn == null) {
-                errorMessage = "Falha ao conectar ao banco de dados.";
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            } else {
-                conn.setAutoCommit(false);
-                RegistryDAO registryDAO = new RegistryDAO(conn);
-                registryDAO.delete(recordId);
-                conn.commit();
-            }
-        } catch (SQLException e) {
-            errorMessage = "Erro de banco de dados ao tentar excluir o registro: " + e.getMessage();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    SQLErrorLog.reportSqlException(ex);
-                }
-            }
+            RegistryDAO registryDAO = new RegistryDAO();
+            registryDAO.delete(recordId);
         } catch (Exception e) {
             errorMessage = "Erro interno ao tentar excluir o registro: " + e.getMessage();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    SQLErrorLog.reportSqlException(ex);
-                }
-            }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                    conn.close();
-                } catch (SQLException e) {
-                    SQLErrorLog.reportSqlException(e);
-                }
-            }
         }
 
         jsonResponse.append("{\"success\":true, \"message\":\"Registro excluído com sucesso.\"}");

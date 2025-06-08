@@ -17,11 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Instantiator {
-    private final Connection connection;
-
-    public Instantiator(Connection connection){
-         this.connection = connection;
-    }
 
     public User instantiateUser(ResultSet result){
         try {
@@ -65,7 +60,7 @@ public class Instantiator {
     }
 
     public Manager instantiateManager(ResultSet result){
-        SchoolDAO schoolDAO = new SchoolDAO(connection);
+        SchoolDAO schoolDAO = new SchoolDAO();
         try {
             int id = result.getInt("id");
             String name = result.getString("full_name");
@@ -121,9 +116,9 @@ public class Instantiator {
     }
 
     public Registry instantiateRegistry(ResultSet result){
-        PictureDAO pictureDAO = new PictureDAO(connection);
-        SchoolDAO schoolDAO = new SchoolDAO(connection);
-        ReporterDAO reporterDAO = new ReporterDAO(connection);
+        PictureDAO pictureDAO = new PictureDAO();
+        SchoolDAO schoolDAO = new SchoolDAO();
+        ReporterDAO reporterDAO = new ReporterDAO();
         try {
             int id = result.getInt("id");
             String barrierSpecification = result.getString("barrier_specification");

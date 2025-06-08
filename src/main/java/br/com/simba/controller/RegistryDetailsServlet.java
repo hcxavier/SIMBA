@@ -1,16 +1,9 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Registry;
 // Adicione os imports necessários se não estiverem já presentes
-import br.com.simba.model.enums.BarrierCategory;
-import br.com.simba.model.enums.BarrierCriticality;
-import br.com.simba.model.enums.BarrierStatus;
-import br.com.simba.model.entities.Picture;
-import br.com.simba.model.entities.School;
-import br.com.simba.model.entities.Reporter;
 
 
 import br.com.simba.model.service.RedirectUser;
@@ -37,17 +30,12 @@ public class RegistryDetailsServlet extends HttpServlet {
         if (barrierIdStr != null && !barrierIdStr.trim().isEmpty()) {
             try {
                 int barrierId = Integer.parseInt(barrierIdStr);
-                DBConnection dbConnection = new PostgresConnection();
-                try (Connection connection = dbConnection.getConnection()) {
-                    RegistryDAO registryDAO = new RegistryDAO(connection);
+                try {
+                    RegistryDAO registryDAO = new RegistryDAO();
                     registry = registryDAO.findById(barrierId);
                     if (registry == null) {
                         errorMessage = "Barreira não encontrada com o ID fornecido.";
                     }
-                } catch (SQLException e) {
-                    System.err.println("SQL Error in BarrierDetailsServlet: " + e.getMessage());
-                    e.printStackTrace();
-                    errorMessage = "Erro ao acessar o banco de dados. Por favor, tente novamente mais tarde.";
                 } catch (Exception e) {
                     System.err.println("General Error in BarrierDetailsServlet: " + e.getMessage());
                     e.printStackTrace();

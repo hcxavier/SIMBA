@@ -16,8 +16,8 @@ public class Reporter extends User{
         super(id, username, name, street, number, neighborhood, city, stateAbbr, email, password, "reporter");
     }
 
-    public void addToDatabase(Connection connection){
-        ReporterDAO reporterDAO = new ReporterDAO(connection);
+    public void addToDatabase(){
+        ReporterDAO reporterDAO = new ReporterDAO();
         reporterDAO.insert(this);
     }
 }

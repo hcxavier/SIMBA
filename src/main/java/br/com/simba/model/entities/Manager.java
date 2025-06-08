@@ -20,8 +20,8 @@ public class Manager extends User {
         this.school = school;
     }
 
-    public void addToDatabase(Connection connection){
-        ManagerDAO managerDAO = new ManagerDAO(connection);
+    public void addToDatabase(){
+        ManagerDAO managerDAO = new ManagerDAO();
         managerDAO.insert(this);
     }
 

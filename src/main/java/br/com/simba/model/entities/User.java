@@ -1,10 +1,6 @@
 package br.com.simba.model.entities;
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
-import br.com.simba.model.dao.ManagerDAO;
 import br.com.simba.model.valueobject.*;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 

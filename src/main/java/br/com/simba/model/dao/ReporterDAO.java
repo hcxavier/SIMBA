@@ -2,26 +2,31 @@ package br.com.simba.model.dao;
 
 import br.com.simba.exceptions.DataAccessException;
 import br.com.simba.model.entities.Reporter;
-import br.com.simba.model.entities.User;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.Username;
 
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class ReporterDAO extends UserDAO {
+    private final DataSource dataSource;
     private final Instantiator instantiator;
 
-    public ReporterDAO(Connection connection) {
-        super(connection);
-        instantiator = new Instantiator(connection);
+
+    public ReporterDAO() {
+        super();
+        dataSource = HikariCPDataSource.getDataSource();
+        instantiator = new Instantiator();
     }
 
     public void insert(Reporter reporter){
         String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password, user_type) VALUES (?,?,?,?,?,?,?,?,?, ?)";
         String insertReporter = "INSERT INTO reporters (user_id) VALUES (?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, reporter.getName());
             statement.setString(2, reporter.getStreet());
             statement.setInt(3, reporter.getAddressNumber());
@@ -48,7 +53,8 @@ public class ReporterDAO extends UserDAO {
             throw new DataAccessException("Error: failed to create user!", e);
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(insertReporter)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(insertReporter)){
             statement.setInt(1, reporter.getId());
 
             int affectedRowsReporter = statement.executeUpdate();
@@ -63,7 +69,8 @@ public class ReporterDAO extends UserDAO {
     public Reporter getReporterByUsername(Username usernameEntry){
         String sql = "SELECT r.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE username = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, usernameEntry.toString());
 
             statement.executeQuery();
@@ -84,7 +91,8 @@ public class ReporterDAO extends UserDAO {
     public Reporter getReporterById(int id){
         String sql = "SELECT r.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN reporters r ON u.id = r.user_id WHERE r.id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setInt(1, id);
 
             statement.executeQuery();

@@ -20,66 +20,62 @@
     .form-input {
       display: block;
       width: 100%;
-      background-color: #F9FAFB; /* gray-50 */
-      margin-top: 0.25rem; /* mt-1 */
-      border-radius: 0.5rem; /* rounded-lg */
+      background-color: #F9FAFB;
+      margin-top: 0.25rem;
+      border-radius: 0.5rem;
       border-width: 1px;
-      border-color: #D1D5DB; /* gray-300 */
-      padding-left: 1rem; /* pl-4 */
-      padding-right: 1rem; /* pr-4 */
-      padding-top: 0.75rem; /* py-3 */
-      padding-bottom: 0.75rem; /* py-3 */
-      color: #1F2937; /* gray-800 */
+      border-color: #D1D5DB;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      color: #1F2937;
       transition-property: box-shadow, border-color;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 150ms;
-      font-size: 0.875rem; /* text-sm */
+      font-size: 0.875rem;
     }
 
     .form-input::placeholder {
-      color: #6B7280; /* gray-500 */
+      color: #6B7280;
     }
 
     .form-input:focus {
-      border-color: #3F88C5; /* Cor customizada ou uma de Tailwind como blue-500 */
+      border-color: #3F88C5;
       outline: none;
-      --tw-ring-color: rgba(63, 136, 197, 0.4); /* Adapte a cor do anel */
-      box-shadow: 0 0 0 3px var(--tw-ring-color); /* Anel de foco */
+      --tw-ring-color: rgba(63, 136, 197, 0.4);
+      box-shadow: 0 0 0 3px var(--tw-ring-color);
     }
 
     .status-badge {
-      padding: 0.25rem 0.75rem; /* py-1 px-3 */
-      border-radius: 9999px; /* rounded-full */
-      font-size: 0.75rem; /* text-xs */
-      font-weight: 500; /* font-medium */
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
       text-transform: capitalize;
       display: inline-block;
       white-space: nowrap;
-      line-height: 1.25; /* leading-tight */
+      line-height: 1.25;
     }
-    /* Cores baseadas nas chaves do ENUM que você usa no JS */
-    /* Status */
-    .status-UNDER_ANALYSIS { background-color: #E0E7FF; color: #3730A3; } /* bg-indigo-100 text-indigo-800 */
-    .status-CORRECTING { background-color: #FEF3C7; color: #92400E; }    /* bg-yellow-100 text-yellow-800 */
-    .status-RESOLVED { background-color: #D1FAE5; color: #065F46; }      /* bg-green-100 text-green-800 */
-    .status-UNKNOWN_STATUS { background-color: #E5E7EB; color: #374151; }/* bg-gray-200 text-gray-700 */
+    .status-UNDER_ANALYSIS { background-color: #E0E7FF; color: #3730A3; }
+    .status-CORRECTING { background-color: #FEF3C7; color: #92400E; }
+    .status-RESOLVED { background-color: #D1FAE5; color: #065F46; }
+    .status-UNKNOWN_STATUS { background-color: #E5E7EB; color: #374151; }
 
-    /* Criticidade (reutilizando o padrão de nome de classe status-CHAVE) */
-    .status-HIGH { background-color: #FEE2E2; color: #991B1B; }     /* bg-red-100 text-red-800 */
-    .status-MODERATE { background-color: #FEF9C3; color: #92400E; } /* bg-yellow-100 text-yellow-800 (pode diferenciar de CORRECTING se quiser) */
-    .status-LOW { background-color: #DBEAFE; color: #1E40AF; }       /* bg-blue-100 text-blue-800 */
-    .status-UNKNOWN_CRITICALITY { background-color: #E5E7EB; color: #374151; } /* bg-gray-200 text-gray-700 */
+    .status-HIGH { background-color: #FEE2E2; color: #991B1B; }
+    .status-MODERATE { background-color: #FEF9C3; color: #92400E; }
+    .status-LOW { background-color: #DBEAFE; color: #1E40AF; }
+    .status-UNKNOWN_CRITICALITY { background-color: #E5E7EB; color: #374151; }
 
-    /* Para transições de modal */
     .modal-transition {
       transition-property: opacity, transform;
       transition-duration: 300ms;
       transition-timing-function: ease-in-out;
     }
-    .hidden-mobile { /* Para sidebar em mobile */
+    .hidden-mobile {
       transform: translateX(-100%);
     }
-    @media (min-width: 768px) { /* md */
+    @media (min-width: 768px) {
       .hidden-mobile {
         transform: translateX(0);
       }
@@ -100,7 +96,6 @@
         <p class="text-medium-gray mt-1">Visualize, adicione observações, altere status e gere relatórios das barreiras.</p>
       </div>
       <div class="flex items-center gap-4">
-        <!-- Botão de toggle da sidebar para mobile -->
         <button class="sidebar-toggle-button md:hidden text-custom-purple text-xl">
           <i class="fas fa-bars"></i>
         </button>
@@ -130,7 +125,6 @@
             <option value="criticality_low">Urgência: Baixa para Alta</option>
             <option value="status_under_analysis">Status: Em Análise</option>
             <option value="status_resolved">Status: Resolvido</option>
-            <!-- Adicione mais opções de ordenação/filtro se necessário -->
           </select>
         </div>
       </div>
@@ -150,7 +144,6 @@
         </tr>
         </thead>
         <tbody id="barriersTableBody">
-        <!-- Linhas da tabela serão inseridas aqui pelo JavaScript -->
         <tr><td colspan="7" class="text-center p-4">Carregando barreiras...</td></tr>
         </tbody>
       </table>
@@ -159,7 +152,6 @@
     <div class="mt-10 flex justify-center">
       <nav aria-label="Page navigation">
         <ul class="inline-flex items-center -space-x-px" id="paginationControls">
-          <!-- Controles de paginação serão inseridos aqui pelo JavaScript -->
         </ul>
       </nav>
     </div>
@@ -170,7 +162,6 @@
   </main>
 </div>
 
-<!-- Modal de Observações -->
 <div id="observationModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-transition opacity-0">
   <div id="observationModalContent" class="bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-lg modal-transition transform scale-95 opacity-0">
     <div class="flex items-center justify-between mb-6">
@@ -178,7 +169,6 @@
       <button onclick="closeModal('observationModal')" class="text-medium-gray hover:text-dark-gray text-2xl leading-none">×</button>
     </div>
     <div id="observationList" class="mb-4 max-h-60 overflow-y-auto p-2 border rounded-md bg-gray-50 space-y-2">
-      <!-- Observações serão carregadas aqui -->
       <p class="text-sm text-medium-gray">Nenhuma observação registrada.</p>
     </div>
     <form id="addObservationForm">
@@ -195,7 +185,6 @@
   </div>
 </div>
 
-<!-- Modal de Alteração de Status -->
 <div id="statusModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-transition opacity-0">
   <div id="statusModalContent" class="bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md modal-transition transform scale-95 opacity-0">
     <div class="flex items-center justify-between mb-6">
@@ -207,7 +196,6 @@
       <div class="mb-6">
         <label for="barrierStatusSelect" class="block text-sm font-medium text-dark-gray mb-1">Novo Status</label>
         <select id="barrierStatusSelect" name="newStatus" class="form-input" required>
-          <!-- Opções de status serão populadas pelo JavaScript -->
         </select>
       </div>
       <div class="flex justify-end gap-3">
@@ -219,7 +207,6 @@
 </div>
 
 <script>
-  // Define o contextPath globalmente para o JavaScript poder usá-lo
   const contextPath = '<%= request.getContextPath() %>';
 </script>
 <script src="../assets/js/sidebar.js"></script>

@@ -1,7 +1,7 @@
 package br.com.simba.controller;
 
 import br.com.simba.model.dao.ManagerDAO;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Registry;
@@ -121,19 +121,10 @@ public class GetSchoolDetailsServlet extends HttpServlet {
             return;
         }
 
-        try (Connection connection = new PostgresConnection().getConnection()) {
-
-            if (connection == null) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                responseJson.put("error", "Erro interno do servidor: não foi possível conectar ao banco de dados.");
-                out.print(this.gson.toJson(responseJson));
-                out.flush();
-                return;
-            }
-
-            SchoolDAO schoolDAO = new SchoolDAO(connection);
-            ManagerDAO managerDAO = new ManagerDAO(connection);
-            RegistryDAO registryDAO = new RegistryDAO(connection);
+        try {
+            SchoolDAO schoolDAO = new SchoolDAO();
+            ManagerDAO managerDAO = new ManagerDAO();
+            RegistryDAO registryDAO = new RegistryDAO();
 
             School school = schoolDAO.getSchoolById(schoolId);
             Manager manager = null;
@@ -161,11 +152,6 @@ public class GetSchoolDetailsServlet extends HttpServlet {
                 out.print(this.gson.toJson(responseJson));
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            responseJson.put("error", "Erro interno do servidor ao consultar o banco de dados.");
-            out.print(this.gson.toJson(responseJson));
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

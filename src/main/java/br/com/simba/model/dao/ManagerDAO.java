@@ -8,18 +8,23 @@ import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 import br.com.simba.model.valueobject.Username;
 
+import javax.sql.DataSource;
+
 public class ManagerDAO extends UserDAO {
+    private final DataSource dataSource;
     private final Instantiator instantiator;
-    public ManagerDAO(Connection connection) {
-        super(connection);
-        instantiator = new Instantiator(connection);
+
+    public ManagerDAO() {
+        dataSource = HikariCPDataSource.getDataSource();
+        instantiator = new Instantiator();
     }
 
     public void insert(Manager manager){
         String insertUser = "INSERT INTO users (full_name, street, address_number, neighborhood, city, state_abbr, email, username, hashed_password, user_type) VALUES (?,?,?,?,?,?,?,?,?,?)";
         String insertManager = "INSERT INTO managers (CPF, user_id, school_id) VALUES (?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(insertUser, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, manager.getName());
             statement.setString(2, manager.getStreet());
             statement.setInt(3, manager.getAddressNumber());
@@ -45,7 +50,8 @@ public class ManagerDAO extends UserDAO {
             throw new DataAccessException("Error: failed to create user!", e);
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(insertManager)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(insertManager)){
             statement.setString(1, manager.getCPF());
             statement.setInt(2, manager.getId());
             statement.setInt(3, manager.getSchoolId());
@@ -62,7 +68,8 @@ public class ManagerDAO extends UserDAO {
     public Manager getManagerByUsername(Username usernameEntry){
         String sql = "SELECT m.CPF, m.school_id, u.id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id WHERE username = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, usernameEntry.toString());
 
             statement.executeQuery();
@@ -83,7 +90,8 @@ public class ManagerDAO extends UserDAO {
     public Manager getManagerBySchoolName(String schoolName){
         String sql = "SELECT m.CPF, u.id, m.school_id, u.full_name, u.street, u.address_number, u.neighborhood, u.city, u.state_abbr, u.email, u.username, u.hashed_password FROM users u JOIN managers m ON u.id = m.user_id JOIN schools s ON m.school_id = s.id WHERE school_name = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, schoolName);
 
             statement.executeQuery();

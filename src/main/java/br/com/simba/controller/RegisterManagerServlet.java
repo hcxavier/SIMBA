@@ -1,7 +1,5 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.SchoolDAO;
 import br.com.simba.model.entities.Manager;
 import br.com.simba.model.entities.School;
@@ -15,15 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 @WebServlet("/register/manager")
 public class RegisterManagerServlet extends HttpServlet{
     @Override
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        DBConnection dbConnection = new PostgresConnection();
-        Connection connection = dbConnection.getConnection();
-        SchoolDAO schoolDAO = new SchoolDAO(dbConnection.getConnection());
+        SchoolDAO schoolDAO = new SchoolDAO();
         RegisterValidator validate = new RegisterValidator();
         RequestDispatcher dispatcher;
         String requestUserType = request.getParameter("ocupation");
@@ -59,7 +54,7 @@ public class RegisterManagerServlet extends HttpServlet{
 
         Manager manager = new Manager(requestUsername, requestFullname, requestAddress.getStreet(), requestAddress.getNumber(), requestAddress.getNeighborhood(),
                 requestAddress.getCity(), requestAddress.getStateAbbr(), requestEmail, requestPassword, requestCPF, requestSchool);
-        manager.addToDatabase(connection);
+        manager.addToDatabase();
         System.out.printf("Teacher [%s] registered successfully.%n", requestFullname);
         request.getSession().setAttribute("success", "SUCCESS");
 

@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.entities.Registry;
 import br.com.simba.model.enums.BarrierCategory;
@@ -31,8 +30,6 @@ public class UpdateRegistryServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         Map<String, Object> jsonResponseMap = new HashMap<>();
-        DBConnection dbConnection = new PostgresConnection();
-        Connection conn = null;
 
         try {
             String recordIdParam = request.getParameter("recordId");
@@ -68,20 +65,10 @@ public class UpdateRegistryServlet extends HttpServlet {
                 return;
             }
 
-            conn = dbConnection.getConnection();
-            if (conn == null) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                jsonResponseMap.put("success", false);
-                jsonResponseMap.put("error", "Falha ao conectar ao banco de dados.");
-                return;
-            }
-            conn.setAutoCommit(false);
-
-            RegistryDAO registryDAO = new RegistryDAO(conn);
+            RegistryDAO registryDAO = new RegistryDAO();
             Registry registry = registryDAO.findById(recordId);
 
             if (registry == null) {
-                if (conn != null) conn.rollback();
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 jsonResponseMap.put("success", false);
                 jsonResponseMap.put("error", "Registro não encontrado para atualização.");
@@ -96,7 +83,6 @@ public class UpdateRegistryServlet extends HttpServlet {
                 registry.setBarrierType(BarrierCategory.valueOf(barrierTypeStr.toUpperCase()));
                 registry.setBarrierCriticality(BarrierCriticality.valueOf(barrierCriticalityStr.toUpperCase()));
             } catch (IllegalArgumentException e) {
-                if (conn != null) conn.rollback();
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 jsonResponseMap.put("success", false);
                 jsonResponseMap.put("error", "Valores inválidos para Tipo de Barreira ou Criticidade: " + escapeJson(e.getMessage()));
@@ -104,42 +90,17 @@ public class UpdateRegistryServlet extends HttpServlet {
             }
 
             registryDAO.update(registry);
-            conn.commit();
 
             jsonResponseMap.put("success", true);
             jsonResponseMap.put("message", "Registro atualizado com sucesso!");
 
-        } catch (SQLException e) {
-            if (conn != null) try { conn.rollback(); } catch (SQLException ex_roll) {
-                System.err.println("Erro ao fazer rollback da transação SQL: " + ex_roll.getMessage());
-                ex_roll.printStackTrace(System.err);
-            }
-            System.err.println("Erro SQL no UpdateRecordServlet: " + e.getMessage());
-            e.printStackTrace(System.err);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            jsonResponseMap.put("success", false);
-            jsonResponseMap.put("error", "Erro de banco de dados ao tentar atualizar o registro: " + escapeJson(e.getMessage()));
         } catch (Exception e) {
-            if (conn != null) try { conn.rollback(); } catch (SQLException ex_roll) {
-                System.err.println("Erro ao fazer rollback da transação (Exceção genérica): " + ex_roll.getMessage());
-                ex_roll.printStackTrace(System.err);
-            }
             System.err.println("Erro inesperado no UpdateRecordServlet: " + e.getMessage());
             e.printStackTrace(System.err);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             jsonResponseMap.put("success", false);
             jsonResponseMap.put("error", "Erro interno ao tentar atualizar o registro: " + escapeJson(e.getMessage()));
         } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                    conn.close();
-                } catch (SQLException e) {
-                    System.err.println("Erro ao fechar a conexão com o banco de dados: " + e.getMessage());
-                    e.printStackTrace(System.err);
-                }
-            }
-
             sendResponse(response, jsonResponseMap);
         }
     }

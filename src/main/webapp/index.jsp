@@ -152,9 +152,9 @@
             .clip-custom-shape {
                 clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
             }
-            @media (min-width: 768px) { /* md breakpoint */
+            @media (min-width: 768px) {
                 .clip-custom-shape {
-                    clip-path: polygon(0 0, 100% 0, 100% 85%, 55% 100%, 0% 85%); /* Adjusted for wider screens */
+                    clip-path: polygon(0 0, 100% 0, 100% 85%, 55% 100%, 0% 85%);
                 }
             }
         </style>

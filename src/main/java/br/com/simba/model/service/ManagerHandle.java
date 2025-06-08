@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ManagerHandle {
-    public Manager getManagerFromSessionUser(User sessionUser, Connection conn) throws SQLException {
+    public Manager getManagerFromSessionUser(User sessionUser) throws SQLException {
         if (sessionUser == null) return null;
 
         String userTypeFromSession = sessionUser.getUserType();
@@ -18,7 +18,7 @@ public class ManagerHandle {
 
         if (!isManagerType) return null;
 
-        ManagerDAO managerDAO = new ManagerDAO(conn);
+        ManagerDAO managerDAO = new ManagerDAO();
 
         return managerDAO.getManagerByUsername(new Username(sessionUser.getUsername()));
     }

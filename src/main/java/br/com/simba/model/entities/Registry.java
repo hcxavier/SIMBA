@@ -1,8 +1,6 @@
 package br.com.simba.model.entities;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PictureDAO;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.dao.RegistryDAO;
 import br.com.simba.model.enums.BarrierCategory;
 import br.com.simba.model.enums.BarrierCriticality;
@@ -55,10 +53,8 @@ public class Registry {
     }
 
     public boolean addToDatabase(){
-        DBConnection dbConnection = new PostgresConnection();
-
-        try (Connection connection = dbConnection.getConnection()){
-            RegistryDAO registryDAO = new RegistryDAO(connection);
+        try {
+            RegistryDAO registryDAO = new RegistryDAO();
             registryDAO.insert(this);
             return true;
         } catch (Exception e) {

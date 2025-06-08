@@ -1,7 +1,6 @@
 package br.com.simba.controller;
 
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
+import br.com.simba.model.dao.HikariCPDataSource;
 import br.com.simba.model.entities.School;
 import br.com.simba.model.service.SchoolHandle;
 import br.com.simba.model.util.SQLErrorLog;
@@ -28,37 +27,17 @@ public class SearchSchoolsWithFilterServlet extends HttpServlet {
         String nameParam = request.getParameter("search_school");
 
         List<School> schools;
-        Connection conn = null;
-        DBConnection dbConnection = new PostgresConnection();
 
         try {
-            conn = dbConnection.getConnection();
-            if (conn == null) {
-                throw new SQLException("Falha ao obter conexão com o banco de dados.");
-            }
-
-            SchoolHandle schoolHandle = new SchoolHandle(conn);
+            SchoolHandle schoolHandle = new SchoolHandle();
 
             schools = schoolHandle.getSchoolsByCityAndName(cityParam, nameParam);
 
-        } catch (SQLException e) {
-            SQLErrorLog.reportSqlException(e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Erro ao conectar ou consultar o banco de dados: " + e.getMessage());
-            return;
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("Erro interno ao processar a solicitação: " + e.getMessage());
             return;
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    SQLErrorLog.reportSqlException(e);
-                }
-            }
         }
 
         Gson gson = new GsonBuilder().create();

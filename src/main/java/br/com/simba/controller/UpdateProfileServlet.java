@@ -1,6 +1,4 @@
 package br.com.simba.controller;
-import br.com.simba.model.dao.DBConnection;
-import br.com.simba.model.dao.PostgresConnection;
 import br.com.simba.model.dao.UserDAO;
 import br.com.simba.model.entities.User;
 import br.com.simba.model.valueobject.Email;
@@ -16,9 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/updateProfileServlet")
 public class UpdateProfileServlet extends HttpServlet {
-
-    private DBConnection connection = new PostgresConnection();
-    private UserDAO userDAO = new UserDAO(connection.getConnection());
+    private UserDAO userDAO = new UserDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

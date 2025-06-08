@@ -18,7 +18,7 @@
                         'custom-blue-hover': '#86b4da',
                         'custom-purple': '#7D5799',
                         'custom-purple-light': '#b687d8',
-                        'custom-purple-hover': '#b687d8', // Consider a slightly different hover if needed
+                        'custom-purple-hover': '#b687d8',
                         'dark-gray': '#212121',
                         'medium-gray': '#6B7280',
                         'light-gray-bg': '#F3F4F6',
@@ -48,29 +48,25 @@
         .input-with-icon-container .input-icon {
             position: absolute;
             top: 50%;
-            left: 0.75rem; /* 12px */
+            left: 0.75rem;
             transform: translateY(-50%);
-            color: #9CA3AF; /* text-gray-400 */
+            color: #9CA3AF;
         }
         .input-with-icon-container input {
-            padding-left: 2.5rem; /* 40px */
+            padding-left: 2.5rem;
         }
-        select { /* Ensures select height matches input py-3 (approx 3rem total with border) */
-            height: 3rem; /* Adjust if necessary to perfectly match input height */
+        select {
+            height: 3rem;
         }
-        /* Style for school suggestion list items */
-        #suggestion li {
-            /* padding already in JS, text color can be set if needed */
-        }
-        /* Style for the "create new school" option */
+
         #create-new-school-option {
-            border-top: 1px solid #e5e7eb; /* border-gray-200 */
-            margin-top: 0.25rem; /* mt-1 */
-            font-weight: 600; /* semibold */
-            color: #3F88C5; /* custom-blue */
+            border-top: 1px solid #e5e7eb;
+            margin-top: 0.25rem;
+            font-weight: 600;
+            color: #3F88C5;
         }
         #create-new-school-option:hover {
-            background-color: #86b4da; /* custom-blue-hover */
+            background-color: #86b4da;
             color: white;
         }
     </style>
@@ -80,7 +76,7 @@
 <main class="w-full max-w-xl">
     <div class="bg-white rounded-2xl shadow-custom-lg p-8 sm:p-10">
         <jsp:include page="../partials/simba-logo.html" flush="true"/>
-        <form method="post" action="${pageContext.request.contextPath}/register/manager">
+        <form method="post" action="<%= request.getContextPath()%>/register/manager">
 
             <h1 class="flex text-2xl sm:text-3xl font-semibold text-custom-purple mb-6 text-center">Crie sua conta</h1>
 
@@ -223,7 +219,6 @@
                            class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
                     <ul id="suggestion"
                         class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-60 overflow-y-auto hidden">
-                        <!-- Sugestões e opção de criar nova escola aparecerão aqui -->
                     </ul>
                 </div>
 

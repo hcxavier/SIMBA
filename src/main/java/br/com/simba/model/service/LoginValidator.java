@@ -12,12 +12,9 @@ import java.sql.Connection;
 
 public class LoginValidator {
     private UserDAO userDAO;
-    private Connection connection;
 
     public LoginValidator() {
-        DBConnection dbConnection = new PostgresConnection();
-        connection = dbConnection.getConnection();
-        userDAO = new UserDAO(connection);
+        userDAO = new UserDAO();
     }
 
     public boolean isUsernamePasswordValid(String username, String password) {

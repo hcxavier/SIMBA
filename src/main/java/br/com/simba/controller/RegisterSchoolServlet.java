@@ -14,7 +14,6 @@ import java.io.IOException;
 public class RegisterSchoolServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RedirectUser redirectUser = new RedirectUser();
-//        if (redirectUser.userNullRedirectToLogin(request.getSession(), response)) return;
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegisterSchool.jsp");
         dispatcher.forward(request, response);
     }

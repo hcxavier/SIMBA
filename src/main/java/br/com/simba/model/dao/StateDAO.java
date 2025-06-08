@@ -5,22 +5,24 @@ import br.com.simba.model.entities.Picture;
 import br.com.simba.model.util.Instantiator;
 import br.com.simba.model.util.SQLErrorLog;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
 public class StateDAO {
     private Instantiator instantiator;
-    private Connection connection;
+    private final DataSource dataSource;
 
-    public StateDAO(Connection connection){
-        this.connection = connection;
-        instantiator = new Instantiator(connection);
+    public StateDAO(){
+        dataSource = HikariCPDataSource.getDataSource();
+        instantiator = new Instantiator();
     }
 
     public List<String> getCitiesByState(String state){
         String sql = "SELECT city_name FROM cities WHERE uf = ? ORDER BY city_name ASC";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1, state);
 
             try(ResultSet resultSet = statement.executeQuery()){

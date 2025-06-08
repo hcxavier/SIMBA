@@ -28,31 +28,27 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegistryHandle {
-    private final Connection connection;
     private static final String OBSERVATION_DELIMITER = ";;;";
     private List<Registry> userRegistries;
     private List<Registry> firstRecentRegistries;
     private List<Registry> firstOldRegistries;
     private final RegistryDAO registryDAO;
 
-    public RegistryHandle(Connection connection, String username){
-        this.connection = connection;
-        registryDAO = new RegistryDAO(connection);
+    public RegistryHandle(String username){
+        registryDAO = new RegistryDAO();
         userRegistries = registryDAO.listAllUserRegistries(username);
         firstOldRegistries = registryDAO.listAllUserRegistriesOrderedByOldestDate(username);
         firstRecentRegistries = registryDAO.listAllUserRegistriesOrderedByRecentDate(username);
     }
 
-    public RegistryHandle(Connection connection){
-        this.connection = connection;
-        registryDAO = new RegistryDAO(connection);
+    public RegistryHandle(){
+        registryDAO = new RegistryDAO();
     }
 
     public List<Registry> getRegistriesByNameAndStatus(String name, BarrierStatus barrierStatus){
@@ -114,7 +110,7 @@ public class RegistryHandle {
     }
 
     public void handleGeneratePdfReport(HttpServletRequest request, HttpServletResponse response, int barrierId) throws IOException, SQLException {
-        RegistryDAO registryDAO = new RegistryDAO(connection);
+        RegistryDAO registryDAO = new RegistryDAO();
         Registry barrier = registryDAO.findById(barrierId);
 
         if (barrier == null) {
@@ -122,7 +118,7 @@ public class RegistryHandle {
             return;
         }
 
-        PictureDAO pictureDAO = new PictureDAO(connection);
+        PictureDAO pictureDAO = new PictureDAO();
         Picture picture = null;
         if (barrier.getPictureId() > 0) {
             picture = pictureDAO.getPictureById(barrier.getPictureId());

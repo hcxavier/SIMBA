@@ -66,9 +66,9 @@
         listRegistries = new ArrayList<>();
     }
 
-    User currentUser = (User) session.getAttribute("user"); // Padronizado para currentUser
-    String userTypeForSidebar = "manager"; // Default para manager, já que este é o DashboardManager
-    char userInitial = 'M'; // Padrão para Manager
+    User currentUser = (User) session.getAttribute("user");
+    String userTypeForSidebar = "manager";
+    char userInitial = 'M';
 
     if (currentUser != null) {
         if (currentUser.getUserType() != null) {
@@ -83,7 +83,6 @@
 %>
 
 <div class="flex flex-col md:flex-row h-screen">
-    <%-- A lógica do servlet DashboardManager já garante que o usuário é 'manager' --%>
     <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
 
     <main class="main-content flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
@@ -139,7 +138,6 @@
         <div class="fade-in-animation delay-5 bg-white rounded-2xl shadow-custom-lg p-6 sm:p-8 mb-10">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-semibold text-dark-gray">Barreiras Recentes</h2>
-                <%-- Link "Ver todas" pode ser específico para managers ou o mesmo do Dashboard.jsp --%>
                 <a href="<%= request.getContextPath() %>/dashboard/all-registries-manager" class="text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Ver todas</a>
             </div>
             <div class="overflow-x-auto">
@@ -223,7 +221,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="fade-in-animation delay-1 bg-white rounded-xl p-6 shadow-custom-lg border border-slate-100 flex flex-col items-start transition-all duration-200 ease-in-out hover:shadow-xl hover:-translate-y-px">
                 <div class="p-2 w-10 h-10 flex items-center justify-center rounded-full bg-custom-purple-light text-custom-purple mb-4">
-                    <i class="fas fa-tasks fa-lg"></i> <%-- Ícone atualizado para 'Gerenciar' pode ser fas fa-tasks ou similar --%>
+                    <i class="fas fa-tasks fa-lg"></i>
                 </div>
                 <h2 class="text-lg font-semibold text-dark-gray mb-1">Gerenciar Registros da Escola</h2>
                 <p class="text-sm text-medium-gray mb-3">Acesse e gerencie os registros de barreiras arquitetônicas.</p>
@@ -261,24 +259,17 @@
         // Animação para os cards principais e tabela
         const animatedElements = document.querySelectorAll('.main-content .fade-in-animation');
         animatedElements.forEach((el) => {
-            // A classe 'fade-in-animation' já aplica a animação base
-            // Os delays são gerenciados pelas classes delay-1, delay-2, etc.
         });
 
-        // Animação para as linhas da tabela, se houver itens
         const tableRows = document.querySelectorAll('.fade-in-animation table tbody tr');
-        if (tableRows.length > 0 && !tableRows[0].querySelector('td[colspan="5"]')) { // Não animar a linha "Nenhuma barreira..."
+        if (tableRows.length > 0 && !tableRows[0].querySelector('td[colspan="5"]')) {
             tableRows.forEach((row, index) => {
-                // O container da tabela (delay-5) já tem 0.5s de delay.
-                // As linhas podem começar a animar um pouco depois ou junto.
-                row.style.animationDelay = `${0.5 + index * 0.05}s`; // Delay relativo ao carregamento da página
-                row.classList.add('fade-in-animation'); // Adiciona a classe para aplicar a animação
+                row.style.animationDelay = `${0.5 + index * 0.05}s`;
+                row.classList.add('fade-in-animation');
             });
         }
     });
 </script>
-<%-- Usar getContextPath para o JS do sidebar se for movido para uma estrutura comum --%>
-<%-- Se sidebarManager.js for específico e estiver em ../assets/js, manter o caminho relativo --%>
-<script src="<%= request.getContextPath() %>/assets/js/sidebarManager.js"></script> <%-- ou <script src="../assets/js/sidebarManager.js"></script> --%>
+<script src="<%= request.getContextPath() %>/assets/js/sidebarManager.js"></script>
 </body>
 </html>
