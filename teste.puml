@@ -1,0 +1,226 @@
+@startuml
+class br.com.simba.model.entities.Registry {
+- int id
+- BarrierStatus barrierStatus
+- BarrierCriticality barrierCriticality
+- String barrierSpecification
+- String resolutionSuggestion
+- String location
+- Picture picture
+- School school
+- BarrierCategory barrierCategory
+- LocalDate barrierIdentificationDate
+- Reporter reporter
++ boolean addToDatabase()
++ void setId(int)
++ int getId()
++ BarrierStatus getBarrierStatus()
++ BarrierCriticality getBarrierCriticality()
++ String getBarrierSpecification()
++ String getResolutionSuggestion()
++ String getLocation()
++ Picture getPicture()
++ int getPictureId()
++ School getSchool()
++ int getSchoolId()
++ Reporter getReporter()
++ int getReporterId()
++ BarrierCategory getBarrierType()
++ LocalDate getBarrierIdentificationDate()
++ void setBarrierStatus(BarrierStatus)
++ void setBarrierCriticality(BarrierCriticality)
++ void setBarrierSpecification(String)
++ void setResolutionSuggestion(String)
++ void setLocation(String)
++ void setPicture(Picture)
++ void setSchool(School)
++ void setBarrierType(BarrierCategory)
++ void setBarrierIdentificationDate(LocalDate)
++ void setReporter(Reporter)
+}
+
+
+class br.com.simba.model.service.ManagerHandle {
++ Manager getManagerFromSessionUser(User,Connection)
+}
+
+class br.com.simba.model.service.RegisterValidator {
+- UserDAO userDAO
+- Connection connection
++ Email validateEmail(String,HttpServletRequest)
+- boolean isUsernameAvailable(Username)
+- boolean isEmailAvailable(Email)
++ Username validateUsername(String,HttpServletRequest)
++ LocalDate validateIdentificationDate(String,HttpServletRequest)
++ Password validatePassword(String,HttpServletRequest)
++ Address validateAddress(String,int,String,String,String,HttpServletRequest)
++ CPF validateCPF(String,HttpServletRequest)
++ School validateSchoolName(String,HttpServletRequest)
++ boolean cpfIsNull(CPF)
++ boolean anyNull(Email,Username,Password,Address)
++ boolean anyNull(Email,Username,Password,Address,CPF,School)
++ boolean anyNull(School,LocalDate)
+}
+
+
+class br.com.simba.model.service.RedirectUser {
+~ DBConnection dbConnection
+~ UserDAO userDAO
++ void redirectLogin(Username,HttpServletResponse)
++ boolean userNullRedirectToLogin(HttpSession,HttpServletResponse)
++ boolean validateUserType(HttpSession,String,HttpServletResponse)
+}
+
+
+class br.com.simba.model.entities.Manager {
+- CPF CPF
+- School school
++ void addToDatabase(Connection)
++ String getCPF()
++ int getSchoolId()
+}
+
+
+class br.com.simba.model.entities.Reporter {
++ void addToDatabase(Connection)
+}
+
+class br.com.simba.model.entities.School {
+- int id
+- String name
+- Address address
+- Phone phone
+- CNPJ cnpj
++ String getCnpj()
++ int getId()
++ String getName()
++ String getStreet()
++ int getAddressNumber()
++ String getNeighborhood()
++ String getCity()
++ String getState()
++ String getPhone()
++ void setId(int)
+}
+
+
+enum br.com.simba.model.enums.BarrierCategory {
++  ACCESS
++  IE_CIRCULATION
++  FURNITURE
++  RESTROOMS
++  SIGNAGE
++  EQUIPMENT
++  PARKING
++  COMMUNICATION
+- String displayName
++ String getDisplayName()
+}
+
+
+class br.com.simba.model.entities.User {
+- int id
+- Username username
+- String name
+- Address address
+- Email email
+- Password password
+- String userType
+- List<Record> records
++ void setId(int)
++ String getUsername()
++ String getName()
++ String getStreet()
++ int getAddressNumber()
++ String getNeighborhood()
++ String getCity()
++ String getStateAbbr()
++ String getEmail()
++ String getHashedPassword()
++ String getUserType()
++ int getId()
++ void setName(String)
++ void setAddress(String,int,String,String,String)
++ void setEmail(Email)
++ void setPassword(Password)
++ void setUserType(String)
++ void setUsername(Username)
++ Password getPassword()
+}
+
+
+class br.com.simba.model.service.SchoolHandle {
+- Connection connection
+- List<School> schools
+- SchoolDAO schoolDAO
++ List<School> getSchoolsByName(String)
++ List<School> getSchoolsByCityAndName(String,String)
++ int getAmountSchools()
+}
+
+
+class br.com.simba.model.entities.Picture {
+- int id
+- String imagePath
+- LocalDate uploadDate
++ void setId(int)
++ int getId()
++ String getImagePath()
++ void setImagePath(String)
++ LocalDate getUploadDate()
++ void setUploadDate(LocalDate)
++ boolean addToDatabase()
++ void uploadPicture()
++ void updatePicture()
++ void deletePicture()
+}
+
+
+enum br.com.simba.model.enums.BarrierCriticality {
++  HIGH
++  MODERATE
++  LOW
+- String displayName
++ String getDisplayName()
+}
+
+
+enum br.com.simba.model.enums.BarrierStatus {
++  UNDER_ANALYSIS
++  CORRECTING
++  RESOLVED
+- String displayName
++ String getDisplayName()
+}
+
+
+class br.com.simba.model.service.LoginValidator {
+- UserDAO userDAO
+- Connection connection
++ boolean isUsernamePasswordValid(String,String)
+}
+
+
+class br.com.simba.model.service.RegistryHandle {
+- Connection connection
+- {static} String OBSERVATION_DELIMITER
+- List<Registry> userRegistries
+- List<Registry> firstRecentRegistries
+- List<Registry> firstOldRegistries
+- RegistryDAO registryDAO
++ List<Registry> getRegistriesByNameAndStatus(String,BarrierStatus)
++ List<Registry> getRegistriesByNameAndUrgency(String,BarrierCriticality)
++ List<Registry> getRegistriesByNameAndOrder(String,String)
++ void handleGeneratePdfReport(HttpServletRequest,HttpServletResponse,int)
++ void handleAddObservation(HttpServletRequest,HttpServletResponse,PrintWriter)
++ void handleChangeStatus(HttpServletRequest,HttpServletResponse,PrintWriter)
++ int getAmountRegistry()
++ int getAmountRegistryByStatus(String)
+}
+
+
+
+
+br.com.simba.model.entities.User <|-- br.com.simba.model.entities.Manager
+br.com.simba.model.entities.User <|-- br.com.simba.model.entities.Reporter
+@enduml

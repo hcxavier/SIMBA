@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="true" %>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -60,6 +61,17 @@
         /* Style for school suggestion list items */
         #suggestion li {
             /* padding already in JS, text color can be set if needed */
+        }
+        /* Style for the "create new school" option */
+        #create-new-school-option {
+            border-top: 1px solid #e5e7eb; /* border-gray-200 */
+            margin-top: 0.25rem; /* mt-1 */
+            font-weight: 600; /* semibold */
+            color: #3F88C5; /* custom-blue */
+        }
+        #create-new-school-option:hover {
+            background-color: #86b4da; /* custom-blue-hover */
+            color: white;
         }
     </style>
 </head>
@@ -211,6 +223,7 @@
                            class="block w-full bg-input-bg mt-1 placeholder-gray-400/70 rounded-lg border border-border-gray px-4 py-3 text-dark-gray focus:border-custom-blue focus:outline-none focus:ring-2 focus:ring-custom-blue focus:ring-opacity-40" />
                     <ul id="suggestion"
                         class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-60 overflow-y-auto hidden">
+                        <!-- Sugestões e opção de criar nova escola aparecerão aqui -->
                     </ul>
                 </div>
 
@@ -245,62 +258,88 @@
         </form>
     </div>
     <p class="text-center text-xs text-medium-gray mt-6">
-        &copy; 2025 SIMBA. Todos os direitos reservados.
+        © 2025 SIMBA. Todos os direitos reservados.
     </p>
 </main>
 
 <script>
-    document.getElementById('school').addEventListener('input', function () {
-        const value = this.value;
-        const list = document.getElementById('suggestion');
+    const schoolInput = document.getElementById('school');
+    const suggestionList = document.getElementById('suggestion');
+    const contextPath = "<%= request.getContextPath()%>";
+    const createSchoolUrl = `${contextPath}/dashboard/register-school`;
 
-        if (value.length < 2) {
-            list.innerHTML = '';
-            list.classList.add('hidden');
+    let abortController;
+
+    schoolInput.addEventListener('input', function () {
+        const inputValue = this.value.trim();
+
+        if (abortController) abortController.abort();
+
+        abortController = new AbortController();
+
+        if (inputValue.length < 2) {
+            suggestionList.innerHTML = '';
+            suggestionList.classList.add('hidden');
             return;
         }
 
-        fetch('${pageContext.request.contextPath}/search-school?q=' + encodeURIComponent(value))
+        fetch(`${contextPath}/search-school?q=${encodeURIComponent(inputValue)}`, { signal: abortController.signal })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
+                    throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then(data => {
-                list.innerHTML = ''; // Limpa sugestões anteriores
+                suggestionList.innerHTML = '';
+
                 if (data && data.length > 0) {
-                    data.forEach(school => {
+                    data.forEach(schoolName => {
                         const item = document.createElement('li');
-                        item.textContent = school;
-                        // Aplica classes Tailwind aos itens da lista para estilo e interatividade
+                        item.textContent = schoolName;
                         item.className = 'px-4 py-2 text-medium-gray hover:bg-custom-purple-light hover:text-white cursor-pointer';
                         item.onclick = () => {
-                            document.getElementById('school').value = school;
-                            list.innerHTML = '';
-                            list.classList.add('hidden'); // Esconde a lista após a seleção
+                            schoolInput.value = schoolName;
+                            suggestionList.innerHTML = '';
+                            suggestionList.classList.add('hidden');
                         };
-                        list.appendChild(item);
+                        suggestionList.appendChild(item);
                     });
-                    list.classList.remove('hidden'); // Mostra a lista se houver sugestões
                 } else {
-                    list.classList.add('hidden'); // Esconde a lista se não houver sugestões
+                    const createOption = document.createElement('li');
+
+                    const displaySchoolName = inputValue.length > 30 ? inputValue.substring(0, 27) + "..." : inputValue;
+
+                    createOption.innerHTML = `Cadastrar nova escola: "<strong>${displaySchoolName}</strong>"`;
+                    createOption.id = 'create-new-school-option';
+                    createOption.className = 'px-4 py-2 cursor-pointer';
+
+                    createOption.onclick = (event) => {
+                        event.preventDefault();
+                        window.location.href = `${createSchoolUrl}`;
+                    };
+                    suggestionList.appendChild(createOption);
+                }
+
+                if (suggestionList.children.length > 0) {
+                    suggestionList.classList.remove('hidden');
+                } else {
+                    suggestionList.classList.add('hidden');
                 }
             })
             .catch(error => {
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                    return;
+                }
                 console.error('Erro ao buscar sugestões de escolas:', error);
-                list.innerHTML = ''; // Limpa em caso de erro
-                list.classList.add('hidden'); // Esconde a lista em caso de erro
+                suggestionList.classList.add('hidden');
             });
     });
 
-    // Opcional: Esconder a lista de sugestões ao clicar fora dela
     document.addEventListener('click', function(event) {
-        const schoolInput = document.getElementById('school');
-        const suggestionsList = document.getElementById('suggestion');
-        // Verifica se o clique não foi no input nem na lista de sugestões
-        if (schoolInput && suggestionsList && !schoolInput.contains(event.target) && !suggestionsList.contains(event.target)) {
-            suggestionsList.classList.add('hidden');
+        if (schoolInput && suggestionList && !schoolInput.contains(event.target) && !suggestionList.contains(event.target)) {
+            suggestionList.classList.add('hidden');
         }
     });
 </script>

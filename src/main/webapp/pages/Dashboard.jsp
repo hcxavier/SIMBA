@@ -91,11 +91,10 @@
     %>
     <jsp:include page="../partials/sidebar.html" flush="true"/>
     <%
-    } else if ("manager".equals(userTypeForSidebar)) {
-    %>
-    <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
-    <%
         } else {
+    %>
+        <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
+    <%
         }
     %>
 
@@ -283,6 +282,7 @@
         });
     });
 </script>
-<script src="<%= request.getContextPath() %>/assets/js/sidebar.js"></script>
+
+<script src="../assets/js/sidebar.js"></script>
 </body>
 </html>
