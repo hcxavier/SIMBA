@@ -114,10 +114,6 @@
                 <p class="text-medium-gray mt-1">Veja as estatísticas das barreiras arquitetônicas já registradas.</p>
             </div>
             <div class="flex items-center gap-4">
-                <button class="text-medium-gray hover:text-custom-purple text-xl relative">
-                    <i class="fas fa-bell"></i>
-                    <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-light-gray-bg"></span>
-                </button>
                 <a href="/dashboard/profile" id="userAvatar" class="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center bg-custom-purple text-white font-semibold text-xl">
                     <%= userInitial %>
                 </a>
