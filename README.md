@@ -12,7 +12,6 @@ O **SIMBA** é uma plataforma web projetada para identificar, registrar e gerenc
       * [Instalação](https://www.google.com/search?q=%23instala%C3%A7%C3%A3o)
   * [Estrutura do Projeto](https://www.google.com/search?q=%23estrutura-do-projeto)
   * [Licença](https://www.google.com/search?q=%23licen%C3%A7a)
-  * [Desenvolvedores](https://www.google.com/search?q=%23desenvolvedores)
 
 ## Sobre o Projeto
 
