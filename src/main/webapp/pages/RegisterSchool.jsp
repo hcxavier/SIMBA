@@ -1,6 +1,5 @@
 <%@ page import="br.com.simba.model.entities.User" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page isELIgnored="true" %>
 
 <!doctype html>
 <html lang="pt-BR">
@@ -17,12 +16,22 @@
 </head>
 
 <body class="bg-light-gray-bg text-dark-gray font-['Inter'] antialiased">
-
 <div class="flex flex-col md:flex-row h-screen">
     <jsp:include page="../partials/sidebar-manager.html" flush="true"/>
 
 
     <main class="flex-1 p-6 sm:p-8 md:p-10 overflow-y-auto">
+        <%
+            String errorMessage = (String) request.getAttribute("errorMessage");
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+        %>
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg" role="alert">
+            <strong class="font-bold">Ocorreu um Erro!</strong>
+            <span class="block sm:inline"><%= errorMessage %></span>
+        </div>
+        <%
+            }
+        %>
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
             <div class="mb-4 sm:mb-0">
                 <h1 class="text-3xl sm:text-4xl font-semibold text-custom-purple">Cadastrar Nova Escola</h1>
@@ -40,7 +49,7 @@
         </div>
 
         <section class="bg-white p-6 sm:p-8 rounded-xl shadow-custom-lg w-full mx-auto">
-            <form id="createSchoolForm" method="POST" action="/dashboard/create-school">
+            <form id="createSchoolForm" method="POST" action="<%= request.getContextPath() %>/dashboard/register-school">
 
                 <h2 class="text-xl font-semibold text-dark-gray mb-6 border-b border-border-gray pb-3">Informações da Escola</h2>
 
@@ -119,7 +128,7 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-4 mt-8">
-                    <a href="/dashboard/schools" class="px-6 py-3 text-sm font-medium text-medium-gray capitalize transition-colors duration-300 transform rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50">
+                    <a href="<%= request.getContextPath() %>/dashboard/schools" class="px-6 py-3 text-sm font-medium text-medium-gray capitalize transition-colors duration-300 transform rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50">
                         Cancelar
                     </a>
                     <button type="submit" class="px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-custom-purple rounded-lg hover:bg-custom-purple-hover focus:outline-none focus:ring-2 focus:ring-custom-purple focus:ring-opacity-50 shadow-md hover:shadow-lg">
