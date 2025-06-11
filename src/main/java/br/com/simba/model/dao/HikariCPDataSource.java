@@ -10,8 +10,6 @@ public class HikariCPDataSource {
     private static final HikariDataSource dataSource;
 
     static {
-        System.out.println("DEBUG: DB_URL = " + System.getenv("DB_URL"));
-        System.out.println("DEBUG: DB_USER = " + System.getenv("DB_USER"));
         HikariConfig config = new HikariConfig();
 
         config.setDriverClassName("org.postgresql.Driver");

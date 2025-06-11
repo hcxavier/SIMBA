@@ -153,7 +153,6 @@
         <div class="fade-in-animation delay-5 bg-white rounded-2xl shadow-custom-lg p-6 sm:p-8 mb-10">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-semibold text-dark-gray">Barreiras Recentes</h2>
-                <a href="<%= request.getContextPath() %>/dashboard/all-registries" class="text-sm font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">Ver todas</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-dark-gray">

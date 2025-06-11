@@ -244,7 +244,7 @@
                 <div class="mt-6 text-center">
                     <p class="text-sm text-medium-gray">
                         Já possui uma conta?
-                        <a href="${pageContext.request.contextPath}/login" class="font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">
+                        <a href="<%= request.getContextPath()%>/login" class="font-medium text-custom-blue hover:text-custom-blue-hover hover:underline">
                             Fazer login
                         </a>
                     </p>

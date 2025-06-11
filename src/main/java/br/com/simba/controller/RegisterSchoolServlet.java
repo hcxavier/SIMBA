@@ -20,11 +20,6 @@ public class RegisterSchoolServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/RegisterSchool.jsp");
         dispatcher.forward(request, response);
     }
