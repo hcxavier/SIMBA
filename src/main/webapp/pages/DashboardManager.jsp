@@ -255,7 +255,6 @@
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Animação para os cards principais e tabela
         const animatedElements = document.querySelectorAll('.main-content .fade-in-animation');
         animatedElements.forEach((el) => {
         });
@@ -269,6 +268,6 @@
         }
     });
 </script>
-<script src="<%= request.getContextPath() %>/assets/js/sidebarManager.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/sidebar.js"></script>
 </body>
 </html>
