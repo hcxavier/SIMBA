@@ -1,4 +1,4 @@
-# SIMBA - Sistema Integrado de Mapeamento de Barreiras Arquitetônic
+# SIMBA - Sistema Integrado de Mapeamento de Barreiras Arquitetônicas
 
 O **SIMBA** é uma plataforma web projetada para identificar, registrar e gerenciar barreiras de acessibilidade arquitetônica em ambientes escolares. O sistema capacita usuários a atuarem como "repórteres", que podem cadastrar ocorrências, e "gestores", que analisam e gerenciam as barreiras relatadas em suas respectivas instituições.
 
